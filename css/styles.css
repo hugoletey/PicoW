@@ -1,0 +1,350 @@
+@charset "UTF-8";
+
+/* ************************************************************************** 
+    Article
+   ************************************************************************** */
+article h2 {
+	padding:0px;
+	font-size:30px;
+	margin-top:40px;
+}
+
+article h3 {
+	padding:0px;
+	margin-top:40px;
+	font-size:20px;
+	color:#333;
+}
+
+article p {
+	font-size: 16px;
+	line-height: 24px;
+}
+
+article ul li{
+	line-height: 30px;
+}
+
+/* ******************************************** */
+/*  Article - Quiz  */
+/* ******************************************** */
+
+article > .quiz > div { display: block; margin: 16px; padding: 16px; }
+article > .quiz > div, article > .quiz > div input { border: 5px solid blue; }
+article > .quiz > div.bad, article > .quiz > div input.bad{ border: 5px solid red; }
+article > .quiz > div.good, article > .quiz > div input.good { border: 5px solid green; }
+article > .quiz p.QuestText { display: block; }
+article > .quiz ul.ReplyCible { list-style-type: none; padding:  0px; }
+article > .quiz p.ReplyContent { display: inline-block; width: calc(100% - 30px); vertical-align: middle; }
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+/*  activity - activity_block  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+
+
+.activity {
+	border-top: 1px solid;
+	padding-top: 10px;
+	color:#036;
+}
+
+.activityBlock {
+	background-color: rgba(200, 200, 200, 0.22);
+	border-radius: 10px;
+	padding: 20px;
+} 
+
+
+.activityBlock a:link, .activityBlock a:visited {
+	text-decoration:none;
+	color:#3f2a56;
+} 
+
+.activityBlock a:hover {
+	text-decoration:none;
+	color:#F00;
+} 
+
+.activityBlock ul li, .activityBlock ol li  {
+	line-height: 30px;
+} 
+
+
+
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+/*  code  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+
+.code {
+	background-color: #FFFFDD;
+	border: 1px solid #666;
+	padding: 5px;
+	box-shadow: 8px 8px 12px #aaa;
+}
+
+.code a:link, .code a:visited {
+	font-size: 16px;
+	color: #FFF;
+	background-color: #F00;
+	margin: 0px;
+	padding: 5px;
+	border: 1px solid #133e40;
+	border-radius: 5px;
+	text-decoration: none;
+	float: right;
+}
+
+.code a:hover {
+	font-size: 16px;
+	color: #FFF;
+	background-color:#390;
+	margin: 0px;
+	padding: 5px;
+	border: 1px solid #133e40;
+	border-radius: 5px;
+	text-decoration: none;
+	float: right;
+}
+ 
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+/*  image  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+
+
+img.imageright { 
+	float:right; 
+	margin:5px;
+}
+
+img.imageleft { 
+	float:left; 
+	margin:5px;
+}
+
+
+img.imagecenter {
+	display:block;
+	margin:0 auto ;
+}
+
+img.ombre {
+		border-width:thin;
+		border-color:#000;
+		border-style:solid;
+		border-radius:10px;	
+		box-shadow: 0.5em 0.5em 0.5em black;
+	}
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+/*  autre  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+
+.textCenter {
+	text-align:center;
+}
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+/*  convertisseur  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+
+form#convertisseur p, form#convertisseur input {
+	font-size:30px;
+}
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+/*  Table annexe  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+
+table.annexe td, table.annexe th {
+	padding: 3px;
+	margin: 0px;
+	border: 1px solid #999;
+}
+
+table.annexe th {
+	color: #FFF;
+	background-color: #238D8B;
+
+}
+
+table.annexe tr:nth-child(2n) {
+	/*Toutes les lignes paires*/
+	background-color: #E6E6E6;
+}
+
+table.annexe tr:nth-child(2n+1) {
+	/*Toutes les lignes impaires*/
+	background-color:#FFF;
+}
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+/*  prototype  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+
+.prototype {
+	background-color: rgba(160, 160, 160, 0.22);
+	border-radius: 10px;
+	padding: 20px;
+	text-align: center;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 18px;
+	font-weight: bold;
+	color: #006;
+} 
+
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+/*  balise HTML  */
+/* ************************************************************************** */
+/* ************************************************************************** */
+
+
+.baliseNom {
+	padding-top: 10px;
+	color:#036;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 36px;
+	color: #006;
+	font-weight: bold;
+	margin: 20px 0px;
+}
+
+.baliseblock {
+	background-color: rgba(200, 200, 200, 0.22);
+	border-radius: 10px;
+	padding: 20px;
+	margin:10px 20px;
+}
+
+.baliseTypeBloc {
+	float:right;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #FFF;
+	background-color: #666;
+	padding: 3px;
+}
+
+.baliseTypeEnLigne {
+	float:right;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #FFF;
+	background-color: #36C;
+	padding: 3px;
+}
+
+.baliseDefinition {
+	font-style: normal;
+	font-weight: normal;
+	margin: 10px 0;
+	color: #930;
+}
+
+.baliseExemple {
+	font-family: "Courier New", Courier, monospace;
+	font-size: 16px;
+	color: #666;
+	margin: 20px 0 ;
+}
+
+.baliseDemo{
+	margin: 10px 0;
+	padding:10px;
+	background-color:#CCC;
+}
+
+.baliseDemo h1{
+	font-size:40px;
+}
+
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+/* ************************************************************************** */
+/* ************************************************************************** */
+
+
+.exergue {
+	font-weight:bold;
+	color:#900;
+	background-color:#FFC;
+}
+
+.terminal {
+	background-color:#000 ;
+	color:#FFF;
+	margin:5px auto;
+	padding:10px;
+	width:50%;
+}
+
+
+/* ************************************************************************** */
+/* ************************************************************************** */
+
+
+.install {
+	text-align:center;
+}
+.install a {
+	display:block;
+}
+
+.install:hover {
+	border-color:#CCC;
+	border-radius:10px;
+	border-style:solid; 
+	border-width:2px;
+	background-color:#CCC;
+}
+
+
+
+
+a.survolImg span{
+     position:absolute;   
+	  margin-top:23px;
+     margin-left:-35px;     
+	 color:white;
+     background:rgba(0,0,0,.9);
+     padding:5px;
+     border-radius:3px;
+     box-shadow:0 0 2px rgba(0,0,0,.5);
+	 transform:scale(0) rotate(-12deg);
+	 transition:all .25s;
+	 opacity:0;
+}
+
+a.survolImg:hover span, a.survolImg:focus span{
+     transform:scale(1) rotate(0); 
+	 opacity:1;       
+}
+
+
+table.tblSql {
+	margin: 0 auto ;
+}
+
+
+table.tblSql td, table.tblSql th {
+	border:thin solid #CCC ;
+	padding:10px;
+}

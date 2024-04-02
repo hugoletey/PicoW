@@ -1,0 +1,34 @@
+<h2>The software Wireshark<br/></h2>
+<p>This software will allow us to examine the flow of data exchanged on a communication channel between a client and a server by capturing the packets circulating on the physical network between the two entities.</p>
+<p><strong>Note</strong>: <em>Although Wireshark is capable of both capturing and analyzing, we will use a second tool on the Unix server used in Practical Works to capture. Indeed Wireshark is a graphical software and the Unix server only offers a command line interface, Wireshark can not be installed. This second tool is</em> "<strong>tcpdump</strong><em>. It will allow us to save the capture in a file that we will then transfer to our computer (Windows or MAC) to analyze it with Wireshark.</em></p>
+<h3>Capture via tcpdump.</h3>
+<p>"<strong>tcpdump</strong>" is a command that needs "root" rights (on Unix) to be able to spy on network interfaces. From a user other than "root", it is therefore necessary to prefix the command with "<strong>sudo</strong>" (and obtain, from the administrator, the right to use this command in this way, which is already the case on the Junia Practical Works Unix server).</p>
+<p>The usual arguments of the command are: </p>
+<ul>
+	<li>"<strong>-w file</strong>" where <em>file</em> is the name of the file under which the capture must be performed. This argument is mandatory for our use case.</li>
+	<li>"<strong>-i interface</strong>" where <em>interface</em> is the name of the interface that we want to spy on.</li>
+	<li>A filtering expression placed between quotes can also be added at the end of the command. Here are some examples of expressions that can possibly be combined using the "and" and "or" operators:</li> 
+	<ul>
+		<li>"<strong>host ip</strong>" where <em>ip</em> is the IP address that must be in the source or destination address in the captured frames.</li>
+		<li>"<strong>port number</strong>" where <em>number</em> is the source or destination port number (tcp or udp) in the captured frames.</li>
+	</ul>
+</ul>
+<p>The following arguments can be added in order to limit the capture:
+<ul>
+	<li>"<strong>-c number</strong>" where <em>number</em> is the maximum number of frames that one wants to capture before closing the command.</li>
+	<li>"<strong>-G time</strong>" where <em>time</em> is the maximum time expressed in seconds during which one wants to capture frames before closing the command.</li>
+</ul>
+<p>To capture (and record in the file capture.pcap) the communications passing through the loopback interface (named "<strong>lo</strong>"), we will use the following command:</p>
+<div class="code"><pre class="brush: bash;">sudo tcpdump -i lo -w capture.pcap</pre></div>
+<p>To capture (and record in the file capture.pcap) the communications with port 2000 of the IP address 10.34.161.21, we will use the following command:</p>
+<div class="code"><pre class="brush: bash;">sudo tcpdump -w capture.pcap 'host 10.34.161.21 and port 2000'</pre></div>
+<p></p>
+<h3>Transfer via scp.</h3>
+<p>To transfer, from the server with IP address "<strong>10.34.161.21</strong>", the file "<strong>capture.pcap</strong>" located in the directory "<strong>/home/isenXX</strong>", using the access rights of the user "<strong>isenXX</strong>", to the current directory of our machine, we will use the following command:</p>
+<div class="code"><pre class="brush: bash;">scp isenXX@10.34.161.21:/home/isenXX/capture.pcap .</pre></div>
+<p></p>
+<h3>Analysis with Wireshark.</h3>
+<p>After loading the capture file to be analyzed in Wireshark, select a packet corresponding to the TCP channel you want to spy on and, through the context menu, select the "TCP Stream" item.</p>
+<center><img src="img/wireshark1-gb.png"/></center>
+<p>This will give you the complete sequence of the dialogue between the client and the server, with the content sent by the client written in red and that sent by the server in blue.</p>
+<center><img src="img/wireshark2-gb.png"/></center>

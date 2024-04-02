@@ -1,0 +1,9 @@
+<h2>Les outils de debug réseau<br/></h2>
+<p>Vous trouverez dans ce chapitre quelques outils que vous pourrez utiliser pour le debuggage des applications de communications par socket internet.</p>
+<ul>
+	<li>Pour vérifier l'état des différents ports, on dispose en interne à la machine de la commande "<strong>netstat</strong>" et (uniquement sous windows) de son équivalent à la fois graphique et dynamique "TCPView".</li>
+	<li>Pour faire la vérification depuis l'extérieur à la machine, on dispose de l'outil "<strong>nmap</strong>" ("Zenmap" étant une interface graphique pour passer les commandes "nmap" et en afficher graphiquement les résultats.)</li>
+	<li>La commande "<strong>telnet</strong>" est un client TCP qui vous permettra d'établir une liaison console avec le serveur de votre choix et d'utiliser ses services pour peu que vous connaissiez son protocole applicatif. Vous l'utiliserez pour vous substituer au client TCP dans une communication client/serveur en mode connecté.</li>
+	<li>La commande "<strong>netcat</strong>" (couteau suisse du réseau) permet aussi bien d'agir en tant que client qu'en tant que serveur au dessus des couches transport TCP et UDP. Il a été conçu pour vous permettre de vous substituer à une quelconque application dans une communication client/serveur.</li>
+	<li>Enfin "<strong>Wireshark</strong>" est un "sniffer de paquets" qui vous permettra d'espionner les communications non chiffées entre clients et serveurs.</li>
+</ul>

@@ -1,0 +1,15 @@
+<h2>TP n°2 : Serveur TCP multi-clients<br/></h2>
+<h3>Objectif :</h3>
+<p>Mettre en pratique la programmation d’un serveur TCP, en langage C, sur un exemple, apte à traiter plusieurs clients simultanément.</p>
+<h3>Sujet :</h3>
+<p>Ecrire un programme qui mémorise le texte que lui envoie le client (sur le port TCP 20xx) jusqu’à ce qu’il reçoive un passage à la ligne (via le caractère '\n') et qui ré-envoie ensuite au client le texte à la vitesse maximale d’un caractère toutes les 200000µs (soit 5 caractères par seconde). Voir la fonction « usleep() ». Remarque : Le serveur continue ensuite son cycle mémorisation/ré-envoie jusqu’à ce que le client ferme la connexion.</p>
+<h3>Simplification du problème :</h3>
+<p>On supposera pour le TP que le client utilisé est uniquement l’application telnet Linux qui transmet déjà, au serveur, ligne par ligne ce qui est saisi. La seconde simplification est qu’il existe une taille maximale (que l’on connait et que l’on estime inférieure à 320 octets) pour une ligne saisie.</p>
+<h3>Question n°1 :</h3>
+<p>Modifiez le programme écrit au TP n°1 (mais vous pouvez simplement repartir des exemples du cours si vous préférez) afin qu’il réponde au sujet simplement dans une version mono-client. Vous pourrez sauvegarder le fichier source sous le nom « chat.c ».</p>
+<h3>Question n°2 :</h3>
+<p>Modifiez le programme pour en faire une version multi-clients en utilisant un fonctionnement multi-processus via la fonction « fork() ». Vous pourrez sauvegarder le fichier source sous le nom « chat-fork.c ».</p>
+<h3>Question n°3 :</h3>
+<p>Modifiez le programme pour en faire une version multi-clients en utilisant, cette fois, un fonctionnement multi-thread via la fonction « pthread_create() ». Vous pourrez sauvegarder le fichier source sous le nom « chat-thread.c ».</p>
+<h3>Question n°4 :</h3>
+<p>Modifiez le programme pour en faire une version multi-clients en utilisant, cette fois, un fonctionnement mono-tâche via la fonction « select() ». Vous pourrez sauvegarder le fichier source sous le nom « chat-select.c ».</p>

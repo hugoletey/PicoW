@@ -1,0 +1,206 @@
+<h2>Le multi thread<br/></h2>
+<h3>La fonction pthread_create()</h3>
+<p>Sous Unix, chaque processus comporte un thread principal et on peut y lancer d'autres threads, grâce à <strong>pthread_create()</strong>, qui exécuteront chacun le code d'une fonction passée en paramètre.</p>
+<p>Cette fonction <strong>pthread_create()</strong> prend 4 paramètres :</p>
+<ul>
+	<li>un pointeur vers une variable de type <strong>pthread_t</strong>. La fonction y écrira ainsi un identifiant de thread qui sera utilisé ensuite pour référencer le thread créé.</li>
+	<li>des options de création de thread, la valeur NULL indiquant que l'on souhaite utiliser les options par défaut.</li>
+	<li>une fonction qui sera exécutée par le thread créé.</li>
+	<li>un argument qui sera passé à la fonction exécutée par le thread créé.</li>
+</ul>
+<p>La fonction retourne la valeur 0 si tout s'est bien passé et une valeur non nulle si il y a eu un problème dans la création du thread.</p>
+<div class="code">
+	<pre class="brush: c;">
+#include &lt;stdio.h&gt;
+#include &lt;pthread.h&gt;		// pour la fonction pthread_create
+
+int a=10;
+
+void* thread_function(void* arg) {
+    printf("Le thread secondaire : a vaut au départ %d\n",a);
+	a=20;
+	sleep(1);
+	printf("Le thread secondaire : a vaut ensuite %d\n",a);
+	sleep(1);
+    return NULL;
+}
+
+int main() {
+    pthread_t thread_id;
+    int status;
+
+    status = pthread_create(&thread_id, NULL, thread_function, NULL);
+    if (status != 0) {
+        printf("erreur de création du thread");
+		return(1);
+    }
+	printf("Le thread principal : a vaut au départ %d\n",a);
+	a=30;
+	sleep(1);
+	printf("Le thread principal : a vaut ensuite %d\n",a);
+	sleep(1);
+	return(0);
+}
+	</pre>
+</div>
+<p><strong>Remarque</strong> : <em>A l'édition de liens, il convient de spécifier l'usage de la bibliothèque <strong>pthread</strong>. Par exemple, on pourra compiler le programme <strong>thread1.c</strong> via la commande suivante :</em></p>
+<div class="code"><pre class="brush: bash;">gcc thread1.c -o thread1 -lpthread</pre></div>
+<h3>Le partage des sockets</h3>
+<p>Quand on crée un thread, on partage, entre les deux tâches s'exécutant en parallèle, le code et les données du processus. Un seul processus gérant donc en parallèle tous les sockets, on sera limité par le nombre d'entrées qu'un processus peut avoir dans sa table des descripteurs de fichiers.</p>
+<h3>Exemple</h3>
+<p>Voici l'exemple d'un serveur qui renvoie, en echo, ce qu'il reçoit du client.</p>
+<div class="code">
+	<pre class="brush: c;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#include &lt;sys/types.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;sys/socket.h&gt;
+
+#include &lt;string.h&gt;		// pour la fonction bzero
+#include &lt;arpa/inet.h&gt;	// pour la fonction inet_addr
+
+#include &lt;pthread.h&gt;		// pour la fonction pthread_create
+
+
+void *communication_serveur(void *arg) {
+	int fd;
+	int len;
+	char buf[100];
+
+	fd= *((int*) arg);
+	while ((len=read(fd,&buf,sizeof(buf)))!=0)
+		write(fd,&buf,len);
+
+	shutdown(fd, SHUT_RDWR);
+	close(fd);
+	printf("Client déconnecté par le serveur !\n");
+	return NULL;
+}
+
+int main()
+{
+	int fd_srv, fd_con;
+	struct sockaddr_in	adr_srv, adr_cli;
+	int	err;
+	socklen_t adr_cli_len;
+	pthread_t thread_id;
+
+	fd_srv = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (fd_srv&lt;0) {
+		printf("Erreur de creation de la socket !\n");
+		exit(1);
+	}
+
+	bzero(&adr_srv, sizeof(adr_srv));
+	adr_srv.sin_family = AF_INET;
+	err = inet_aton("127.0.0.1", &adr_srv.sin_addr);
+	if (err == 0) {
+		printf("Adresse IPv4 invalide !\n");
+		exit(1);
+	}
+	adr_srv.sin_port = htons(8080);
+	err = bind(fd_srv, (struct sockaddr *) &adr_srv, sizeof(adr_srv));
+	if (err != 0) {
+		printf("Erreur d'accès au port serveur !\n");
+		exit(1);
+	}
+	err = listen(fd_srv, 5);
+	if (err != 0) {
+		printf("Erreur de création de la file d'attente !\n");
+		exit(1);
+	}
+	printf("Serveur lancé !\n");
+	while(1) {
+		adr_cli_len = sizeof(adr_cli);
+		fd_con = accept(fd_srv, (struct sockaddr *) &adr_cli, &adr_cli_len);
+		if (fd_con&gt;=0) {
+			printf("Connexion acceptée !\n");
+			err = pthread_create(&thread_id, NULL, communication_serveur, &fd_con);
+
+		}
+	}
+	return 0;
+}
+	</pre>
+</div>
+<h3>Eviter une fuite de la mémoire</h3>
+<p>Avec le code ci-dessus à chaque nouvelle connexion, on crée un thread qui se termine ensuite mais n'est pas détruit automatiquement après usage. On peut donc constater, en consultant le fichier <strong>/proc/<em>pid</em>/status</strong> où <em>pid</em> est le numéro de processus du serveur, l'augmentation progressive de la mémoire utilisé par le processus.</p>
+<p>Pour éviter, cette fuite de mémoire, en libérant automatiquement la mémoire utilisée par le thread quand il se termine, on ajoute après l'instruction <strong>err = pthread_create(...);</strong> l'instruction <strong>pthread_detach(thread_id);</strong> (à la ligne 68).</p>
+<div class="code">
+	<pre class="brush: c;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#include &lt;sys/types.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;sys/socket.h&gt;
+
+#include &lt;string.h&gt;		// pour la fonction bzero
+#include &lt;arpa/inet.h&gt;	// pour la fonction inet_addr
+
+#include &lt;pthread.h&gt;		// pour la fonction pthread_create
+
+
+void *communication_serveur(void *arg) {
+	int fd;
+	int len;
+	char buf[100];
+
+	fd= *((int*) arg);
+	while ((len=read(fd,&buf,sizeof(buf)))!=0)
+		write(fd,&buf,len);
+
+	shutdown(fd, SHUT_RDWR);
+	close(fd);
+	printf("Client déconnecté par le serveur !\n");
+	return NULL;
+}
+
+int main()
+{
+	int fd_srv, fd_con;
+	struct sockaddr_in	adr_srv, adr_cli;
+	int	err;
+	socklen_t adr_cli_len;
+	pthread_t thread_id;
+
+	fd_srv = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (fd_srv&lt;0) {
+		printf("Erreur de creation de la socket !\n");
+		exit(1);
+	}
+
+	bzero(&adr_srv, sizeof(adr_srv));
+	adr_srv.sin_family = AF_INET;
+	err = inet_aton("127.0.0.1", &adr_srv.sin_addr);
+	if (err == 0) {
+		printf("Adresse IPv4 invalide !\n");
+		exit(1);
+	}
+	adr_srv.sin_port = htons(8080);
+	err = bind(fd_srv, (struct sockaddr *) &adr_srv, sizeof(adr_srv));
+	if (err != 0) {
+		printf("Erreur d'accès au port serveur !\n");
+		exit(1);
+	}
+	err = listen(fd_srv, 5);
+	if (err != 0) {
+		printf("Erreur de création de la file d'attente !\n");
+		exit(1);
+	}
+	printf("Serveur lancé !\n");
+	while(1) {
+		adr_cli_len = sizeof(adr_cli);
+		fd_con = accept(fd_srv, (struct sockaddr *) &adr_cli, &adr_cli_len);
+		if (fd_con&gt;=0) {
+			printf("Connexion acceptée !\n");
+			err = pthread_create(&thread_id, NULL, communication_serveur, &fd_con);
+			pthread_detach(thread_id);
+		}
+	}
+	return 0;
+}
+	</pre>
+</div>

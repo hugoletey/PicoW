@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf8" standalone="yes" ?>
+<!DOCTYPE XML [
+  <!ELEMENT XML (SECTION*)>
+  <!ELEMENT SECTION (TITLE+,COURS*)>
+  <!ELEMENT TITLE (#PCDATA)>
+  <!ATTLIST TITLE lang (fr|gb) #REQUIRED>
+  <!ELEMENT COURS (LANG+)>
+  <!ATTLIST COURS src CDATA #REQUIRED>
+  <!ELEMENT LANG (P,P?)>
+  <!ATTLIST LANG lang (fr|gb) #REQUIRED>
+  <!ELEMENT P (#PCDATA)>
+]>
+<XML>
+  <SECTION>
+    <TITLE lang="fr">Modules 2022/2023 cursus ISEN</TITLE>
+    <TITLE lang="gb">ISEN 2022/2023 curriculum modules</TITLE>
+    <COURS src="socket-isen">
+      <LANG lang="fr"><P>Programmation</P><P>Réseau</P></LANG>
+      <LANG lang="gb"><P>Nrk</P><P>Programming</P></LANG>
+    </COURS>
+    <COURS src="Pico-W">
+      <LANG lang="fr"><P>Pico W</P><P></P></LANG>
+      <LANG lang="gb"><P>Pico W</P><P></P></LANG>
+    </COURS>
+
+  </SECTION>
+</XML>

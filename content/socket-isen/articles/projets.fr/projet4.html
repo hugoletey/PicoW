@@ -1,0 +1,9 @@
+<h2>Sujet proxy HTTP d'authentification<br></h2>
+<h3>Présentation du sujet :</h3>
+<p>Un navigateur web peut-être configuré pour relayer toutes ces requêtes vers un proxy HTTP, ce dernier pourra alors, après récupération de l'URL, se connecter au serveur HTTP cible pour downloader le fichier et le retransmettre bloc par bloc au navigateur.</p>
+<p>La RFC 1945 prévoit la possibilité de demander qu'un couple, login et mot de passe, soit transmis au proxy dans l'entête HTTP envoyé.</p>
+<h3>Remarque :</h3>
+<ul>
+	<li>Le but n'étant pas de réécrire, pour le "proxy", un serveur WEB complet, on se contentera d'implémenter seulement les parties des RFC 1945 qui seront utiles pour la réception des requêtes, la vérification du login et du mot de passe, et la transmission de la requête HTTP vers le bon serveur Web.</li>
+	<li>Les URL reçues pour des serveurs FTP ne seront pas traitées et provoqueront le retour d'un message d'erreur.</li>
+</ul>

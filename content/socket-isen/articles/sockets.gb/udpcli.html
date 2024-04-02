@@ -1,0 +1,114 @@
+<h2>Using client-side sockets in datagram mode<br/></h2>
+<h3>In C language:</h3>
+<p>After creating the socket, you will have to send a first datagram to the server via the <strong>sendto</strong> function which requires 6 parameters:</p>
+<ul>
+	<li><strong>fd</strong>: The first parameter is the integer returned from the socket creation system call.</li>
+	<li><strong>buffer</strong>: The second parameter is the memory address of the buffer containing the message to send</li>
+	<li><strong>len</strong>: The third parameter is an integer indicating the number of bytes to send. </li>
+	<li><strong>flags</strong>: The fourth parameter is a combination of flags defined by the following constants.</li>
+	<ul>
+		<li><strong>MSG_CONFIRM</strong>: This indicates that we are waiting for a response packet from the server.</li>
+		<li><strong>MSG_DONTWAIT</strong>: Asks to be warned by an error if the sending operation was blocking.</li>
+	</ul>
+	<li><strong>addr</strong>: The fifth parameter is the address in memory of a structure of the type <strong>sockaddr</strong> used to specify the IP address and the UDP port of the target server. (It is a generic structure which is used to encompass several other structures whose contents vary according to the value of the first field which is named <strong>sa_family</strong> in the structure <strong>sockaddr</strong>). </li>
+	<li><strong>addr_len</strong>: The sixth parameter is the size of the structure passed as the fifth parameter.</li>
+</ul>
+<p>We will therefore have to declare a variant of the <strong>sockaddr</strong> structure corresponding to <strong>AF_INET</strong>. This is the <strong>struct sockaddr_in</strong> type. We will start by zeroing the content of this structure via the <strong>bzero</strong> function of <strong>string.h</strong>, then we will assign, to the first field, named here <strong>sin_family</strong>, the <strong>AF_INET</strong> value.</p>
+<div class="code">
+	<pre class="brush: c;">
+struct sockaddr_in	addr;
+
+bzero(&addr, sizeof(addr));
+addr.sin_family = AF_INET;
+	</pre>
+</div>
+<p>You must then fill in the structure, the <strong>sin_addr</strong> field with the IPv4 address of the server to contact and the <strong>sin_port</strong> field with the number of its UDP port. </p>
+<h4>Notes:</h4>
+<ul>
+	<li>The IPv4 address must be coded on 4 bytes, we will use a function of the <strong>arpa/inet.h</strong> library to convert its writing in the form of a character string (4 numerical values between 0 and 255 separated by periods) in the expected format. This is the <strong>inet_aton</strong> function which takes the string as the first parameter and the address of the field in which you want to place the result as the second parameter. The returned value is 0 unless the supplied string is not in IPv4 format.</li>
+	<li>The port is an (unsigned) integer coded on 2 bytes and stored in the direction of most significant byte first and least significant byte then according to the convention chosen by the TCP/IP protocols. However, depending on the type of CPU, the convention used is not necessarily the same. With some types of CPU, it will be necessary to cross the two bytes and not with other types of CPU. To facilitate the process without asking questions, the <strong>arpa/inet.h</strong> library provides the <strong>htons()</strong> function which converts the unsigned short integer passed as a parameter from the host to network byte order and return the result.</li>
+</ul>
+<div class="code">
+	<pre class="brush: c;">
+inet_aton("127.0.0.1", &addr.sin_addr);
+addr.sin_port = htons(7);
+	</pre>
+</div>
+<p>Having thus specified the address 127.0.0.1 and the port 7, all that remains is to call the <strong>sendto</strong> function so that the client tries to establish the connection with the local echo server.</p>
+<div class="code">
+	<pre class="brush: c;">
+sendto(fd, &buffer, sizeof(buffer), MSG_CONFIRM, (struct sockaddr *) &addr, sizeof(addr));
+	</pre>
+</div>
+<ul>
+	<li>Without the "cast" to the type corresponding to the generic structure <strong>struct sockaddr *</strong>, there is a warning from the C compiler.</li>
+</ul>
+<h4>Example:</h4>
+<div class="code">
+	<pre class="brush: c;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#include &lt;sys/types.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;sys/socket.h&gt;
+
+#include &lt;string.h&gt;		// for the functions bzero and strlen
+#include &lt;arpa/inet.h&gt;	// for the function inet_addr
+
+int main()
+{
+	int fd;
+	struct sockaddr_in addr;
+	int err;
+	char buffer[]="Hello !";
+
+	fd = socket (AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	if (fd<0) {
+		printf("Socket creation error!\n");
+		exit(1);
+	}
+
+	bzero(&addr, sizeof(addr));
+	addr.sin_family = AF_INET;
+	err = inet_aton("127.0.0.1", &addr.sin_addr);
+	if (err == 0) {
+		printf("Invalid IPv4 address!\n");
+		exit(1);
+	}
+	addr.sin_port = htons(8080);
+
+	sendto(fd, &buffer, strlen(buffer), MSG_CONFIRM, (struct sockaddr *) &addr, sizeof(addr)); 
+
+	printf("Message sent to server!\n");
+	return 0;
+}
+	</pre>
+</div>
+<h3>PHP and Python:</h3>
+<p>In languages like <a href="https://www.php.net/manual/en/book.sockets.php">PHP</a> or <a href="https://docs.python.org/3/library/socket.html">Python</a>, there are libraries interfacing with system functions.</p>
+<h4>PHP</h4>
+<p>The example code written in C becomes in PHP:</p>
+<div class="code">
+	<pre class="brush: php;">
+$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+if ($socket == false) die("Socket creation error!\n");
+$buffer = "Hello !";
+$len = strlen($buffer);
+socket_sendto($socket, $buffer, $len, '127.0.0.1', 8080);
+echo "Message sent to server!\n";
+	</pre>
+</div>
+<h4>Python</h4>
+<p>The example code written in C becomes in Python:</p>
+<div class="code">
+	<pre class="brush: python;">
+try :
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	sock.sendto("Hello !",('127.0.0.1',8080))
+except socket.error :
+	print("Customer communication error!")
+	exit()
+print("Message sent to server!")
+	</pre>
+</div>

@@ -1,0 +1,9 @@
+<h2>Le programme netcat<br/></h2>
+<p>Ce programme va nous permettre de nous connecter à un canal de communication TCP du côté serveur comme on le fait déjà côté client grâce à l'outil telnet.</p>
+<p>L'outil ayant plusieurs fonctionnalités, on va utiliser le commutateur «&nbsp;<strong>-l</strong>&nbsp;» afin de préciser qu'il doit travailler comme un serveur TCP. On ajoute ensuite le commutateur «&nbsp;<strong>-p</strong>&nbsp;» suivi du numéro de port sur lequel on souhaite recevoir une demande de connexion de la part d'un client TCP.</p>
+<p>Exemple pour se faire passer pour un serveur http standard (port 80) écoutant sur toutes les adresses IP de la machine :</p>
+<div class="code"><pre class="brush: bash;">nc -l -p 80</pre></div>
+<p>Il est également possible de se restreindre à une seule des adresses IP de la machine en précisant celle sur laquelle netcat doit écouter. On ajoute alors dans la commande le commutateur «&nbsp;<strong>-s</strong>&nbsp;» suivi de l'adresse.</p>
+<p>Exemple pour se faire passer pour un serveur http standard (port 80) écoutant uniquement sur l'adresse 127.0.0.1 :</p>
+<div class="code"><pre class="brush: bash;">nc -l -p 80 -s 127.0.0.1</pre></div>
+

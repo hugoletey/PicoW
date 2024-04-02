@@ -1,0 +1,9 @@
+<h2>Authentication HTTP proxy topic<br></h2>
+<h3>Presentation of the subject:</h3>
+<p>A web browser can be configured to relay all these requests to an HTTP proxy, the latter can then, after retrieving the URL, connect to the target HTTP server to download the file and retransmit it block by block to the browser .</p>
+<p>RFC 1945 provides for the possibility of requesting that a couple, login and password, be transmitted to the proxy in the HTTP header sent.</p>
+<h3>Note:</h3>
+<ul>
+	<li>The goal is not to rewrite, for the "proxy", a complete WEB server, we will be content to implement only the parts of RFC 1945 which will be useful for the reception of requests, the verification of the login and the password, and forwarding the HTTP request to the correct web server.</li>
+	<li>URLs received for FTP servers will not be processed and will return an error message.</li>
+</ul>

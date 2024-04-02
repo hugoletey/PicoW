@@ -1,0 +1,24 @@
+<h2>La commande telnet<br/></h2>
+<p>Cette commande prend 2 arguments :</p>
+<ul>
+	<li>le premier est le host, c'est à dire l'adresse IP ou le nom du serveur auquel on souhaite se connecter.</li>
+	<li>Le second est le port, c'est à dire le numéro de port du serveur auquel on souhaite se connecter. Il est facultatif si sa valeur est 23. Remarque : il est également possible de mettre le nom du protocole au lieu du numéro de port.<br/>Le programme retrouve alors le bon numéro en consultant, sous Unix, le fichier «&nbsp;<strong>/etc/services</strong>&nbsp;» ou, sous Windows, le fichier «&nbsp;<strong>\windows\system32\drivers\etc\services</strong>&nbsp;».</li>
+</ul>
+<p>Exemple d'utilisation (pour se connecter à un serveur web local) :</p>
+<div class="code"><pre class="brush: bash;">telnet 127.0.0.1 80</pre></div>
+<h3>Rôle</h3>
+<p>Le rôle de cette commande est :</p>
+<ul>
+	<li>de mettre le clavier (c'est à dire en fait l'entrée standard) en relation avec le canal de communication de telle sorte que tous les caractères entrées soient envoyés dans le canal.</li>
+	<li>de mettre l'écran (c'est à dire en fait la sortie standard) en relation avec le canal de communication de telle sorte que tous les caractères reçus du canal soient affichés sur l'écran.</li>
+</ul>
+<h3>Le caractère escape</h3>
+<p>C'est une touche définie par défaut à «&nbsp;<strong>^]</strong>&nbsp;» qui permet de passer temporairement dans le mode de commande.</p>
+<p>Remarque : comme l'indique la commande «&nbsp;<strong>man telnet</strong>&nbsp;», il est possible de redéfinir le caractère escape par celui que l'on souhaite en ajoutant à la commande le commutateur «&nbsp;<strong>-e</strong>&nbsp;» suivi du caractère souhaité devant les arguments habituels. Exemple pour définir le A comme caractère escape :</p>
+<div class="code"><pre class="brush: bash;">telnet -eA 127.0.0.1 80</pre></div>
+<p>Le caractère choisi ne peut plus être envoyé directement dans le canal de communication ; il faut alors passer en mode commande en tapant le caractère choisi puis saisir la commande «&nbsp;<strong>send escape</strong>&nbsp;».</p>
+<h3>Comment clore la connexion</h3>
+<p>Pour clore la connexion côté client, il suffit de passer en mode commande en tapant le caractère escape puis saisir la commande «&nbsp;<strong>close</strong>&nbsp;».</p>
+<h3>Utilisation</h3>
+<p>Outre l'utilisation standard d'origine, comme client du serveur (telnetd) qui permet de déporter (sans chiffrement et donc sans la sécurité actuellement requise) l'accès à une interface de ligne de commande via le réseau, cette application va permettre de "connecter" un humain à une application serveur pour un protocole utilisant un dialogue textuel. Nous pouvons ainsi par exemple citer les protocoles SMTP, FTP, POP3, IDENT, HTTP, IMAP4, ... qui sont accessibles à la manipulation humaine via l'application telnet.</p>
+

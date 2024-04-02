@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf8" standalone="yes" ?>
+<!DOCTYPE XML [
+  <!ELEMENT XML (MENU*)>
+  <!ELEMENT MENU (TITLE,(RUBRIQUE?,(ITEM|VIDEO|QUIZ)+)*)>
+  <!ATTLIST MENU dir CDATA #REQUIRED>
+  <!ELEMENT TITLE (P+)>
+  <!ELEMENT RUBRIQUE (P+)>
+  <!ELEMENT ITEM (P+)>
+  <!ATTLIST ITEM file CDATA #REQUIRED>
+  <!ELEMENT VIDEO (P+)>
+  <!ATTLIST VIDEO video CDATA #REQUIRED>
+  <!ATTLIST VIDEO json CDATA #REQUIRED>
+  <!ELEMENT QUIZ (P+)>
+  <!ATTLIST QUIZ qwiz CDATA #REQUIRED>
+  <!ELEMENT P (#PCDATA)>
+  <!ATTLIST P lang (fr|gb) #REQUIRED>
+]>
+<XML>
+	<MENU dir="Micropython">
+		<TITLE>
+			<P lang="fr">Micropython</P>
+			<P lang="gb">Micropython</P>
+		</TITLE>
+		<ITEM file="socket.html">
+			<P lang="fr">Création de sockets</P>
+			<P lang="gb">Creation of sockets</P>
+		</ITEM>
+		<RUBRIQUE>
+			<P lang="fr">Connectées</P>
+			<P lang="gb">Connected</P>
+		</RUBRIQUE>
+		<ITEM file="tcpcli.html">
+			<P lang="fr">La socket client</P>
+			<P lang="gb">The client socket</P>
+		</ITEM>
+		<ITEM file="tcpsrv.html">
+			<P lang="fr">La socket serveur</P>
+			<P lang="gb">The server socket</P>
+		</ITEM>
+		<ITEM file="tcpdia.html">
+			<P lang="fr">Utilisation de la socket</P>
+			<P lang="gb">Socket usage</P>
+		</ITEM>
+		<RUBRIQUE>
+			<P lang="fr">TP n°1</P>
+			<P lang="gb">LAB n°1</P>
+		</RUBRIQUE>
+		<ITEM file="lab1.html">
+			<P lang="fr">Sujet</P>
+			<P lang="gb">Subject</P>
+		</ITEM>
+		<ITEM file="cor1.html">
+			<P lang="fr">Corrigé</P>
+			<P lang="gb">Correction</P>
+		</ITEM>
+		<RUBRIQUE>
+			<P lang="fr">Datagrammes</P>
+			<P lang="gb">Datagrams</P>
+		</RUBRIQUE>
+		<ITEM file="udpcli.html">
+			<P lang="fr">La socket client</P>
+			<P lang="gb">The client socket</P>
+		</ITEM>
+		<ITEM file="udpsrv.html">
+			<P lang="fr">La socket serveur</P>
+			<P lang="gb">The server socket</P>
+		</ITEM>
+		<ITEM file="udpdia.html">
+			<P lang="fr">Suite du dialogue</P>
+			<P lang="gb">Continuation of the dialogue</P>
+		</ITEM>
+	</MENU>
+
+	<MENU dir="Arduino">
+		<TITLE>
+			<P lang="fr">Arduino</P>
+			<P lang="gb">Arduino</P>
+		</TITLE>
+		<RUBRIQUE>
+			<P lang="fr">Connectées</P>
+			<P lang="gb">Connected</P>
+		</RUBRIQUE>
+		<ITEM file="fork.html">
+			<P lang="fr">Multi processus</P>
+			<P lang="gb">Multi-process</P>
+		</ITEM>
+		<ITEM file="thread.html">
+			<P lang="fr">Multi thread</P>
+			<P lang="gb">Multi-threaded</P>
+		</ITEM>
+		<ITEM file="select.html">
+			<P lang="fr">Mono tâche</P>
+			<P lang="gb">Single task</P>
+		</ITEM>
+		<ITEM file="note.html">
+			<P lang="fr">Remarque</P>
+			<P lang="gb">Note</P>
+		</ITEM>		
+		<RUBRIQUE>
+			<P lang="fr">TP n°2</P>
+			<P lang="gb">LAB n°2</P>
+		</RUBRIQUE>
+		<ITEM file="lab.html">
+			<P lang="fr">Sujet</P>
+			<P lang="gb">Subject</P>
+		</ITEM>
+		<ITEM file="corq1.html">
+			<P lang="fr">Corrigé Q1</P>
+			<P lang="gb">Correction Q1</P>
+		</ITEM>
+		<ITEM file="corq2.html">
+			<P lang="fr">Corrigé Q2</P>
+			<P lang="gb">Correction Q2</P>
+		</ITEM>
+		<ITEM file="corq3.html">
+			<P lang="fr">Corrigé Q3</P>
+			<P lang="gb">Correction Q3</P>
+		</ITEM>
+		<ITEM file="corq4.html">
+			<P lang="fr">Corrigé Q4</P>
+			<P lang="gb">Correction Q4</P>
+		</ITEM>
+		<RUBRIQUE>
+			<P lang="fr">Datagrammes</P>
+			<P lang="gb">Datagrams</P>
+		</RUBRIQUE>
+	</MENU>
+
+	<MENU dir="LangageC">
+		<TITLE>
+			<P lang="fr">Langage C</P>
+			<P lang="gb">Language C</P>
+		</TITLE>
+		<ITEM file="projet1.html">
+			<P lang="fr">Load balancer HTTP</P>
+			<P lang="gb">HTTP load balancer</P>
+		</ITEM>
+		<ITEM file="projet2.html">
+			<P lang="fr">Proxy HTTP vers FTP</P>
+			<P lang="gb">HTTP to FTP Proxy</P>
+		</ITEM>
+		<ITEM file="projet3.html">
+			<P lang="fr">Proxy TFTP</P>
+			<P lang="gb">TFTP-proxy</P>
+		</ITEM>
+		<ITEM file="projet4.html">
+			<P lang="fr">Proxy HTTP d'authentification</P>
+			<P lang="gb">Authentication HTTP Proxy</P>
+		</ITEM>
+		<ITEM file="projet5.html">
+			<P lang="fr">Relay SMTP simpliste</P>
+			<P lang="gb">Simplistic SMTP Relay</P>
+		</ITEM>
+	</MENU>
+
+	<MENU dir="SE">
+		<TITLE>
+			<P lang="fr">Système d'exploitations</P>
+			<P lang="gb">Système d'exploitations</P>
+		</TITLE>
+		<ITEM file="netstat.html">
+			<P lang="fr">netstat</P>
+			<P lang="gb">netstat</P>
+		</ITEM>
+		<ITEM file="nmap.html">
+			<P lang="fr">nmap</P>
+			<P lang="gb">nmap</P>
+		</ITEM>
+		<ITEM file="telnet.html">
+			<P lang="fr">telnet</P>
+			<P lang="gb">telnet</P>
+		</ITEM>
+		<ITEM file="netcat.html">
+			<P lang="fr">netcat</P>
+			<P lang="gb">netcat</P>
+		</ITEM>
+		<ITEM file="wireshark.html">
+			<P lang="fr">Wireshark</P>
+			<P lang="gb">Wireshark</P>
+		</ITEM>
+	</MENU>
+
+	<MENU dir="apropos">
+		<TITLE>
+			<P lang="fr">A propos</P>
+			<P lang="gb">About</P>
+		</TITLE>
+	</MENU>
+</XML>

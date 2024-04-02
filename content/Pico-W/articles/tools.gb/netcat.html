@@ -1,0 +1,10 @@
+<h2>The program netcat<br/></h2>
+<p>This program will allow us to connect to a TCP communication channel on the server side as we already do on the client side using the telnet tool.</p>
+<p>Since the tool has several features, we will use the switch "<strong>-l</strong>" to specify that it should work as a TCP server. We then add the switch "<strong>-p</strong>" followed by the port number on which we want to receive a connection request from a TCP client.</p>
+<p>Example to act as a standard http server (port 80) listening on all IP addresses of the machine:</p>
+<div class="code"><pre class="brush: bash;">nc -l -p 80</pre></div>
+<p>It is also possible to restrict to a single IP address of the machine by specifying the one on which netcat should listen. We then add the switch "<strong>-s</strong>" followed by the address in the command.</p>
+<p>Example to act as a standard http server (port 80) listening only on the address 127.0.0.1:</p>
+<div class="code"><pre class="brush: bash;">nc -l -p 80 -s 127.0.0.1</pre></div>
+
+

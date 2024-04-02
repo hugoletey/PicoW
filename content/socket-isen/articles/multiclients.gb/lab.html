@@ -1,0 +1,15 @@
+<h2>Practical work n°2: Multi-client TCP server.<br/></h2>
+<h3>Objective of the lab:</h3>
+<p>Put into practice the programming of a TCP server, in C language, on an example, able to process several clients simultaneously.</p>
+<h3>Subject:</h3>
+<p>Write a program that memorizes the text sent to it by the client (on TCP port 20xx) until it receives a newline (via the character ' \n ') and then sends it back to the client text at the maximum speed of one character every 200000µs (i.e. 5 characters per second). See the “usleep()” function. Note: The server then continues its store/re-send cycle until the client closes the connection.</p>
+<h3>Simplification of the problem:</h3>
+<p>For the purposes of this tutorial, we will assume that the client used is only the Linux telnet application, which already transmits to the server, line by line, what is entered. The second simplification is that there is a maximum size (known and estimated to be less than 320 bytes) for an input line.</p>
+<h3>Question 1:</h3>
+<p>Modify the program written in TP n°1 (but you can simply start from the examples of the course if you prefer) so that it responds to the subject simply in a single-client version. You can save the source file under the name “chat.c”.</p>
+<h3>Question 2:</h3>
+<p>Modify the program to make it a multi-client version using multi-process operation via the "fork()" function. You can save the source file under the name “chat-fork.c”.</p>
+<h3>Question 3:</h3>
+<p>Modify the program to make it a multi-client version, this time using multi-threaded operation via the "pthread_create()" function . You can save the source file under the name "chat-thread.c".</p>
+<h3>Question 4:</h3>
+<p>Modify the program to make it a multi-client version, this time using single-task operation via the "select()" function. You can save the source file under the name “chat-select.c”.</p>

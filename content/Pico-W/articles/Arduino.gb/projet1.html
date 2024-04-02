@@ -1,0 +1,10 @@
+<h2>Topic Load balancer HTTP 1.0<br></h2>
+<h3>Presentation of the subject:</h3>
+<p>In front of several HTTP Web servers normally serving the same content (for the same URLs), we want to place a "reverse proxy" acting as a load balancer.</p>
+<p>This "reverse proxy" will receive HTTP requests from multiple browsers and retransmit them to one of the web servers via the "round robing" tactic i.e. by rotating the requests in turn to each server.</p>
+<p>Next, in order to overcome the problem of sessions on each server, we will ensure that requests from the same client are always distributed to the same server, new clients being always assigned to Web servers via the "round robing".</p>
+<h3>Note:</h3>
+<ul>
+	<li>The goal is not to rewrite, for the "reverse proxy", a complete WEB server, we will only implement the parts of RFC (from HTTP 1.0) 1945 which will be useful for dispatching connections to servers.</li>
+	<li>To be really effective, this kind of program must be very light in its processing so as not to be the bottleneck in the communication between clients and servers.</li>
+</ul>

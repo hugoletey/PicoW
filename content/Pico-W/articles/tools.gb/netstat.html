@@ -1,0 +1,11 @@
+<h2>The command netstat<br/></h2>
+<p>This command, available on Unix and Windows, lists established connections by trying to replace IP addresses with DNS names and port numbers with their name. But there are several switches that can change its behavior:</p>
+<ul>
+    <li>The switch "<strong>-n</strong>" disables the replacement of IP addresses and port numbers with a name (which greatly speeds up display).</li>
+    <li>The switch "<strong>-a</strong>" requests to list all sockets without limiting itself to only connected sockets (so it includes both TCP sockets regardless of their state and UDP sockets)</li>
+    <li>On Unix, there is also the switch "<strong>-p</strong>" to associate each socket with the corresponding Unix process (on Windows, you will have to use the graphical application "&nbsp;<strong>TCPView</strong>&nbsp;" to obtain the same level of information).</li>
+</ul>
+<p>On Unix, the three switches can be combined, which gives:</p>
+<div class="code"><pre class="brush: bash;">netstat -n -a -p</pre></div>
+<p>The command can also be written as:</p>
+<div class="code"><pre class="brush: bash;">netstat -nap</pre></div>

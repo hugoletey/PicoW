@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>JUNIA - Online courses</title>
+ <link rel="stylesheet" type="text/css" href="css/courses.css" />
+ <link rel="stylesheet" type="text/css" href="css/styles.css" />
+ <script src="ext/syntaxhighlighter/scripts/shCore.js"></script>
+ <script src="ext/syntaxhighlighter/scripts/shBrushBash.js"></script>
+ <script src="ext/syntaxhighlighter/scripts/shBrushCpp.js"></script>
+ <script src="ext/syntaxhighlighter/scripts/shBrushCss.js"></script>
+ <script src="ext/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+ <script src="ext/syntaxhighlighter/scripts/shBrushPhp.js"></script>
+ <script src="ext/syntaxhighlighter/scripts/shBrushPython.js"></script>
+ <script src="ext/syntaxhighlighter/scripts/shBrushXml.js"></script>
+ <link rel="stylesheet" type="text/css" href="ext/syntaxhighlighter/styles/shCoreDefault.css"/>
+ <script type="text/javascript">SyntaxHighlighter.all();</script>
+ <link rel="stylesheet" type="text/css" href="css/winkPlayer.css" />
+ <script src="js/winkPlayer.js"></script>
+ <script src="js/script.js"></script>
+ <script src="js/building.class.js"></script>
+ <script src="js/time.class.js"></script>
+ <script src="js/lang.class.js"></script>
+ <script src="js/loader.class.js"></script>
+ <script src="js/main.class.js"></script>
+ <script src="js/quiz.class.js"></script>
+ <script src="js/cours.class.js"></script>
+ <script src="js/auth.class.js"></script>
+ <script src="js/spa.class.js"></script>
+</head>
+<body onload="spa = new MySPA();">
+ <div class="templates">
+  <div id="template_cours">
+   <a class="tag_a" href="" onclick="spa.chooseCours(this.href); return false;">
+    <img class="tag_img" src="" border="0"/>
+    <span class="tag_lg1"></span><br /><span class="tag_lg2"></span>
+   </a>
+  </div>
+  <div id="template_entry">
+   <h2 class="tag_titre"></h2>
+   <div class="tag_courses"></div>
+   <div class="separation"></div>
+  </div>
+  <div id='template_quiz1'>
+   <p class='QuestText'></p>
+   <ul class='ReplyCible'></ul>
+  </div>
+  <ul>
+   <li id='template_quiz2' class='ReplyLine'>
+    <input class='ReplyCheckBox' type='checkbox'/><p class='ReplyContent'></p>
+   </li>
+  </ul>
+  <div id='template_quiz3'>
+   <h2 class='tquiz'></h2>
+   <div class='quiz'></div>
+   <input type='button' value='corriger' onclick='spa.submit_QUIZ();' />
+   <span class='result'></span>
+  </div>
+  <div id='template_quiz4'>
+   <p class='QuestText' style='font-weight: bold;'></p>
+   <datalist class='SUG'></datalist>
+   <form class='QAT'></form>
+  </div>
+  <div id='template_quiz5' >
+   <input class='ReplyText' type='text' list='_SUG_' value=''/>
+  </div>
+  <div id="template_winkVideo">
+   <div class="winkVideoContainerClass">
+    <video style="width:100%; left:0px" class="winkVideoClass">
+     <source src="" type="video/mp4">
+    </video>
+    <div class="winkVideoOverlayClass"></div>
+     <div class="winkVideoControlBarClass">
+      <button class="winkVideoControlBarPlayButtonClass"></button>
+      <button class="winkVideoControlBarPauseButtonClass"></button>
+      <div class="winkVideoControlBarProgressLeftClass"></div>
+      <div class="winkVideoControlBarProgressEmptyMiddleClass"></div>
+      <div class="winkVideoControlBarProgressRightClass"></div>
+      <div class="winkVideoControlBarProgressFilledMiddleClass"></div>
+     </div>
+    <div class="winkVideoPlayOverlayClass"></div>
+   </div>
+  </div>
+ </div>
+
+ 
+
+ <header>
+  <h1>
+   <span class='flag'><a href="#"><img src="img/home.png"/></a></span>
+   <span id="title"></span> <span id="heurelocale"></span>
+   <label for="login"><img src="img/login.png"/></label>
+   <div id="langue">
+    <span class='flag'><img src="img/flag-fr.svg" onclick="spa.setlang('fr');"/></span>
+    <span class='flag'><img src="img/flag-gb.svg" onclick="spa.setlang('gb');"/></span>
+   </div>
+  </h1>
+ </header>
+ <input id="login" type="checkbox"/>
+ <div>
+  <div></div>
+  <input id="no" type="radio" name="login"/>
+  <form id="loginform" method="POST" onsubmit="return false;">
+   <span onclick="document.getElementById('login').checked=false;">X</span>
+   <table>
+    <tr><td><span class="lang fr">mail junia :</span><span class="lang gb">mail junia:</span></td><td><input name="email" type="text"/></td></tr>
+    <tr><td><span class="lang fr">mot de passe :</span><span class="lang gb">password:</span></td><td><input name="password" type="password"/></td></tr>
+    <tr><td colspan="2"><input class="lang fr" type="submit" onclick="return spa.login();" value="connexion"/><input class="lang gb" type="submit" onclick="return spa.login();" value="login"/></td></tr>
+   </table>
+  </form>
+  <input id="yes" type="radio" name="login"/>
+  <form method="POST" onsubmit="return false;">
+   <span onclick="document.getElementById('login').checked=false;">X</span>
+   <table>
+    <tr><td><span class="lang fr">Bonjour</span><span class="lang gb">Hello</span></td><td id="name"></td></tr>
+    <tr><td colspan="2"><input class="lang fr" type="submit" onclick="return spa.logout();" value="déconnexion"/><input class="lang gb" type="submit" onclick="return spa.logout();" value="logout"/></td></tr>
+   </table> 
+  </form>
+ </div>
+ <input id="entry" type="radio" name="selector"/>
+ <div id="cible_entry"></div>
+ <input id="content" type="radio" name="selector"/>
+ <div>
+  <nav></nav> 
+  <aside></aside>	
+  <div class="chapter">
+   <a class="chapter" id="prev_chap"><span class="lang fr">&larr;&nbsp;Chapitre pr&eacute;c&eacute;dent</span><span class="lang gb">&larr;&nbsp;previous chapter</span></a>
+   <a class="chapter" id="next_chap"><span class="lang fr">Chapitre suivant&nbsp;&rarr;</span><span class="lang gb">next chapter&nbsp;&rarr;</span></a>
+  </div>
+  <article></article>
+  <footer>
+   <hr style='clear:both'/>
+   <p><span class="lang fr">Mise &agrave; jour :</span><span class="lang gb">Updated:</span> <span id="datemaj">???</span></p>
+  </footer>
+ </div>
+</body>
+</html>

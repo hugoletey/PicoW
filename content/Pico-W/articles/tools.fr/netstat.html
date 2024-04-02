@@ -1,0 +1,11 @@
+<h2>La commande netstat<br/></h2>
+<p>Cette commande disponible sous Unix et sous Windows liste les connections établies en cherchant à remplacer les adresses IP par des noms DNS et les numéros de ports par leur nom. Mais il existe plusieurs commutateurs permettant de modifier son comportement :</p>
+<ul>
+	<li>le commutateur «&nbsp;<strong>-n</strong>&nbsp;» désactive le remplacement des adresses IP et des numéros de port par un nom (ce qui accélère grandement l'affichage).</li>
+	<li>le commutateur «&nbsp;<strong>-a</strong>&nbsp;» demande de lister tous les sockets sans se limiter aux seules sockets connectées (on y retrouve donc à la fois les sockets TCP peu importe leur état et les sockets UDP)</li>
+	<li>Sous Unix, on dispose également du commutateur «&nbsp;<strong>-p</strong>&nbsp;» pour associé à chaque socket le processus Unix lui correspondant (Sous windows, il faudra utiliser l'application graphique «&nbsp;<strong>TCPView</strong>&nbsp;» pour obtenir le même niveau d'information).</li>
+</ul>
+<p>Sous Unix, on peut combiner les trois commutateurs, ce qui donne alors :</p>
+<div class="code"><pre class="brush: bash;">netstat -n -a -p</pre></div>
+<p>La commande peut également s'écrire :</p>
+<div class="code"><pre class="brush: bash;">netstat -nap</pre></div>

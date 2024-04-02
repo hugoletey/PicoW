@@ -1,0 +1,114 @@
+<h2>Utilisation des sockets côté client en mode datagramme<br/></h2>
+<h3>En langage C :</h3>
+<p>Après avoir créé le socket, il va falloir envoyer un premier datagramme au serveur via la fonction <strong>sendto</strong> qui nécessite 6 paramètres :</p>
+<ul>
+	<li><strong>fd</strong> : Le premier paramètre est l'entier fournit en retour de l'appel système de création de socket.</li>
+	<li><strong>buffer</strong> : Le second paramètre est l'adresse en mémoire du buffer contenant le message à envoyer</li>
+	<li><strong>len</strong> : Le troisième paramètre est un entier indiquant le nombre d'octets à envoyer. </li>
+	<li><strong>flags</strong> : Le quatrième paramètre est une combinaison de drapeaux définie par les constantes suivantes.</li>
+	<ul>
+		<li><strong>MSG_CONFIRM</strong> : Cela indique que l'on attend un paquet de réponse de la part du serveur.</li>
+		<li><strong>MSG_DONTWAIT</strong> : Demande d'être averti par une erreur si l'opération d'envoi était bloquante.</li>
+	</ul>
+	<li><strong>addr</strong> : Le cinquième paramètre est l'adresse en mémoire d'une structure de type <strong>sockaddr</strong> servant à préciser l'adresse IP et le port UDP du serveur cible. (C'est une structure générique qui sert à englober plusieurs autres structures dont le contenu varie en fonction de la valeur du premier champ qui est nommé <strong>sa_family</strong> dans la structure <strong>sockaddr</strong>).</li>
+	<li><strong>addr_len</strong> : Le sixième paramètre est la taille de la structure passée comme cinquième paramètre.</li>
+</ul>
+<p>Il va donc falloir déclarer une variante de la structure <strong>sockaddr</strong> correspondant à <strong>AF_INET</strong>. Il s'agit du type <strong>struct sockaddr_in</strong>. On commencera par mettre à zéro le contenu de cette structure via la fonction <strong>bzero</strong> de <strong>string.h</strong>, puis on affectera, au premier champ, nommé ici <strong>sin_family</strong>, la valeur <strong>AF_INET</strong>.</p>
+<div class="code">
+	<pre class="brush: c;">
+struct sockaddr_in	addr;
+
+bzero(&addr, sizeof(addr));
+addr.sin_family = AF_INET;
+	</pre>
+</div>
+<p>Il faut ensuite remplir, dans la structure, le champ <strong>sin_addr</strong> avec l'adresse IPv4 du serveur à contacter et le champ <strong>sin_port</strong> avec le numéro de son port UDP.</p>
+<h4>Remarques :</h4>
+<ul>
+	<li>L'adresse IPv4 devant être codée sur 4 octets, on va utiliser une fonction de la bibliothèque <strong>arpa/inet.h</strong> pour convertir son écriture sous forme de chaîne de caractères (4 valeurs numériques comprises entre 0 et 255 séparées par des points) dans le format attendu. Il s'agit de la fonction <strong>inet_aton</strong> qui prend la chaine comme premier paramètre et l'adresse du champ dans lequel on souhaite placer le résultat en second paramètre. La valeur retournée est 0 sauf s'il la chaine fournie n'est pas au format IPv4.</li>
+	<li>Le port est un entier (non signé) codé sur 2 octets et stocké dans le sens octet de poids fort d'abord et octet de poids faible ensuite selon la convention choisie par les protocoles TCP/IP. Or selon le type de CPU, la convention utilisée n'est pas obligatoirement la même. Avec certains types de CPU, il faudra croiser les deux octets et pas avec d'autres types de CPU. Pour faciliter la démarche sans se poser de question, la bibliothèque <strong>arpa/inet.h</strong> fournit la fonction <strong>htons()</strong> qui convertit l’entier court non signé passé en paramètre depuis l’ordre des octets de l’hôte vers celui du réseau et retourne le résultat.</li>
+</ul>
+<div class="code">
+	<pre class="brush: c;">
+inet_aton("127.0.0.1", &addr.sin_addr);
+addr.sin_port = htons(7);
+	</pre>
+</div>
+<p>Ayant ainsi précisé l'adresse 127.0.0.1 et le port 7, il ne reste plus qu'à appeler la fonction <strong>sendto</strong> pour que le client cherche à établir la connexion avec le serveur echo local.</p>
+<div class="code">
+	<pre class="brush: c;">
+sendto(fd, &buffer, sizeof(buffer), MSG_CONFIRM, (struct sockaddr *) &addr, sizeof(addr));
+	</pre>
+</div>
+<ul>
+	<li>Sans le "cast" vers le type correspondant à la structure générique <strong>struct sockaddr *</strong>, il y a un warning du compilateur C.</li>
+</ul>
+<h4>Exemple :</h4>
+<div class="code">
+	<pre class="brush: c;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#include &lt;sys/types.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;sys/socket.h&gt;
+
+#include &lt;string.h&gt;		// pour les fonctions bzero et strlen
+#include &lt;arpa/inet.h&gt;	// pour la fonction inet_addr
+
+int main()
+{
+	int fd;
+	struct sockaddr_in addr;
+	int err;
+	char buffer[]="Hello !";
+
+	fd = socket (AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	if (fd<0) {
+		printf("Erreur de creation de la socket !\n");
+		exit(1);
+	}
+
+	bzero(&addr, sizeof(addr));
+	addr.sin_family = AF_INET;
+	err = inet_aton("127.0.0.1", &addr.sin_addr);
+	if (err == 0) {
+		printf("Adresse IPv4 invalide !\n");
+		exit(1);
+	}
+	addr.sin_port = htons(8080);
+
+	sendto(fd, &buffer, strlen(buffer), MSG_CONFIRM, (struct sockaddr *) &addr, sizeof(addr)); 
+
+	printf("Message envoyé au serveur !\n");
+	return 0;
+}
+	</pre>
+</div>
+<h3>PHP et Python :</h3>
+<p>Dans les langages comme <a href="https://www.php.net/manual/fr/book.sockets.php">PHP</a> ou <a href="https://docs.python.org/fr/3/library/socket.html">Python</a>, il existe des bibliothèques faisant l'interface avec les fonctions systèmes.</p>
+<h4>PHP</h4>
+<p>Le code de l'exemple écrit en C devient en PHP :</p>
+<div class="code">
+	<pre class="brush: php;">
+$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+if ($socket == false) die("Erreur de création de la socket !\n");
+$buffer = "Hello !";
+$len = strlen($buffer);
+socket_sendto($socket, $buffer, $len, '127.0.0.1', 8080);
+echo "Message envoyé au serveur !\n";
+	</pre>
+</div>
+<h4>Python</h4>
+<p>Le code de l'exemple écrit en C devient en Python :</p>
+<div class="code">
+	<pre class="brush: python;">
+try :
+	sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	sock.sendto("Hello !",('127.0.0.1',8080))
+except socket.error :
+	print("Erreur de communication du client !")
+	exit()
+print("Message envoyé au serveur !")
+	</pre>
+</div>

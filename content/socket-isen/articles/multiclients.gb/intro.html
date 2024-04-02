@@ -1,0 +1,18 @@
+<h2>Multiclient servers</h2>
+<p>Servers not only need to be continuously waiting for potential client connections, but they also need to be able to handle simultaneous requests from multiple clients. It is generally not feasible to put clients in a queue and process their requests one after the other.</p>
+<h3>The problem</h3>
+<p>Blocking instructions, from a TCP server, (meaning those that cause the temporary stop of the server's execution until a specified event occurs) are:</p>
+<ul>
+        <li><strong>accept()</strong>: used to accept a new client connection.</li>
+        <li><strong>read()</strong>: used to read from the channel that has been opened to a client. It remains blocked until there is something to read in the channel or until the client closes the channel.</li>
+        <li><strong>write()</strong>: used to write to the channel that has been opened to a client. It remains blocked until the data can be sent. It is also possible to set the socket in non-blocking mode but this generally does not solve the problem as the instruction returns an error if the data cannot be sent immediately.</li>
+</ul>
+<p>Reading or writing on a client's channel can therefore put other reading or writing operations on hold for another client as well as the acceptance of new clients. To solve this problem, several solutions are available.</p>
+<h3>Multi-tasking solutions</h3>
+<p>Multi-tasking solutions consist of deploying a task per client or even two tasks if the client can both read and write on the channel at a given time (For example, in the case of a chat program that would receive characters typed by a client while transmitting to this client characters received from other clients in the same conversation group). To deploy multi-tasking, there are two solutions (that can possibly be combined):</p>
+<ul>
+        <li>creating multiple processes through the <strong>fork()</strong> primitive,</li>
+        <li>creating multiple lightweight processes (called threads) within the same process through the <strong>pthread_create()</strong> primitive.</li>
+</ul>
+<h3>The single task solution</h3>
+<p>The other solution is to not execute <strong>accept()</strong>, <strong>read()</strong> or <strong>write()</strong> without first checking that the event they are waiting for (which can therefore make them blocking) has not already occurred. The blocking instruction <strong>select()</strong> will allow you to simultaneously monitor the 3 types of events for a set of sockets.</p>

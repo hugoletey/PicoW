@@ -1,0 +1,8 @@
+<h2>Sujet proxy HTTP vers FTP<br></h2>
+<h3>Présentation du sujet :</h3>
+<p>Un navigateur web peut-être configuré pour relayer toutes ces requêtes vers un proxy HTTP, ce dernier pourra alors, après récupération de l'URL, se connecter au serveur FTP cible pour downloader le fichier et le retransmettre bloc par bloc au navigateur.</p>
+<h3>Remarque :</h3>
+<ul>
+	<li>Le but n'étant pas de réécrire, pour le "proxy", un serveur WEB complet, on se contentera d'implémenter seulement les parties des RFC 1945 et 959 qui seront utiles pour la réception des requêtes et ensuite le téléchargement du fichier et son transfère.</li>
+	<li>Lorsque les URL ne pointent pas vers un serveur FTP, le proxy se contentera de retourner un message d'erreur au lieu de relayer la requête en HTTP.</li>
+</ul>

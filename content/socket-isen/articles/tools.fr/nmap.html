@@ -1,0 +1,6 @@
+<h2>Le programme nmap<br/></h2>
+<p>Ce programme permet de connaître à distance les ports TCP qui sont ouverts sur une machine. Pour cela, on utilise le commutateur «&nbsp;<strong>-p</strong>&nbsp;» suivi du numéro de port que l'on veut scanner. On précise ensuite l'adresse IP ou le nom DNS de la cible.</p>
+<p>Par exemple, pour scanner le port 80 d'un machine d'adresse IP 192.168.1.100, on utilisera la commande suivante :</p>
+<div class="code"><pre class="brush: bash;">nmap -p 80 192.168.1.100</pre></div>
+<p>Si on souhaite un scan de tous les ports, on peut utiliser la commande suivante :</p>
+<div class="code"><pre class="brush: bash;">nmap -p- 192.168.1.100</pre></div>

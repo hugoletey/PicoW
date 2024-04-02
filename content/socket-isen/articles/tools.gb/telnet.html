@@ -1,0 +1,23 @@
+<h2>The command telnet<br/></h2>
+<p>This command takes 2 arguments:</p>
+<ul>
+    <li>the first is the host, that is the IP address or the name of the server to which we want to connect.</li>
+    <li>The second is the port, that is the port number of the server to which we want to connect. It is optional if its value is 23. Note: it is also possible to put the name of the protocol instead of the port number.<br/>The program then finds the correct number by consulting, under Unix, the file "<strong>/etc/services</strong>" or, under Windows, the file "<strong>\windows\system32\drivers\etc\services</strong>"</li>
+</ul>
+<p>Example of use (to connect to a local web server):</p>
+<div class="code"><pre class="brush: bash;">telnet 127.0.0.1 80</pre></div>
+<h3>Role</h3>
+<p>The role of this command is:</p>
+<ul>
+    <li>to link the keyboard (that is, the standard input) to the communication channel so that all characters entered are sent to the channel.</li>
+    <li>to link the screen (that is, the standard output) to the communication channel so that all characters received from the channel are displayed on the screen.</li>
+</ul>
+<h3>The escape character</h3>
+<p>It is a key defined by default as "<strong>^]</strong>" which allows to temporarily switch to command mode.</p>
+<p>Note: as indicated by the command "<strong>man telnet</strong>", it is possible to redefine the escape character to the one desired by adding the switch "<strong>-e</strong>" followed by the desired character before the usual arguments. Example to define the A as escape character:</p>
+<div class="code"><pre class="brush: bash;">telnet -eA 127.0.0.1 80</pre></div>
+<p>The chosen character can no longer be sent directly to the communication channel; then we must switch to command mode by typing the chosen character and then enter the command "<strong>send escape</strong>".</p>
+<h3>How to close the connection</h3>
+<p>To close the connection on the client side, simply switch to command mode by typing the escape character and then enter the command "<strong>close</strong>".</p>
+<h3>Use</h3>
+<p>In addition to the standard original use, as a client of the server (telnetd) that allows to deport (without encryption and therefore without the currently required security) access to a command line interface via the network, this application will allow to "connect" a human to a server application for a protocol using a text dialogue. We can thus cite, for example, the SMTP, FTP, POP3, IDENT, HTTP protocols, ...</p>

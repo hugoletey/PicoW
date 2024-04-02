@@ -1,0 +1,181 @@
+<h2>Utilisation des sockets côté serveur en mode connecté<br/></h2>
+<h3>En langage C :</h3>
+<p>Après avoir créé la socket, il va falloir indiquer le port sur lequel on écoutera les demande de connexion et éventuellement préciser l'adresse si on ne veut pas écouter toutes les adresses de la machine. Pour cela, on utilisera la fonction <strong>bind</strong> en lui passant 3 paramètres :</p>
+<ul>
+	<li><strong>fd</strong> : Le premier paramètre est l'entier fournit en retour de l'appel système de création de socket.</li>
+	<li><strong>addr</strong> : Le second est l'adresse en mémoire d'une structure de type <strong>sockaddr</strong>. C'est une structure générique qui sert à englober plusieurs autres structures dont le contenu varie en fonction de la valeur du premier champ (nommé <strong>sa_family</strong> dans la structure <strong>sockaddr</strong>).</li>
+	<li><strong>len</strong> : Le troisième est la taille de la structure passée en argument.</li>
+</ul>
+<p>Il va donc falloir déclarer une variante de la structure <strong>sockaddr</strong> correspondant à <strong>AF_INET</strong>. Il s'agit du type <strong>struct sockaddr_in</strong>. On commencera par mettre à zéro le contenu de cette structure via la fonction <strong>bzero</strong> de <strong>string.h</strong>, puis on affectera, au premier champ nommé ici <strong>sin_family</strong>, la valeur <strong>AF_INET</strong>.</p>
+<div class="code">
+	<pre class="brush: c;">
+struct sockaddr_in	adr_srv;
+
+bzero(&adr_srv, sizeof(adr_srv));
+adr_srv.sin_family = AF_INET;
+	</pre>
+</div>
+<p>Il faut ensuite remplir, dans la structure, le champ <strong>sin_port</strong> avec le numéro de son port TCP sur laquelle le serveur écoute et éventuellement le champ <strong>sin_addr</strong> avec l'adresse IPv4. (On peut également laisser à zéro l'adresse IPv4 pour écouter sur toutes les interfaces.)</p>
+<ul>
+	<li>L'adresse IPv4 devant être codée sur 4 octets, on va utiliser une fonction de la bibliothèque <strong>arpa/inet.h</strong> pour convertir son écriture sous forme de chaîne de caractères (4 valeurs numériques comprises entre 0 et 255 séparées par des points) dans le format attendu. Il s'agit de la fonction <strong>inet_aton</strong> qui prend la chaine comme premier paramètre et l'adresse en mémoire du champ dans lequel on souhaite placer le résultat en second paramètre. La valeur retournée est 0 sauf s'il la chaine fournie n'est pas au format IPv4.</li>
+	<li>Le port TCP est un entier (non signé) codé sur 2 octets et stocké dans le sens octet de poids fort d'abord et octet de poids faible ensuite (selon la convention choisie par les protocoles TCP/IP). Or, selon le type de CPU, la convention utilisée n'est pas obligatoirement la même. Avec certains types de CPU, il faudra croiser les deux octets et, avec d'autres types de CPU, ne pas le faire. Pour faciliter la démarche sans se poser de question, la bibliothèque <strong>arpa/inet.h</strong> fournit la fonction <strong>htons()</strong> qui convertit l’entier court non signé passé en paramètre depuis l’ordre des octets de l’hôte vers celui du réseau et retourne le résultat.</li>
+</ul>
+<div class="code">
+	<pre class="brush: c;">
+inet_aton("127.0.0.1", &adr_srv.sin_addr);
+adr_srv.sin_port = htons(80);
+	</pre>
+</div>
+<p>Ayant ainsi précisé l'adresse 127.0.0.1 et le port 80, il ne reste plus qu'à appeler la fonction <strong>bind</strong> pour que le serveur soit configuré pour se mettre en écoute des clients. On doit ensuite appelé la fonction <strong>listen</strong> qui fixe la file d'attente des clients arrivant simultanément.</p>
+<div class="code">
+	<pre class="brush: c;">
+bind(fd_srv, (struct sockaddr *) &adr_srv, sizeof(adr_srv));
+listen(fd_srv, 5);
+	</pre>
+</div>
+<ul>
+	<li>Sans le "cast" vers le type correspondant à la structure générique <strong>struct sockaddr *</strong>, il y a un warning du compilateur C.</li>
+</ul>
+<p>Il faut ensuite attendre, dans une boucle <strong>while</strong>, l'arrivée de chaque connexion d'un client et obtenir un socket de connexion vers ce client tandis que l'on conserve le socket du serveur pour recevoir les clients suivant.</p>
+<h4>Obtention du socket vers le client :</h4>
+<p>Pour obtenir un socket permettant le dialogue avec le client, on utilisera la fonction <strong>accept</strong> qui demande 3 paramètres :</p>
+<ul>
+	<li><strong>fd</strong> : Le premier paramètre est l'entier qui correspond au descripteur du socket serveur qui reçoit les connexions des clients.</li>
+	<li><strong>addr</strong> : Le second est l'adresse en mémoire d'une structure de type <strong>sockaddr</strong> comme pour la fonction <strong>bind</strong>. Cette structure recevra l'adresse IP et le port TCP du client connecté.</li>
+	<li><strong>len</strong> : Le troisième est l'adresse en mémoire d'une variable de type <strong>socklen_t</strong> que l'on aura initialisée avec la taille de la structure passée en second paramètre. </li>
+</ul>
+<div class="code">
+	<pre class="brush: c;">
+int fd_con;
+struct sockaddr_in adr_cli;
+socklen_t adr_cli_len;
+
+adr_cli_len = sizeof(adr_cli);
+fd_con = accept(fd_srv, (struct sockaddr *) &adr_cli, &adr_cli_len);
+	</pre>
+</div>
+<p>On pourra alors utiliser le nouveau socket pour communiquer avec le client. Et quand le dialogue est fini, l'un des protagonistes de la communication doit avertir son homologue de la fermeture du socket via la fonction : <strong>shutdown</strong> puis fermer le socket via la fonction : <strong>close</strong> de la bibliothèque <strong>unistd.h</strong>. C'est primordial de le faire côté serveur afin de libérer la place occupée, dans le kernel, par les sockets ouvertes pour chaque client.</p>
+<h4>Exemple :</h4>
+<div class="code">
+	<pre class="brush: c;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#include &lt;sys/types.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;sys/socket.h&gt;
+
+#include &lt;string.h&gt;		// pour la fonction bzero
+#include &lt;arpa/inet.h&gt;	// pour la fonction inet_addr
+
+void communication_serveur(int fd) {
+
+}
+
+int main()
+{
+	int fd_srv, fd_con;
+	struct sockaddr_in	adr_srv, adr_cli;
+	int	err;
+	socklen_t adr_cli_len;
+
+	fd_srv = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (fd_srv&lt;0) {
+		printf("Erreur de creation de la socket !\n");
+		exit(1);
+	}
+
+	bzero(&adr_srv, sizeof(adr_srv));
+	adr_srv.sin_family = AF_INET;
+	err = inet_aton("127.0.0.1", &adr_srv.sin_addr);
+	if (err == 0) {
+		printf("Adresse IPv4 invalide !\n");
+		exit(1);
+	}
+	adr_srv.sin_port = htons(8080);
+	err = bind(fd_srv, (struct sockaddr *) &adr_srv, sizeof(adr_srv));
+	if (err != 0) {
+		printf("Erreur d'accès au port serveur !\n");
+		exit(1);
+	}
+	err = listen(fd_srv, 5);
+	if (err != 0) {
+		printf("Erreur de création de la file d'attente !\n");
+		exit(1);
+	}
+	printf("Serveur lancé !\n");
+	while(1) {
+		adr_cli_len = sizeof(adr_cli);
+		fd_con = accept(fd_srv, (struct sockaddr *) &adr_cli, &adr_cli_len);
+		if (fd_con &lt; 0) {
+			printf("Erreur sur l'acceptation de connexion entrante !\n");
+			exit(1);
+		}
+		printf("Connexion acceptée !\n");
+		communication_serveur(fd_con);
+		shutdown(fd_con, SHUT_RDWR);
+		close(fd_con);
+		printf("Client déconnecté par le serveur !\n");
+	}
+	return 0;
+}
+	</pre>
+</div>
+<h3>PHP et Python :</h3>
+<p>Dans les langages comme <a href="https://www.php.net/manual/fr/book.sockets.php">PHP</a> ou <a href="https://docs.python.org/fr/3/library/socket.html">Python</a>, il existe des bibliothèques faisant l'interface avec les fonctions systèmes.</p>
+<h4>PHP</h4>
+<p>Le code de l'exemple écrit en C devient en PHP :</p>
+<div class="code">
+	<pre class="brush: php;">
+function communication_serveur($socket) {
+
+}
+
+$sock_srv = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+if ($sock_srv== false) die("Erreur de creation de la socket !\n");
+$err = socket_bind($sock_srv, '127.0.0.1', 8080);
+if ($err == false) die("Erreur d'accès au port serveur !\n");
+$err = socket_listen($sock_srv, 5);
+if ($err == false) die("Erreur de création de la file d'attente !\n");
+echo "Serveur lancé !\n";
+while (true) {
+	$sock_con = socket_accept($sock_srv);
+	if ($sock_con == false) die("Erreur sur l'acceptation de connexion entrante !\n");
+	echo "Connexion acceptée !\n";
+	communication_serveur($sock_con);
+	socket_shutdown($sock_con);
+	socket_close($sock_con);
+	echo "Client déconnecté par le serveur !\n"
+}
+	</pre>
+</div>
+<h4>Python</h4>
+<p>Le code de l'exemple écrit en C devient en Python :</p>
+<div class="code">
+	<pre class="brush: python;">
+import socket
+
+def communication_serveur(sock) :
+	...
+
+try:
+	sock_srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	sock_srv.bind(('127.0.0.1', 8080))
+	sock_srv.listen(5)
+except socket.error:
+	print("Erreur de lancement du serveur !")
+	exit()
+print("Serveur lancé !")
+while True :
+	try :
+		(sock_con,adr_cli)=sock_srv.accept()
+		print("Connexion acceptée !")
+		communication_serveur(sock_con)
+		sock_con.shutdown()
+		sock_con.close()
+		print("Client déconnecté par le serveur !")
+	except socket.error :
+		print("Erreur sur l'acceptation de connexion entrante !")
+		exit()
+	</pre>
+</div>		

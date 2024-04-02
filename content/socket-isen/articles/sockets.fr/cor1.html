@@ -1,0 +1,136 @@
+<h2>TP n°1 Client/serveur TCP avec protocole «&nbsp;<strong>ident</strong>&nbsp;»<br/></h2>
+<h3>Corrigé de la question n°1 :</h3>
+<p>En interrogeant le serveur ident, d'une extrémité distante d'un canal de communication, et en lui envoyant le couple des ports distant et local, on reçoit en retour une réponse sous la forme d'un triplet dont chaque élément est séparé par le caractère «&nbsp;<strong>:</strong>&nbsp;».</p>
+<ul>
+    <li>Le première élément du triplet est le couple fournit dans la question.</li>
+    <li>Le second élément du triplet est «&nbsp;<strong>USERID</strong>&nbsp;» pour indiquer une réponse correcte ou «&nbsp;<strong>ERROR</strong>&nbsp;» pour indiquer une erreur.</li>
+    <li>Le troisième élément du triplet est un code d'erreur (dans le cas d'une erreur) ou un couple, dont les éléments sont séparés par le caractère «&nbsp;<strong>:</strong>&nbsp;»:
+    <ul>
+        <li>Le premier élement de ce couple est la nature de l'identifiant (ici «&nbsp;<strong>UNIX</strong>&nbsp;»).</li>
+        <li>Le second élément est l'identifiant recherché.</li>
+    </ul>
+</ul>
+<h3>Corrigé de la question n°2 :</h3>
+<p>Le programme peut s'écrire sous cette forme reprenant (en grande partie) le code de la partie serveur dans la fonction «&nbsp;<strong>main</strong>&nbsp;», le code d'une connexion en tant que client du serveur ident dans la fonction «&nbsp;<strong>ident</strong>&nbsp;» et enfin intégrant le code d'envoi de la question et de traitement de la réponse dans la fonction «&nbsp;<strong>dial</strong>&nbsp;».</p>
+<div class="code">
+	<pre class="brush: c;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+ 
+#include &lt;sys/types.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;sys/socket.h&gt;
+ 
+#include &lt;strings.h&gt;      // pour la fonction bzero
+#include &lt;string.h&gt;       // pour les fonctions strlen et strtok
+#include &lt;arpa/inet.h&gt;    // pour la fonction inet_addr
+
+#define SRVPORT 2000
+
+void dial(int fd, int port_src, int port_dst) {
+    char buf[1024],*p1,*p2,*p3,*p;
+    int len;
+
+    sprintf(buf,"%d, %d\n",port_src, port_dst);
+    write(fd, buf, strlen(buf));
+    len=read(fd, &buf, sizeof(buf)-1);
+    buf[len]=0x00;
+    strtok(buf,":");
+    p1=strtok(NULL,":");
+    while (*p1==' ') p1++;
+    for (p=p1;*p!=0x00; p++) if (*p==' ') *p=0x00;
+    if (strcmp(p1,"USERID")==0) {
+        p2=strtok(NULL,":");
+        p3=strtok(NULL,"\r\n");
+        while (*p3==' ') p3++;
+        printf("[%s]\n",p3);
+    } else if (strcmp(p1,"ERROR")==0) {
+        p2=strtok(NULL,"\r\n");
+		if (strcmp(p2,"HIDDEN-USER")==0) printf("Utilisateur caché\n");
+	}
+}
+
+void ident(struct sockaddr_in *src) {
+    int     fd;
+    struct sockaddr_in  addr;
+    int     err;
+ 
+    fd = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (fd&lt;0) {
+        printf("Erreur de creation de la socket !\n");
+        exit(1);
+    }
+ 
+    bzero(&addr, sizeof(addr));
+    addr.sin_family = AF_INET;
+    memcpy(&addr.sin_addr, &src-&gt;sin_addr, sizeof(src-&gt;sin_addr));
+    addr.sin_port = htons(113);
+    err = connect(fd, (struct sockaddr *) &addr, sizeof(addr));
+    if (err != 0) {
+        printf("Erreur de connexion au serveur !\n");
+        exit(1);
+    }
+ 
+    printf("Connexion établie avec le serveur ident !\n");
+    dial(fd, ntohs(src-&gt;sin_port), SRVPORT);
+}
+
+int main()
+{
+    int fd_srv, fd_con;
+    struct sockaddr_in  adr_srv, adr_cli;
+    int err;
+    socklen_t adr_cli_len;
+ 
+    fd_srv = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (fd_srv&lt;0) {
+        printf("Erreur de creation de la socket !\n");
+        exit(1);
+    }
+ 
+    bzero(&adr_srv, sizeof(adr_srv));
+    adr_srv.sin_family = AF_INET;
+    err = inet_aton("0.0.0.0", &adr_srv.sin_addr);
+    if (err == 0) {
+        printf("Adresse IPv4 invalide !\n");
+        exit(1);
+    }
+    adr_srv.sin_port = htons(SRVPORT);
+    err = bind(fd_srv, (struct sockaddr *) &adr_srv, sizeof(adr_srv));
+    if (err != 0) {
+        printf("Erreur d'accès au port serveur !\n");
+        exit(1);
+    }
+    err = listen(fd_srv, 5);
+    if (err != 0) {
+        printf("Erreur de création de la file d'attente !\n");
+        exit(1);
+    }
+    printf("Serveur lancé !\n");
+    while(1) {
+        adr_cli_len = sizeof(adr_cli);
+        fd_con = accept(fd_srv, (struct sockaddr *) &adr_cli, &adr_cli_len);
+        if (fd_con&lt;0) {
+            printf("Erreur sur l'acceptation de connexion entrante !\n");
+            exit(1);
+        }
+        printf("Connexion acceptée !\n");
+        ident(&adr_cli);
+        shutdown(fd_con, SHUT_RDWR);
+        close(fd_con);
+        printf("Client déconnecté par le serveur !\n");
+    }
+    return 0;
+}
+  </pre>
+</div>
+<h3>Comment tester le corrigé</h3>
+<p>Il suffit, par exemple, de : </p>
+<ul>
+    <li>copier/coller le source ci-dessus dans un notepad++ (sous windows)</li>
+    <li>convertir les passages à la ligne version windows en passages à la ligne version Unix (aller dans le menu "edition" puis dans le sous menu "convertir les sauts de ligne" enfin choisir "Convertir au format Unix (LF)")</li>
+    <li>sauvegarder le fichier</li>
+    <li>enfin, transférer le fichier sur le serveur via la commande scp.</li>
+</ul>
+<p><strong>Exemple :</strong> <em>Pour transférer le fichier <strong>tp-ident-fr.c</strong> vers le répertoire <strong>/home/isenXX</strong> du serveur Unix <strong>10.34.161.21</strong> avec les droits de l'utilisateur <strong>isenXX</strong>, on utilise la commande suivante depuis une fenêtre <strong>cmd</strong> de windows ou depuis un terminal sur MAC.</em></p>
+<div class="code"><pre class="brush: bash;">scp tp-ident-fr.c isenXX@10.34.161.21:/home/isenXX</pre></div>

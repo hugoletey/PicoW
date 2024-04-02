@@ -1,0 +1,140 @@
+<h2>Dialog via created sockets<br/></h2>
+<h3>In C language:</h3>
+<p>Once the connection has been established between the client and the server, there is a two-way communication channel identifiable by the IP addresses and TCP port of each of its ends. On each side, we can write or read in its socket via the <strong>write</strong> and <strong>read</strong> functions of the <strong>unistd.h</strong> library (as we would for a single file).</p>
+<h4>Writing</h4>
+<p>The <strong>write</strong> function takes 3 parameters:</p>
+<ul>
+	<li><strong>fd</strong>: The first parameter is the integer identifying the socket.</li>
+	<li><strong>buf</strong>: The second parameter is the memory address of a buffer containing the message to be sent in the communication channel.</li>
+	<li><strong>count</strong>: The third parameter is an integer indicating the number of characters to send from the buffer to the communication channel.</li>
+</ul>
+<p>The function returns an integer:</p>
+<ul>
+	<li>if it is strictly positive, it corresponds to the number of characters written in the channel. In some cases, it may be lower than the value provided by the third parameter.</li>
+	<li>If it is 0, it indicates that there is nothing more to read because the other end of the communication channel has been closed.</li>
+	<li>If it is strictly negative, it corresponds to an error code whose certain constants are as follows:</li>
+	<ul>
+		<li><strong>EBADF</strong>: indicates an error on the first parameter which is not a valid file descriptor.</li>
+		<li><strong>EFAULT</strong>: indicates an error on the second parameter because the memory address that was provided is outside the process space.</li>
+	<li><strong>EINTR</strong>: The arrival of a signal interrupted the write before any data was written.</li>
+	</ul>
+</ul>
+<h4>Reading</h4>
+<p>The <strong>read</strong> function is a blocking function (i.e. it waits until there is something to read) which takes 3 parameters:</p>
+<ul>
+	<li><strong>fd</strong>: The first parameter is the integer identifying the socket.</li>
+	<li><strong>buf</strong>: The second parameter is the memory address of a buffer that will receive the message read from the socket.</li>
+	<li><strong>count</strong>: The third parameter is an integer (strictly positive) indicating the maximum number of characters that can be placed in the buffer passed as the second parameter.</li>
+</ul>
+<p>The function returns an integer:</p>
+<ul>
+	<li>if it is strictly positive, it corresponds to the number of characters read and placed in the buffer.</li>
+	<li>If it is 0, it indicates that there is nothing more to read because the other end of the communication channel has been closed.</li>
+	<li>If it is strictly negative, it corresponds to an error code whose certain constants are as follows:</li>
+	<ul>
+		<li><strong>EBADF</strong>: indicates an error on the first parameter which is not a valid file descriptor.</li>
+		<li><strong>EFAULT</strong>: indicates an error on the second parameter because the memory address that was provided is outside the process space.</li>
+		<li><strong>EINTR</strong>: The arrival of a signal interrupted reading before any data was read.</li>
+	</ul>
+</ul>
+<h4>Closing</h4>
+<p>The <strong>shutdown</strong> function takes 2 parameters:</p>
+<ul>
+	<li><strong>fd</strong>: The first parameter is the integer identifying the socket.</li>
+	<li></li>
+</ul>
+<p>The <strong>close</strong> function takes 1 parameter:</p>
+<ul>
+	<li><strong>fd</strong>: This parameter is the integer identifying the socket.</li>
+</ul>
+<h4>Example:</h4>
+<div class="code">
+	<pre class="brush: c;">
+void customer_dialog(int fd) {
+	char buf[256];
+	while ((len=read(fd,&buf,sizeof(buf)-1)) != 0) {
+		if (len &gt; 0) {
+			buf[len]=0x00;
+			printf("%s\n",buf);
+		} else if (len != EINTR) {
+			printf("Socket read error!\n");
+			exit(1);
+		}
+	}
+	close(fd);
+}
+	</pre>
+</div>
+<br/>
+<div class="code">
+	<pre class="brush: c;">
+void server_dialog(int fd) {
+	char msg[] = "Hello customer.\nI'm the server!\n";
+	int i, j, l, m=5;
+
+	l=strlen(msg);
+	for (i = 0; i &lt; l ; i+=j ){
+		j=l-i;
+		j=write(fd, &msg[i], (j&lt;m)?j:m);
+		if (j &lt; 0 &amp;&amp; j != EINTR) {
+			printf("Socket write error!\n");
+			exit(1);
+		}
+	}
+}
+	</pre>
+</div>
+<h3>PHP and Python:</h3>
+<p>In languages like <a href="https://www.php.net/manual/en/book.sockets.php">PHP</a> or <a href="https://docs.python.org/3/library/socket.html">Python</a>, there are libraries interfacing with system functions.</p>
+<h4>PHP</h4>
+<p>The example code written in C becomes in PHP:</p>
+<div class="code">
+	<pre class="brush: php;">
+function customer_dialog($socket) {
+	$m=5;
+	while (true) {
+		$buf = socket_read($socket,$m);
+		if ($buf == '') break;
+		if ($buf == false) {
+			echo "Erreur lecture socket !\n";
+			exit(1);
+		}
+		echo $buf;
+	}
+}
+	</pre>
+</div>
+<br />
+<div class="code">
+	<pre class="brush: php;">
+function customer_dialog($socket) {
+	$msg="Hello customer.\nI'm the server!\n";
+	socket_write($socket,$msg);
+}
+	</pre>
+</div>
+<h4>Python</h4>
+<p>The example code written in C becomes in Python:</p>
+<div class="code">
+	<pre class="brush: python;">
+def communication_client(sock) :
+	try :
+		m=5
+		while (True) :
+			buf=sock.recv(m)
+			if (buf =='') :
+				break
+			print(buf,end='')
+	except socket.error :
+		print("Error accepting incoming connection!")
+		exit()
+	</pre>
+</div>
+<br />
+<div class="code">
+	<pre class="brush: python;">
+def server_dialog(sock) :
+	msg="Hello customer.\nI'm the server!\n"
+	sock.send(msg)
+	</pre>
+</div>

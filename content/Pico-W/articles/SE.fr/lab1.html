@@ -1,0 +1,34 @@
+<h2>TP n°1 Client/serveur TCP avec protocole «&nbsp;<strong>ident</strong>&nbsp;»<br/></h2>
+<h3>Sujet :</h3>
+<p>Après avoir étudié l’implémentation côté serveur puis côté client du protocole « ident » (défini par la RFC 1413 et utilisant normalement le port 113 en TCP) implémentez un client ident dans un mini serveur.</p>
+<p>Pour le port serveur de notre application, on choisira un numéro de port libre sur le serveur Unix. Comme exemple, je prendrais la valeur <strong>2000</strong>, mais si vous êtes une vingtaine d'étudiants à faire le même TP chacun pourra prendre une valeur entre 2001 et 2020 (guidé par les indications de l'enseignant).</p>
+<p>Pour l'adresse IP de la machine, j'utiliserai ici <strong>127.0.0.1</strong> mais vous la remplacerez par l'adresse IP du serveur Unix indiqué par l'enseignant.</p>
+<h3>Question n°1 :</h3>
+<p>Sur le serveur Unix, que vous utilisez pour le TP, lancez 3 interfaces en ligne de commande (shell unix) depuis 3 fenêtres différentes :</p>
+<ul>
+	<li>Depuis la première fenêtre, utilisez la commande «&nbsp;<strong>nc -l -p 2000</strong>&nbsp;» (voir le man de l'outils <strong>nc</strong> pour plus d'informations), pour connecter le couple clavier/écran au canal bidirectionnel côté serveur en attente sur le port 2000.</li>
+	<li>Depuis la seconde fenêtre, utilisez la commande «&nbsp;<strong>telnet  127.0.0.1 2000</strong>&nbsp;» (voir le man de l'outil <strong>telnet</strong> pour plus d'informations), pour connecter le couple clavier/écran au canal bidirectionnel côté client en se précisant le serveur à contacter par son adresse IP et son port.</li>
+</ul>
+<p><strong>Remarque</strong> : <i>A partir d'ici, on peut communiquer entre les deux fenêtres : tous les messages émis depuis une fenêtre sont affichés sur l'autre</i>.</p>
+<ul>
+	<li>Depuis la troisième fenêtre, on va pouvoir examiner les paramêtres du canal bidirectionnel de communication et questionner le serveur <strong>ident</strong> en lui indiquant les paramêtres récupérés. Pour cela on va passer les commandes suivantes :</li>
+	<ul>
+		<li>Passer la commande «&nbsp;<strong>netstat -nap</strong>&nbsp;» pour voir tous les sockets IP utiliser ainsi que le nom du programme qui en fait à chaque fois usage. Vous pourrez ainsi trouver le numéro de port utilisé par le canal de communication du côté client (du coté serveur, il s’agit du port 2000) ; soit «&nbsp;yyyyy&nbsp;» ce numéro de port. On peut également utiliser la commande «&nbsp;<strong>netstat -nap | grep 2000</strong>&nbsp;» pour ne voir que les lignes qui correspondent à notre socket.</li>
+	</ul>
+</ul>
+<center><img src="img/cs4.png"/><br/>(yyyyy vaut 52266 dans l'exemple ci-dessus)</center>
+<ul>
+	<ul>
+		<li>Passer la commande «&nbsp;<strong>(echo 'yyyyy, 2000' ; sleep 5) | telnet 127.0.0.1 113</strong>&nbsp;».</li>
+	</ul>
+</ul>
+<center><img src="img/cs5.png"/><br/>Exemple de réponse</center>
+<ul>
+	<ul>
+		<li>Passer la commande «&nbsp;<strong>(echo '2000, yyyyy' ; sleep 5) | telnet 127.0.0.1 113</strong>&nbsp;».</li>
+	</ul>
+</ul>
+<p>En comparant avec ce qui est écrit dans le RFC 1413 disponible sur internet, les étudiants peuvent analyser les résultats obtenus dans la troisième fenêtre.</p>
+<p>Les étudiants pourront recommencer l’expérience avec leur binôme qui passera la commande «&nbsp;<strong>telnet 127.0.0.1 2000</strong>&nbsp;». Et ils constateront que le serveur <strong>ident</strong> ne répond pas la même chose quand on croise les numéros de port source et destination.</p>
+<h3>Question n°2 :</h3>
+<p>Créer, en langage C, un programme qui accepte des connexions serveurs sur le port 2000 puis affiche le login du compte ayant utilisé le socket d’appel côté client via une interrogation du serveur <strong>ident</strong>.</p>

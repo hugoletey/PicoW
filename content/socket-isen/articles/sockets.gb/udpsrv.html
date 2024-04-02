@@ -1,0 +1,152 @@
+<h2>Using server-side sockets in datagram mode<br/></h2>
+<h3>In C language:</h3>
+<p>After creating the socket, you will have to indicate the port on which you will listen for the arrival of client datagrams.</p>
+To do this, we will use the <strong>bind</strong> function by passing it 3 parameters:</p>
+<ul>
+	<li><strong>fd</strong>: The first parameter is the integer returned from the socket creation system call.</li>
+	<li><strong>addr</strong>: The second is the memory address of a structure of type <strong>sockaddr</strong>. It is a generic structure that is used to encompass several other structures whose content varies according to the value of the first field (named <strong>sa_family</strong> in the structure <strong>sockaddr</strong>).</ li>
+	<li><strong>len</strong>: The third is the size of the structure passed as an argument.</li>
+</ul>
+<p>We will therefore have to declare a variant of the <strong>sockaddr</strong> structure corresponding to <strong>AF_INET</strong>. This is the <strong>struct sockaddr_in</strong> type. We will start by zeroing the content of this structure via the <strong>bzero</strong> function of <strong>string.h</strong>, then we will assign, to the first field named here <strong>sin_family</strong >, the <strong>AF_INET</strong> value.</p>
+<div class="code">
+	<pre class="brush: c;">
+struct sockaddr_in	adr_srv;
+
+bzero(&adr_srv, sizeof(adr_srv));
+adr_srv.sin_family = AF_INET;
+	</pre>
+</div>
+<p>You must then fill in the <strong>sin_port</strong> field in the structure with the number of its TCP port on which the server is listening and possibly the <strong>sin_addr</strong> field with the address IPv4. (You can also leave the IPv4 address zero to listen on all interfaces.)</p>
+<ul>
+	<li>The IPv4 address must be coded on 4 bytes, we will use a function of the <strong>arpa/inet.h</strong> library to convert its writing in the form of a character string (4 numerical values between 0 and 255 separated by periods) in the expected format. This is the <strong>inet_aton</strong> function which takes the string as the first parameter and the memory address of the field in which you want to place the result as the second parameter. The returned value is 0 unless the supplied string is not in IPv4 format.</li>
+	<li>The TCP port is an (unsigned) integer coded on 2 bytes and stored in the sense of most significant byte first and least significant byte afterwards (according to the convention chosen by the TCP/IP protocols). However, depending on the type of CPU, the convention used is not necessarily the same. With some CPU types it will have to cross the two bytes and with other CPU types it will not. To facilitate the process without asking questions, the <strong>arpa/inet.h</strong> library provides the <strong>htons()</strong> function which converts the unsigned short integer passed as a parameter from the host to network byte order and return the result.</li>
+</ul>
+<div class="code">
+	<pre class="brush: c;">
+inet_aton("127.0.0.1", &adr_srv.sin_addr);
+adr_srv.sin_port = htons(7);
+	</pre>
+</div>
+<p>Having thus specified the address 127.0.0.1 and the port 7, all that remains is to call the function <strong>bind</strong>.</p>
+<div class="code">
+	<pre class="brush: c;">
+bind(fd_srv, (struct sockaddr *) &adr_srv, sizeof(adr_srv));
+	</pre>
+</div>
+<p>You must then wait, in a <strong>while</strong> loop, for the arrival of a datagram via the <strong>recvfrom</strong> function which requires 6 parameters:</p>
+<ul>
+	<li><strong>fd</strong>: The first parameter is the integer returned from the socket creation system call.</li>
+	<li><strong>buffer</strong>: The second parameter is the memory address of the buffer in which the received message will be placed.</li>
+	<li><strong>len</strong>: The third parameter is an integer indicating the maximum number of bytes to receive. </li>
+	<li><strong>flags</strong>: The fourth parameter is a combination of flags defined by the following constants.</li>
+	<ul>
+		<li><strong>MSG_WAITALL</strong>: This indicates that the operation will block until a datagram has been completely received.</li>
+		<li><strong>MSG_DONTWAIT</strong>: This requires the operation to be non-blocking.</li>
+	</ul>
+	<li><strong>addr</strong>: The fifth parameter is the address in memory of a structure of type <strong>sockaddr</strong> which will be filled with the IP address and the UDP port of the client having sent the datagram. If we pass a NULL address then the information is not filled.</li>
+	<li><strong>addr_len</strong>: The sixth parameter is the address in memory of a <strong>socklen_t</strong> type variable initialized with the maximum size of the structure passed as the fifth parameter and whose value will be modified to take into account the effective size of the address received.</li>
+</ul>
+<p>The function returns the number of bytes received in the buffer.</p>
+<div class="code">
+	<pre class="brush: c;">
+struct sockaddr_in adr_cli;
+socklen_t adr_cli_len;
+
+adr_cli_len = sizeof(adr_cli);
+n = recvfrom(fd_srv, &buffer, sizeof(buffer), MSG_WAITALL, (struct sockaddr *) &adr_cli, &adr_cli_len);
+	</pre>
+</div>
+<h4>Example:</h4>
+<div class="code">
+	<pre class="brush: c;">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#include &lt;sys/types.h&gt;
+#include &lt;netdb.h&gt;
+#include &lt;sys/socket.h&gt;
+
+#include &lt;string.h&gt;		// for the function bzero
+#include &lt;arpa/inet.h&gt;	// for the function inet_addr
+
+int main()
+{
+	int fd_srv;
+	struct sockaddr_in adr_srv, adr_cli;
+	socklen_t adr_cli_len;
+	int err;
+
+	int n;
+	char buffer[1024];
+
+	fd_srv = socket (AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+	if (fd_srv<0) {
+		printf("Socket creation error!\n");
+		exit(1);
+	}
+
+	bzero(&addr, sizeof(adr_srv));
+	addr.sin_family = AF_INET;
+	err = inet_aton("127.0.0.1", &adr_srv.sin_addr);
+	if (err == 0) {
+		printf("Invalid IPv4 address!\n");
+		exit(1);
+	}
+	addr.sin_port = htons(8080);
+	err = bind(fd_srv, (struct sockaddr *) &adr_srv, sizeof(adr_srv));
+	if (err != 0) {
+		printf("Server port access error!\n");
+		exit(1);
+	}
+
+	while(1) {
+		adr_cli_len = sizeof(adr_cli);
+		n = recvfrom(fd_srv, &buffer, sizeof(buffer), MSG_WAITALL, (struct sockaddr *) &adr_cli, &adr_cli_len);
+		printf("Message of size %d bytes received from %s:%d", n, inet_ntoa(adr_cli.sin_addr), ntohs(adr_cli.sin_port));
+	}
+	return 0;
+}
+	</pre>
+</div>
+<h3>PHP and Python:</h3>
+<p>In languages like <a href="https://www.php.net/manual/en/book.sockets.php">PHP</a> or <a href="https://docs.python.org/3/library/socket.html">Python</a>, there are libraries interfacing with system functions.</p>
+<h4>PHP</h4>
+<p>The example code written in C becomes in PHP:</p>
+<div class="code">
+	<pre class="brush: php;">
+$sock_srv = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+if ($sock_srv== false) die("Socket creation error!\n");
+$err = socket_bind($sock_srv, '127.0.0.1', 8080);
+if ($err == false) die("Server port access error!\n");
+echo "Server launched!\n";
+while (true) {
+	$from = '';
+	$port = 0;
+	socket_recvfrom($sock_srv, $buf, 1024, MSG_WAITALL, $from, $port);
+	echo "message of size ",strlen($buf)," bytes received from ",$from,":",$port,"\n";
+}
+	</pre>
+</div>
+<h4>Python</h4>
+<p>The example code written in C becomes in Python:</p>
+<div class="code">
+	<pre class="brush: python;">
+import socket
+
+try:
+	sock_srv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	sock_srv.bind(('127.0.0.1', 8080))
+except socket.error:
+	print("Server launch error!")
+	exit()
+print("Server launched!")
+while True :
+	try :
+		buffer, adresse = sock_srv.recvfrom(1024)
+		ip, port = adresse
+		print("message of size",len(buffer),"bytes received from",ip+":"+str(port))
+	except socket.error :
+		print("Error reading a datagram!")
+		exit()
+	</pre>
+</div>		

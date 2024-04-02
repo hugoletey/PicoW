@@ -1,0 +1,34 @@
+<h2>Le logiciel Wireshark<br/></h2>
+<p>Ce logiciel va nous permettre d'examiner le flux de données échangées sur un canal de communication entre en client et un serveur grâce à la capture des paquets circulant sur le réseau physique entre les deux entités.</p>
+<p><strong>Remarque</strong> : <em>Bien que Wireshark soit capable aussi bien de faire la capture et l'analyse, nous allons, sur le serveur Unix utilisé en Travaux Pratiques, utiliser un second outil afin de faire la capture. En effet Wireshark étant un logiciel graphique et notre serveur Unix ne proposant qu'une interface ligne de commande, Wireshark ne peut y être installé. Ce second outil est</em> «&nbsp;<strong>tcpdump</strong>&nbsp;»<em>. Il va nous permettre de sauvegarder la capture dans un fichier que l'on transfèrera ensuite sur notre ordinateur (Windows ou MAC) pour l'analyser avec Wireshark.</em></p>
+<h3>Capture via tcpdump.</h3>
+<p>«&nbsp;<strong>tcpdump</strong>&nbsp;» est une commande qui a besoin des droits "root" (sous Unix) pour pouvoir espionner les interfaces réseaux. Depuis un utilisateur autre que "root", il convient donc de préfixer la commande par «&nbsp;<strong>sudo</strong>&nbsp;» (et d'obtenir, de la part de l'administrateur, le droit d'utiliser ainsi cette commande, ce qui est déjà le cas sur le serveur Unix de Travaux Pratiques de Junia).</p>
+<p>Les arguments courants de la commande sont : </p>
+<ul>
+	<li>«&nbsp;<strong>-w fichier</strong>&nbsp;» où <em>fichier</em> est le nom du fichier sous lequel la capture doit être effectuée. Cet argument est obligatoire pour notre cas d'utilisation.</li>
+	<li>«&nbsp;<strong>-i interface</strong>&nbsp;» où <em>interface</em> est le nom de l'interface que l'on souhaite espionner.</li>
+	<li>une expression de filtrage placée entre quote peut également être ajoutée à la fin de la commande. Voici ci-dessous quelques exemples d'expressions pouvant éventuellement être combinées via les opérateurs «&nbsp;<strong>and</strong>&nbsp;» et «&nbsp;<strong>or</strong>&nbsp;» :</li> 
+	<ul>
+		<li>«&nbsp;<strong>host ip</strong>&nbsp;» où <em>ip</em> est l'adresse ip qui doit être en adresse source ou destinatrice dans les trames capturées.</li>
+		<li>«&nbsp;<strong>port numero</strong>&nbsp;» où <em>numero</em> est le numéro de port source ou destination (tcp ou udp) dans les trames capturées.</li>
+	</ul>
+</ul>
+<p>Les arguments suivants peuvent être ajoutés afin de limiter la capture :
+<ul>
+	<li>«&nbsp;<strong>-c nombre</strong>&nbsp;» où <em>nombre</em> est le nombre de trames maximum que l'on souhaite capturer avant de clore la commande.</li>
+	<li>«&nbsp;<strong>-G temps</strong>&nbsp;» où <em>temps</em> est le temps maximum exprimé en seconde pendant lequel on souhaite capturer des trames avant de clore la commande.</li>
+</ul>
+<p>Pour capturer (et inscrire dans le fichier capture.pcap) les communications passant sur l'interface loopback (nommée «&nbsp;<strong>lo</strong>&nbsp;»), on utilisera la commande suivante :</p>
+<div class="code"><pre class="brush: bash;">sudo tcpdump -i lo -w capture.pcap</pre></div>
+<p>Pour capturer (et inscrire dans le fichier capture.pcap) les communications avec le port 2000 de l'adresse IP 10.34.161.21, on utilisera la commande suivante :</p>
+<div class="code"><pre class="brush: bash;">sudo tcpdump -w capture.pcap 'host 10.34.161.21 and port 2000'</pre></div>
+<p></p>
+
+<h3>Transfert via scp.</h3>
+<p>Pour transférer depuis le serveur d'adresse IP «&nbsp;<strong>10.34.161.21</strong>&nbsp;» le fichier «&nbsp;<strong>capture.pcap</strong>&nbsp;» se trouvant dans le répertoire «&nbsp;<strong>/home/isenXX</strong>&nbsp;», en utilisant les droit d'accès du l'utilisateur «&nbsp;<strong>isenXX</strong>&nbsp;», vers le répertoire courant de notre machine, on utilisera la commande suivante dans :</p>
+<div class="code"><pre class="brush: bash;">scp isenXX@10.34.161.21:/home/isenXX/capture.pcap .</pre></div>
+<h3>Analyse avec Wireshark.</h3>
+<p>Après avoir chargé dans Wirshark, le fichier de capture à analyser, on sélectionne un paquet correspondant au canal TCP que l'on souhaite espionner et, via le menu contextuel, on sélectionne l'item "Flux TCP".</p>
+<center><img src="img/wireshark1-fr.png"/></center>
+<p>On obtient alors la séquence complète du dialogue entre le client et le serveur avec l'écriture rouge pour le contenu envoyé par le client et en bleu celui envoyé par le serveur.</p>
+<center><img src="img/wireshark2-fr.png"/></center>

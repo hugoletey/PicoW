@@ -1,0 +1,140 @@
+<h2>Dialogue via les sockets créées<br/></h2>
+<h3>En langage C :</h3>
+<p>Une fois la connexion établie entre le client et le serveur, on dispose d'un canal de communication bidirectionnel identifiable par les adresses IP et port TCP de chacune de ses extrémités. De chaque côté, on pourra écrire ou lire dans sa socket via les fonctions <strong>write</strong> et <strong>read</strong> de la bibliothèque <strong>unistd.h</strong> (comme on le ferait pour un simple fichier).</p>
+<h4>Ecriture</h4>
+<p>La fonction <strong>write</strong> prend 3 paramètres :</p>
+<ul>
+	<li><strong>fd</strong> : Le premier paramètre est l'entier identifiant la socket.</li>
+	<li><strong>buf</strong> : Le second paramètre est l'adresse en mémoire d'un buffer contenant le message à envoyer dans le canal de communication.</li>
+	<li><strong>count</strong> : Le troisième paramètre est un entier indiquant le nombre de caractères à envoyer depuis le buffer vers le canal de communication.</li>
+</ul>
+<p>La fonction retourne un entier :</p>
+<ul>
+	<li>s'il est strictement positif, il correspond au nombre de caractères écrits dans le canal. Dans certain cas, il peut être inférieur à la valeur fournie par le troisième paramètre.</li>
+	<li>S'il vaut 0, il indique qu'il n'y a plus rien à lire car on a fermé l'autre extrémité du canal de communication.</li>
+	<li>S'il est strictement négatif, cela correspond à un code d'erreur dont certaines constantes sont les suivantes :</li>
+	<ul>
+		<li><strong>EBADF</strong> : indique une erreur sur le premier paramètre qui n'est pas un descripteur de fichier valide.</li>
+		<li><strong>EFAULT</strong> : indique une erreur sur le second paramètre car l'adresse en mémoire qui a été fournie est hors de l'espace du processus.</li>
+		<li><strong>EINTR</strong> : l'arrivée d'un signal a interrompu l'écriture avant que des données soient écrites.</li>
+	</ul>
+</ul>
+<h4>Lecture</h4>
+<p>La fonction <strong>read</strong> est une fonction bloquante (c'est à dire qu'elle attend jusqu'à ce qu'il y ait quelque chose à lire) qui prend 3 paramètres :</p>
+<ul>
+	<li><strong>fd</strong> : Le premier paramètre est l'entier identifiant la socket.</li>
+	<li><strong>buf</strong> : Le second paramètre est l'adresse en mémoire d'un buffer qui recevra le message lu depuis le socket.</li>
+	<li><strong>count</strong> : Le troisième paramètre est un entier (strictement positif) indiquant le nombre maximum de caractères que l'on peut placer dans le buffer passé en second paramètre.</li>
+</ul>
+<p>La fonction retourne un entier :</p>
+<ul>
+	<li>s'il est strictement positif, il correspond au nombre de caractères lus et placés dans le buffer.</li>
+	<li>S'il vaut 0, il indique qu'il n'y a plus rien à lire car on a fermé l'autre extrémité du canal de communication.</li>
+	<li>S'il est strictement négatif, cela correspond à un code d'erreur dont certaines constantes sont les suivantes :</li>
+	<ul>
+		<li><strong>EBADF</strong> : indique une erreur sur le premier paramètre qui n'est pas un descripteur de fichier valide.</li>
+		<li><strong>EFAULT</strong> : indique une erreur sur le second paramètre car l'adresse en mémoire qui a été fournie est hors de l'espace du processus.</li>
+		<li><strong>EINTR</strong> : l'arrivée d'un signal a interrompu la lecture avant que des données soient lues.</li>
+	</ul>
+</ul>
+<h4>Fermeture</h4>
+<p>La fonction <strong>shutdown</strong> prend 2 paramètres :</p>
+<ul>
+	<li><strong>fd</strong> : Le premier paramètre est l'entier identifiant la socket.</li>
+	<li></li>
+</ul>
+<p>La fonction <strong>close</strong> prend 1 paramètre :</p>
+<ul>
+	<li><strong>fd</strong> : Ce paramètre est l'entier identifiant la socket.</li>
+</ul>
+<h4>Exemple :</h4>
+<div class="code">
+	<pre class="brush: c;">
+void communication_client(int fd) {
+	char buf[256];
+	while ((len=read(fd,&buf,sizeof(buf)-1)) != 0) {
+		if (len &gt; 0) {
+			buf[len]=0x00;
+			printf("%s\n",buf);
+		} else if (len != EINTR) {
+			printf("Erreur lecture socket !\n");
+			exit(1);
+		}
+	}
+	close(fd);
+}
+	</pre>
+</div>
+<br/>
+<div class="code">
+	<pre class="brush: c;">
+void communication_serveur(int fd) {
+	char msg[] = "Bonjour client.\nJe suis le serveur !\n";
+	int i, j, l, m=5;
+
+	l=strlen(msg);
+	for (i = 0; i &lt; l ; i+=j ){
+		j=l-i;
+		j=write(fd, &msg[i], (j&lt;m)?j:m);
+		if (j &lt; 0 &amp;&amp; j != EINTR) {
+			printf("Erreur écriture socket !\n");
+			exit(1);
+		}
+	}
+}
+	</pre>
+</div>
+<h3>PHP et Python :</h3>
+<p>Dans les langages comme <a href="https://www.php.net/manual/fr/book.sockets.php">PHP</a> ou <a href="https://docs.python.org/fr/3/library/socket.html">Python</a>, il existe des bibliothèques faisant l'interface avec les fonctions systèmes.</p>
+<h4>PHP</h4>
+<p>Le code de l'exemple écrit en C devient en PHP :</p>
+<div class="code">
+	<pre class="brush: php;">
+function communication_client($socket) {
+	$m=5;
+	while (true) {
+		$buf = socket_read($socket,$m);
+		if ($buf == '') break;
+		if ($buf == false) {
+			echo "Erreur lecture socket !\n";
+			exit(1);
+		}
+		echo $buf;
+	}
+}
+	</pre>
+</div>
+<br />
+<div class="code">
+	<pre class="brush: php;">
+function communication_serveur($socket) {
+	$msg="Bonjour client.\nJe suis le serveur !\n";
+	socket_write($socket,$msg);
+}
+	</pre>
+</div>
+<h4>Python</h4>
+<p>Le code de l'exemple écrit en C devient en Python :</p>
+<div class="code">
+	<pre class="brush: python;">
+def communication_client(sock) :
+	try :
+		m=5
+		while (True) :
+			buf=sock.recv(m)
+			if (buf =='') :
+				break
+			print(buf,end='')
+	except socket.error :
+		print("Erreur sur l'acceptation de connexion entrante !")
+		exit()
+	</pre>
+</div>
+<br />
+<div class="code">
+	<pre class="brush: python;">
+def communication_serveur(sock) :
+	msg="Bonjour client.\nJe suis le serveur !\n"
+	sock.send(msg)
+	</pre>
+</div>
