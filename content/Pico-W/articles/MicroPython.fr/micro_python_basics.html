@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Bases de MicroPython</title>
+</head>
+<body>
+<h1>Les Bases de MicroPython</h1>
+
+<h2>Syntaxe et Structure de MicroPython :</h2>
+<p>La syntaxe et la structure de MicroPython sont assez similaires à Python, ce qui facilite la transition des développeurs Python vers MicroPython. Voici quelques points clés :</p>
+<ol>
+  <li><strong>Indentation :</strong> Comme Python, MicroPython utilise l'indentation pour délimiter les blocs de code. Une indentation cohérente est cruciale pour le bon fonctionnement du code.</li>
+  <li><strong>Commentaires :</strong> Les commentaires en MicroPython sont indiqués par le symbole '#', similaire à Python.</li>
+  <li><strong>Sensibilité à la Casse :</strong> MicroPython est sensible à la casse. Les noms de variables et de fonctions doivent être référencés avec la bonne capitalisation.</li>
+</ol>
+
+<h2>Travailler avec le REPL (Boucle Lire-Évaluer-Afficher) :</h2>
+<p>Le REPL (Read-Eval-Print Loop) est un environnement de shell interactif fourni par MicroPython qui vous permet d'exécuter des commandes et d'évaluer des expressions directement. Voici comment cela fonctionne :</p>
+<ol>
+  <li><strong>Accès au REPL :</strong> Après avoir connecté votre périphérique compatible MicroPython (tel que le Raspberry Pi Pico) à votre ordinateur, vous pouvez accéder au REPL via une connexion série en utilisant un logiciel de terminal comme PuTTY (Windows) ou screen (macOS/Linux).</li>
+  <li><strong>Interactivité :</strong> Une fois dans le REPL, vous pouvez saisir des commandes Python/MicroPython et voir leur sortie immédiatement. Cela le rend idéal pour tester de petits extraits de code, expérimenter avec des périphériques matériels et déboguer.</li>
+  <li><strong>Sortie du REPL :</strong> Pour quitter le REPL, vous pouvez généralement utiliser une combinaison de touches spécifique (par exemple, Ctrl + D) ou une commande (par exemple, `Ctrl + ]` dans PuTTY) en fonction du logiciel de terminal que vous utilisez.</li>
+</ol>
+
+<h2>Variables, Types de Données et Opérations de Base :</h2>
+<p>MicroPython prend en charge divers types de données et opérations similaires à Python :</p>
+<ol>
+  <li><strong>Variables :</strong> Les variables sont utilisées pour stocker des données. Elles peuvent contenir différents types de données, notamment des entiers, des flottants, des chaînes de caractères, des listes, des tuples, des dictionnaires, etc.</li>
+  <li><strong>Types de Données :</strong>
+    <ul>
+      <li><strong>Entiers :</strong> Nombres entiers sans points décimaux.</li>
+      <li><strong>Flottants :</strong> Nombres avec des points décimaux.</li>
+      <li><strong>Chaînes de Caractères :</strong> Séquences de caractères comprises entre des guillemets simples ou doubles.</li>
+      <li><strong>Listes :</strong> Collections ordonnées d'éléments, qui peuvent être de différents types de données.</li>
+      <li><strong>Tuples :</strong> Collections ordonnées immuables d'éléments.</li>
+      <li><strong>Dictionnaires :</strong> Collections non ordonnées de paires clé-valeur.</li>
+    </ul>
+  </li>
+  <li><strong>Opérations de Base :</strong>
+    <ul>
+      <li><strong>Opérations Arithmétiques :</strong> Addition (+), Soustraction (-), Multiplication (*), Division (/), Exponentiation (**), Modulo (%), Division Entière (//).</li>
+      <li><strong>Opérateurs de Comparaison :</strong> Égal à (==), Différent de (!=), Supérieur à (>), Inférieur à (<), Supérieur ou égal à (>=), Inférieur ou égal à (<=).</li>
+      <li><strong>Opérateurs Logiques :</strong> ET (and), OU (or), NON (not).</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Voici un exemple d'utilisation de MicroPython pour effectuer des opérations de base :</p>
+<pre>
+<code># Variables et opérations de base
+x = 5
+y = 3
+
+# Opérations arithmétiques
+resultat_addition = x + y
+resultat_soustraction = x - y
+resultat_multiplication = x * y
+resultat_division = x / y
+resultat_modulo = x % y
+
+# Opérations de comparaison
+resultat_supérieur_à = x > y
+resultat_inférieur_à = x < y
+
+# Opérations logiques
+resultat_et_logique = (x > 0) and (y < 0)
+resultat_ou_logique = (x > 0) or (y < 0)
+
+print(resultat_addition, resultat_soustraction, resultat_multiplication, resultat_division, resultat_modulo)
+print(resultat_supérieur_à, resultat_inférieur_à)
+print(resultat_et_logique, resultat_ou_logique)
+</code>
+</pre>
+
+<p>La compréhension de ces bases vous fournira une base solide pour travailler avec MicroPython et développer des applications pour les systèmes embarqués et les microcontrôleurs.</p>
+</body>
+</html>

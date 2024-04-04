@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réseautage et Communication</title>
+</head>
+<body>
+<h1>Réseautage et Communication</h1>
+
+<h2>Connexion du Pico W aux Réseaux Wi-Fi :</h2>
+<ol>
+  <li><strong>Configuration Wi-Fi</strong>:
+    <ul>
+      <li>Le Raspberry Pi Pico W dispose d'une connectivité Wi-Fi intégrée, lui permettant de se connecter à des réseaux sans fil.</li>
+      <li>Vous pouvez configurer les paramètres Wi-Fi tels que le SSID et le mot de passe en utilisant le module <code>network.WLAN</code> de MicroPython.</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>import network
+
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect('SSID', 'mot_de_passe')
+</code></pre>
+      </li>
+    </ul>
+  </li>
+  
+  <li><strong>Gestion des Événements Wi-Fi</strong>:
+    <ul>
+      <li>Vous pouvez enregistrer des gestionnaires d'événements pour surveiller l'état de la connexion Wi-Fi et effectuer des actions en conséquence.</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>def rappel_connexion_wifi():
+    print("Connecté au Wi-Fi !")
+    # Effectuer des actions suite à une connexion réussie
+
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect('SSID', 'mot_de_passe')
+wlan.event_handler(callback=rappel_connexion_wifi)
+</code></pre>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Envoi et Réception de Données via le Protocole MQTT :</h2>
+<ol>
+  <li><strong>Protocole MQTT</strong>:
+    <ul>
+      <li>MQTT (Message Queuing Telemetry Transport) est un protocole de messagerie léger conçu pour les applications IoT.</li>
+      <li>Il fonctionne au-dessus de TCP/IP, ce qui le rend adapté aux réseaux peu fiables.</li>
+      <li>MicroPython prend en charge MQTT via des bibliothèques comme <code>umqtt.simple</code>.</li>
+    </ul>
+  </li>
+  
+  <li><strong>Publication de Données</strong>:
+    <ul>
+      <li>Pour publier des données via MQTT, vous devez vous connecter à un courtier MQTT et publier des messages sur des sujets spécifiques.</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>from umqtt.simple import MQTTClient
+
+client = MQTTClient('pico_w', 'courtier_mqtt', user='nom_utilisateur', password='mot_de_passe')
+client.connect()
+client.publish(b'sujet', b'bonjour')
+client.disconnect()
+</code></pre>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Abonnement aux Sujets</strong>:
+    <ul>
+      <li>Vous pouvez vous abonner à des sujets MQTT pour recevoir des messages d'autres appareils ou clients.</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>from umqtt.simple import MQTTClient
+
+def rappel_mqtt(topic, msg):
+    print("Message reçu :", msg)
+
+client = MQTTClient('pico_w', 'courtier_mqtt', user='nom_utilisateur', password='mot_de_passe')
+client.connect()
+client.set_callback(rappel_mqtt)
+client.subscribe(b'sujet')
+client.wait_msg()
+client.disconnect()
+</code></pre>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Construction de Serveurs et Clients Web Simples :</h2>
+<ol>
+  <li><strong>Serveur Web</strong>:
+    <ul>
+      <li>MicroPython vous permet de créer des serveurs web basiques qui répondent aux requêtes HTTP.</li>
+      <li>Vous pouvez utiliser des bibliothèques comme <code>usocket</code> et <code>ure</code> pour gérer les requêtes HTTP et générer des réponses.</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>import usocket
+
+def gerer_client(client_socket):
+    requete = client_socket.recv(1024)
+    reponse = b"HTTP/1.1 200 OK\n\nBonjour, monde !"
+    client_socket.send(reponse)
+    client_socket.close()
+
+serveur_socket = usocket.socket(usocket.AF_INET, usocket.SOCK_STREAM)
+serveur_socket.bind(('0.0.0.0', 80))
+serveur_socket.listen(5)
+
+while True:
+    client_socket, _ = serveur_socket.accept()
+    gerer_client(client_socket)
+</code></pre>
+      </li>
+    </ul>
+  </li>
+  
+  <li><strong>Client Web</strong>:
+    <ul>
+      <li>MicroPython vous permet également de créer des clients HTTP pour envoyer des requêtes à des serveurs web.</li>
+      <li>Vous pouvez utiliser des bibliothèques comme <code>urequests</code> pour simplifier les requêtes HTTP.</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>import urequests
+
+reponse = urequests.get('http://exemple.com')
+print(reponse.text)
+reponse.close()
+</code></pre>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p>En tirant parti des capacités de réseautage et de communication de MicroPython, vous pouvez permettre à votre Raspberry Pi Pico W d'interagir avec Internet, d'échanger des données avec d'autres appareils et de développer des applications IoT avec facilité.</p>
+</body>
+</html>

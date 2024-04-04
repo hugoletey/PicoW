@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configuration de l'Environnement de Développement pour Pico W avec MicroPython</title>
+</head>
+<body>
+<h1>Configuration de l'Environnement de Développement pour Pico W avec MicroPython</h1>
+
+<h2>Configuration de l'Environnement de Développement pour Pico W :</h2>
+
+<ol>
+  <li><strong>Exigences Matérielles</strong>:
+    <ul>
+      <li>Carte Raspberry Pi Pico W</li>
+      <li>Câble USB Type-C (pour connecter le Pico W à votre ordinateur)</li>
+      <li>Ordinateur avec un port USB disponible</li>
+      <li>Connexion Internet pour télécharger les logiciels et micrologiciels nécessaires</li>
+    </ul>
+  </li>
+  
+  <li><strong>Installation des Logiciels Requis</strong>:
+    <ul>
+      <li>Vous devrez installer Python sur votre ordinateur s'il n'est pas déjà installé. Visitez le site Web de Python (<a href="https://www.python.org/">https://www.python.org/</a>) pour télécharger et installer la dernière version adaptée à votre système d'exploitation.</li>
+      <li>Installez Thonny IDE : Thonny est un IDE Python qui facilite l'interaction avec les cartes MicroPython comme le Raspberry Pi Pico. Téléchargez et installez Thonny depuis son site Web officiel (<a href="https://thonny.org/">https://thonny.org/</a>).</li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Installation du Micrologiciel MicroPython sur Pico W :</h2>
+
+<ol>
+  <li><strong>Téléchargement du Micrologiciel MicroPython</strong>:
+    <ul>
+      <li>Visitez le site Web officiel de MicroPython (<a href="https://micropython.org/download/rp2-pico/">https://micropython.org/download/rp2-pico/</a>) pour télécharger le micrologiciel MicroPython pour le Raspberry Pi Pico.</li>
+      <li>Choisissez la version du micrologiciel appropriée pour votre carte Pico W.</li>
+    </ul>
+  </li>
+  
+  <li><strong>Flashing du Micrologiciel MicroPython</strong>:
+    <ul>
+      <li>Connectez votre Raspberry Pi Pico W à votre ordinateur à l'aide du câble USB Type-C.</li>
+      <li>Ouvrez Thonny IDE.</li>
+      <li>Dans Thonny, sélectionnez "Exécuter" > "Sélectionner l'Interpréteur" > "MicroPython (Raspberry Pi Pico)".</li>
+      <li>Cliquez sur le bouton "Ouvrir".</li>
+      <li>Une fois l'interpréteur MicroPython sélectionné, Thonny vous demandera d'installer ou de mettre à jour le micrologiciel. Suivez les instructions à l'écran pour flasher le micrologiciel MicroPython sur votre carte Pico W.</li>
+      <li>Une fois le micrologiciel flashé avec succès, votre carte Pico W exécute maintenant MicroPython.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Connexion de Pico W à Votre Ordinateur :</h2>
+
+<ol>
+  <li><strong>Connexion Physique</strong>:
+    <ul>
+      <li>Branchez une extrémité du câble USB Type-C dans le port USB de votre carte Raspberry Pi Pico W.</li>
+      <li>Branchez l'autre extrémité du câble USB dans un port USB disponible sur votre ordinateur.</li>
+    </ul>
+  </li>
+  
+  <li><strong>Accès à Pico W via Thonny</strong>:
+    <ul>
+      <li>Dans Thonny IDE, assurez-vous que l'interpréteur est défini sur MicroPython (Raspberry Pi Pico).</li>
+      <li>Cliquez sur le bouton "Ouvrir".</li>
+      <li>Thonny établira automatiquement une connexion avec votre carte Pico W.</li>
+    </ul>
+  </li>
+  
+  <li><strong>Test de la Connexion</strong>:
+    <ul>
+      <li>Pour tester la connexion, vous pouvez écrire un script MicroPython simple, tel que faire clignoter une LED connectée à l'une des broches GPIO.</li>
+      <li>Écrivez le script dans l'éditeur Thonny et cliquez sur le bouton "Exécuter" pour l'exécuter.</li>
+      <li>Si tout est configuré correctement, vous devriez voir la LED sur votre carte Pico W clignoter.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Une fois que vous avez terminé ces étapes, vous êtes prêt à commencer à développer avec MicroPython sur votre carte Raspberry Pi Pico W. Vous pouvez explorer différentes bibliothèques MicroPython et développer des applications adaptées à vos besoins.</p>
+</body>
+</html>

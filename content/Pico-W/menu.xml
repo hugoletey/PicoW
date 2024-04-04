@@ -21,53 +21,57 @@
 			<P lang="fr">Micropython</P>
 			<P lang="gb">Micropython</P>
 		</TITLE>
-		<ITEM file="socket.html">
-			<P lang="fr">Création de sockets</P>
-			<P lang="gb">Creation of sockets</P>
+		<ITEM file="get_started.html">
+			<P lang="fr">Paramètres</P>
+			<P lang="gb">Settings</P>
 		</ITEM>
 		<RUBRIQUE>
-			<P lang="fr">Connectées</P>
-			<P lang="gb">Connected</P>
+			<P lang="fr">Cours</P>
+			<P lang="gb">Course</P>
 		</RUBRIQUE>
-		<ITEM file="tcpcli.html">
-			<P lang="fr">La socket client</P>
-			<P lang="gb">The client socket</P>
+		<ITEM file="micro_python_basics.html">
+			<P lang="fr">Bases</P>
+			<P lang="gb">Basics</P>
 		</ITEM>
-		<ITEM file="tcpsrv.html">
-			<P lang="fr">La socket serveur</P>
-			<P lang="gb">The server socket</P>
+		<ITEM file="gpio_programming.html">
+			<P lang="fr">programmation des GPIO</P>
+			<P lang="gb">GPIO programming</P>
 		</ITEM>
-		<ITEM file="tcpdia.html">
-			<P lang="fr">Utilisation de la socket</P>
-			<P lang="gb">Socket usage</P>
+		<ITEM file="I2C_SPI_COMM.html">
+			<P lang="fr">Communication I2C et SPI</P>
+			<P lang="gb">I2C and SPI Communication</P>
+		</ITEM>
+		<ITEM file="analog_inp_out.html">
+			<P lang="fr">Entrée et Sortie analogiques</P>
+			<P lang="gb">Analog input and output</P>
+		</ITEM>
+		<ITEM file="net_comm.html">
+			<P lang="fr">Networking et Communication</P>
+			<P lang="gb">Networking and Communication</P>
 		</ITEM>
 		<RUBRIQUE>
-			<P lang="fr">TP n°1</P>
-			<P lang="gb">LAB n°1</P>
+			<P lang="fr">TP</P>
+			<P lang="gb">LAB</P>
 		</RUBRIQUE>
-		<ITEM file="lab1.html">
-			<P lang="fr">Sujet</P>
-			<P lang="gb">Subject</P>
+		<ITEM file="real_world.html">
+			<P lang="fr">Projet</P>
+			<P lang="gb">Project</P>
 		</ITEM>
-		<ITEM file="cor1.html">
+		<ITEM file="real_world.html">
 			<P lang="fr">Corrigé</P>
 			<P lang="gb">Correction</P>
 		</ITEM>
+		<ITEM file="adv.html">
+			<P lang="fr">Avancée</P>
+			<P lang="gb">Advanced</P>
+		</ITEM>
 		<RUBRIQUE>
-			<P lang="fr">Datagrammes</P>
-			<P lang="gb">Datagrams</P>
+			<P lang="fr">Ressources</P>
+			<P lang="gb">Resources</P>
 		</RUBRIQUE>
-		<ITEM file="udpcli.html">
-			<P lang="fr">La socket client</P>
-			<P lang="gb">The client socket</P>
-		</ITEM>
-		<ITEM file="udpsrv.html">
-			<P lang="fr">La socket serveur</P>
-			<P lang="gb">The server socket</P>
-		</ITEM>
-		<ITEM file="udpdia.html">
-			<P lang="fr">Suite du dialogue</P>
-			<P lang="gb">Continuation of the dialogue</P>
+		<ITEM file="res_for_learn.html">
+			<P lang="fr">Ressources</P>
+			<P lang="gb">Resources</P>
 		</ITEM>
 	</MENU>
 

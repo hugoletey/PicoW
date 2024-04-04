@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Setting up Development Environment for Pico W with MicroPython</title>
+</head>
+<body>
+<h1>Setting up Development Environment for Pico W with MicroPython</h1>
+
+<h2>Setting up the Development Environment for Pico W:</h2>
+
+<ol>
+  <li><strong>Hardware Requirements</strong>:
+    <ul>
+      <li>Raspberry Pi Pico W board</li>
+      <li>USB Type-C cable (for connecting Pico W to your computer)</li>
+      <li>Computer with an available USB port</li>
+      <li>Internet connection for downloading necessary software and firmware</li>
+    </ul>
+  </li>
+  
+  <li><strong>Install Required Software</strong>:
+    <ul>
+      <li>You'll need to install Python on your computer if it's not already installed. Visit the Python website (<a href="https://www.python.org/">https://www.python.org/</a>) to download and install the latest version suitable for your operating system.</li>
+      <li>Install Thonny IDE: Thonny is a Python IDE that makes it easy to interact with MicroPython boards like the Raspberry Pi Pico. Download and install Thonny from its official website (<a href="https://thonny.org/">https://thonny.org/</a>).</li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Installing MicroPython Firmware on Pico W:</h2>
+
+<ol>
+  <li><strong>Download MicroPython Firmware</strong>:
+    <ul>
+      <li>Visit the official MicroPython website (<a href="https://micropython.org/download/rp2-pico/">https://micropython.org/download/rp2-pico/</a>) to download the MicroPython firmware for the Raspberry Pi Pico.</li>
+      <li>Choose the appropriate firmware version for your Pico W board.</li>
+    </ul>
+  </li>
+  
+  <li><strong>Flash MicroPython Firmware</strong>:
+    <ul>
+      <li>Connect your Raspberry Pi Pico W to your computer using the USB Type-C cable.</li>
+      <li>Open Thonny IDE.</li>
+      <li>In Thonny, select "Run" > "Select Interpreter" > "MicroPython (Raspberry Pi Pico)".</li>
+      <li>Click on the "Open" button.</li>
+      <li>Once the MicroPython interpreter is selected, Thonny will prompt you to install or update the firmware. Follow the on-screen instructions to flash the MicroPython firmware onto your Pico W board.</li>
+      <li>After the firmware is flashed successfully, your Pico W board is now running MicroPython.</li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Connecting Pico W to Your Computer:</h2>
+
+<ol>
+  <li><strong>Physical Connection</strong>:
+    <ul>
+      <li>Plug one end of the USB Type-C cable into the USB port on your Raspberry Pi Pico W board.</li>
+      <li>Plug the other end of the USB cable into an available USB port on your computer.</li>
+    </ul>
+  </li>
+  
+  <li><strong>Accessing Pico W via Thonny</strong>:
+    <ul>
+      <li>In Thonny IDE, make sure the interpreter is set to MicroPython (Raspberry Pi Pico).</li>
+      <li>Click on the "Open" button.</li>
+      <li>Thonny will establish a connection with your Pico W board automatically.</li>
+    </ul>
+  </li>
+  
+  <li><strong>Testing the Connection</strong>:
+    <ul>
+      <li>To test the connection, you can write a simple MicroPython script, such as blinking an LED connected to one of the GPIO pins.</li>
+      <li>Write the script in the Thonny editor and click on the "Run" button to execute it.</li>
+      <li>If everything is set up correctly, you should see the LED on your Pico W board blinking.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Once you've completed these steps, you're ready to start developing with MicroPython on your Raspberry Pi Pico W board. You can explore various MicroPython libraries and develop applications tailored to your needs.</p>
+</body>
+</html>

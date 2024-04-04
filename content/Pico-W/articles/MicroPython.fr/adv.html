@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sujets Avancés</title>
+</head>
+<body>
+<h1>Sujets Avancés</h1>
+
+<h2>1. Interruptions et Programmation Orientée Événements :</h2>
+<p><strong>Interruptions</strong>:</p>
+<ul>
+  <li>Les interruptions sont des signaux envoyés au processeur pour suspendre temporairement son exécution en cours et gérer un événement ou une condition spécifique.</li>
+  <li>Les microcontrôleurs comme le Raspberry Pi Pico W prennent en charge les interruptions matérielles, ce qui leur permet de répondre à des événements externes tels que les changements de broches GPIO, les événements de minuterie ou les événements de communication.</li>
+  <li>En MicroPython, vous pouvez utiliser le module <code>machine</code> pour attacher des gestionnaires d'interruptions aux broches GPIO ou aux minuteries.</li>
+</ul>
+<p><strong>Exemple (MicroPython) :</strong></p>
+<pre><code>from machine import Pin
+
+def gestionnaire_appui_bouton(broche):
+    print("Bouton pressé !")
+
+broche_bouton = Pin(12, Pin.IN, Pin.PULL_DOWN)
+broche_bouton.irq(trigger=Pin.IRQ_RISING, handler=gestionnaire_appui_bouton)
+</code></pre>
+
+<p><strong>Programmation Orientée Événements</strong>:</p>
+<ul>
+  <li>La programmation orientée événements est un paradigme où le flux du programme est déterminé par des événements tels que les entrées utilisateur, les lectures de capteurs ou les événements réseau.</li>
+  <li>MicroPython prend en charge la programmation orientée événements grâce à la gestion des interruptions et aux boucles d'événements.</li>
+  <li>Vous pouvez structurer votre code MicroPython pour répondre aux événements de manière asynchrone en utilisant des rappels ou des coroutines.</li>
+</ul>
+
+<h2>2. Techniques d'Optimisation de la Consommation Énergétique :</h2>
+<p><strong>Modes de Sommeil</strong>:</p>
+<ul>
+  <li>Les microcontrôleurs proposent souvent différents modes de sommeil pour économiser de l'énergie lorsqu'ils ne traitent pas activement les tâches.</li>
+  <li>MicroPython prend en charge les modes de sommeil via le module <code>machine</code>.</li>
+  <li>Vous pouvez mettre le microcontrôleur en mode de sommeil à faible consommation d'énergie pour réduire la consommation d'énergie pendant les périodes d'inactivité.</li>
+</ul>
+<p><strong>Exemple (MicroPython) :</strong></p>
+<pre><code>import machine
+
+# Mettre le microcontrôleur en mode de sommeil profond pendant 5 secondes
+machine.deepsleep(5000)
+</code></pre>
+
+<p><strong>Gestion de l'Alimentation Périphérique</strong>:</p>
+<ul>
+  <li>Désactivez ou mettez les périphériques périphériques en modes de faible consommation d'énergie lorsqu'ils ne sont pas utilisés pour économiser de l'énergie.</li>
+  <li>Éteignez les broches GPIO ou les périphériques non utilisés pour minimiser la consommation d'énergie.</li>
+</ul>
+
+<p><strong>Algorithmes Optimisés</strong>:</p>
+<ul>
+  <li>Optimisez les algorithmes et le traitement des données pour minimiser l'utilisation du processeur et réduire la consommation d'énergie.</li>
+  <li>Évitez les boucles occupées et utilisez des intervalles de sommeil lorsque cela est possible.</li>
+</ul>
+
+<h2>3. Conseils de Débogage et de Résolution de Problèmes :</h2>
+<p><strong>Sortie Série</strong>:</p>
+<ul>
+  <li>Utilisez la sortie série pour le débogage en imprimant des messages de débogage et des valeurs de variables sur une console série.</li>
+  <li>MicroPython prend en charge l'impression sur la console série en utilisant la fonction <code>print()</code>.</li>
+</ul>
+
+<p><strong>Indicateurs LED</strong>:</p>
+<ul>
+  <li>Utilisez des LEDs ou d'autres indicateurs pour fournir des retours visuels sur l'état du programme ou des événements spécifiques.</li>
+  <li>Activez et désactivez les LEDs en réponse à certaines conditions ou erreurs pour faciliter le débogage.</li>
+</ul>
+
+<p><strong>Gestion des Erreurs</strong>:</p>
+<ul>
+  <li>Mettez en œuvre des mécanismes de gestion d'erreurs robustes pour intercepter et gérer les exceptions de manière élégante.</li>
+  <li>Utilisez des blocs try-except pour capturer et gérer les exceptions susceptibles de se produire pendant l'exécution du programme.</li>
+</ul>
+
+<p><strong>Journalisation</strong>:</p>
+<ul>
+  <li>Mettez en œuvre des mécanismes de journalisation pour enregistrer les événements, les erreurs et les informations de débogage.</li>
+  <li>Journalisez les messages dans un fichier ou transmettez-les via une connexion série pour analyse.</li>
+</ul>
+
+<p><strong>Tests Unitaires</strong>:</p>
+<ul>
+  <li>Rédigez des tests unitaires pour les composants critiques de votre code MicroPython afin de garantir un bon fonctionnement et de détecter les éventuels bogues dès le début du processus de développement.</li>
+  <li>Utilisez des frameworks de test tels que <code>unittest</code> ou <code>pytest</code> adaptés pour MicroPython.</li>
+</ul>
+
+<p>En maîtrisant ces sujets avancés, vous pouvez optimiser les performances, l'efficacité énergétique et la fiabilité de vos applications MicroPython fonctionnant sur Raspberry Pi Pico W, et résoudre efficacement tout problème pouvant survenir lors du développement ou du déploiement.</p>
+</body>
+</html>

@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Networking and Communication</title>
+</head>
+<body>
+<h1>Networking and Communication</h1>
+
+<h2>Connecting Pico W to Wi-Fi Networks:</h2>
+<ol>
+  <li><strong>Wi-Fi Configuration</strong>:
+    <ul>
+      <li>The Raspberry Pi Pico W features built-in Wi-Fi connectivity, allowing it to connect to wireless networks.</li>
+      <li>You can configure Wi-Fi settings such as SSID and password using MicroPython's <code>network.WLAN</code> module.</li>
+      <li>Example (MicroPython):
+        <pre><code>import network
+
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect('SSID', 'password')
+</code></pre>
+      </li>
+    </ul>
+  </li>
+  
+  <li><strong>Handling Wi-Fi Events</strong>:
+    <ul>
+      <li>You can register event handlers to monitor Wi-Fi connection status and perform actions accordingly.</li>
+      <li>Example (MicroPython):
+        <pre><code>def wifi_connected_callback():
+    print("Connected to Wi-Fi!")
+    # Perform actions upon successful connection
+
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect('SSID', 'password')
+wlan.event_handler(callback=wifi_connected_callback)
+</code></pre>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Sending and Receiving Data Over MQTT Protocol:</h2>
+<ol>
+  <li><strong>MQTT Protocol</strong>:
+    <ul>
+      <li>MQTT (Message Queuing Telemetry Transport) is a lightweight messaging protocol designed for IoT applications.</li>
+      <li>It operates on top of TCP/IP, making it suitable for unreliable networks.</li>
+      <li>MicroPython provides MQTT support through libraries like <code>umqtt.simple</code>.</li>
+    </ul>
+  </li>
+  
+  <li><strong>Publishing Data</strong>:
+    <ul>
+      <li>To publish data over MQTT, you need to connect to an MQTT broker and publish messages to specific topics.</li>
+      <li>Example (MicroPython):
+        <pre><code>from umqtt.simple import MQTTClient
+
+client = MQTTClient('pico_w', 'mqtt_broker', user='username', password='password')
+client.connect()
+client.publish(b'topic', b'hello')
+client.disconnect()
+</code></pre>
+      </li>
+    </ul>
+  </li>
+
+  <li><strong>Subscribing to Topics</strong>:
+    <ul>
+      <li>You can subscribe to MQTT topics to receive messages from other devices or clients.</li>
+      <li>Example (MicroPython):
+        <pre><code>from umqtt.simple import MQTTClient
+
+def mqtt_callback(topic, msg):
+    print("Received message:", msg)
+
+client = MQTTClient('pico_w', 'mqtt_broker', user='username', password='password')
+client.connect()
+client.set_callback(mqtt_callback)
+client.subscribe(b'topic')
+client.wait_msg()
+client.disconnect()
+</code></pre>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Building Simple Web Servers and Clients:</h2>
+<ol>
+  <li><strong>Web Server</strong>:
+    <ul>
+      <li>MicroPython enables you to create basic web servers that serve HTTP requests.</li>
+      <li>You can use libraries like <code>usocket</code> and <code>ure</code> for handling HTTP requests and generating responses.</li>
+      <li>Example (MicroPython):
+        <pre><code>import usocket
+
+def handle_client(client_socket):
+    request = client_socket.recv(1024)
+    response = b"HTTP/1.1 200 OK\n\nHello, world!"
+    client_socket.send(response)
+    client_socket.close()
+
+server_socket = usocket.socket(usocket.AF_INET, usocket.SOCK_STREAM)
+server_socket.bind(('0.0.0.0', 80))
+server_socket.listen(5)
+
+while True:
+    client_socket, _ = server_socket.accept()
+    handle_client(client_socket)
+</code></pre>
+      </li>
+    </ul>
+  </li>
+  
+  <li><strong>Web Client</strong>:
+    <ul>
+      <li>MicroPython also allows you to create HTTP clients for making requests to web servers.</li>
+      <li>You can use libraries like <code>urequests</code> to simplify HTTP requests.</li>
+      <li>Example (MicroPython):
+        <pre><code>import urequests
+
+response = urequests.get('http://example.com')
+print(response.text)
+response.close()
+</code></pre>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p>By leveraging networking and communication capabilities in MicroPython, you can enable your Raspberry Pi Pico W to interact with the internet, exchange data with other devices, and build IoT applications with ease.</p>
+</body>
+</html>
+
+

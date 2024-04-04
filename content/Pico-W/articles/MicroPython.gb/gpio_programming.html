@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPIO Programming</title>
+</head>
+<body>
+<h1>GPIO Programming</h1>
+
+<h2>Introduction to GPIO:</h2>
+<ol>
+  <li><strong>GPIO Pins:</strong> GPIO pins are the digital input/output pins on a microcontroller that can be independently controlled to either read digital signals (input) or output digital signals (output).</li>
+  <li><strong>Pin Numbering:</strong> GPIO pins are typically numbered for easy reference. On the Raspberry Pi Pico, GPIO pins are numbered from GP0 to GP28.</li>
+</ol>
+
+<h2>Controlling Digital Outputs and Reading Digital Inputs:</h2>
+<ol>
+  <li><strong>Digital Outputs</strong>:
+    <ul>
+      <li>To set a GPIO pin as an output, you use a function such as <code>pin.value(1)</code> or <code>pin.high()</code> to set the pin to HIGH (3.3V) or <code>pin.value(0)</code> or <code>pin.low()</code> to set it to LOW (0V).</li>
+      <li>Example (MicroPython):
+        <pre><code>from machine import Pin
+import utime
+
+led_pin = Pin(25, Pin.OUT)
+
+while True:
+    led_pin.toggle()
+    utime.sleep(1)
+</code></pre>
+        <p>In this example, the LED connected to GPIO pin 25 will toggle on and off every second.</p>
+      </li>
+    </ul>
+  </li>
+  
+  <li><strong>Digital Inputs</strong>:
+    <ul>
+      <li>To read the state of a GPIO pin configured as an input, you use <code>pin.value()</code> method.</li>
+      <li>Example (MicroPython):
+        <pre><code>from machine import Pin
+import utime
+
+button_pin = Pin(12, Pin.IN, Pin.PULL_DOWN)
+
+while True:
+    if button_pin.value() == 1:
+        print("Button pressed!")
+    utime.sleep(0.1)
+</code></pre>
+        <p>In this example, the program checks if the button connected to GPIO pin 12 is pressed. If pressed, it prints a message.</p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2>PWM (Pulse Width Modulation) for Controlling Analog Devices:</h2>
+<ol>
+  <li><strong>PWM in MicroPython</strong>:
+    <ul>
+      <li>MicroPython provides PWM support through the <code>machine.PWM</code> class.</li>
+      <li>Example (MicroPython):
+        <pre><code>from machine import Pin, PWM
+
+pwm_pin = Pin(15)
+pwm = PWM(pwm_pin)
+
+pwm.freq(1000)  # Set PWM frequency to 1kHz
+pwm.duty_u16(32768)  # Set duty cycle to 50%
+</code></pre>
+        <p>In this example, we create a PWM object on GPIO pin 15, set the frequency to 1kHz, and set the duty cycle to 50%.</p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p>By mastering GPIO programming and PWM, you can control a wide range of digital and analog devices with your microcontroller, enabling you to build diverse projects and applications.</p>
+</body>
+</html>

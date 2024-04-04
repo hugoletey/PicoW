@@ -1,19 +1,34 @@
-<h2>Les serveurs multiclients<br/></h2>
-<p>Les serveurs doivent non seulement être en attente continue de connexions de la part de clients potentiels, mais doivent également être en mesure de traiter les demandes simultannées de plusieurs clients. On ne peut génarelement pas se permettre de mettre les clients dans une file d'attente et de traiter leurs demandes les unes après les autres.</p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Introduction au Pico W et au MicroPython</title>
+</head>
+<body>
+<h1>Introduction au Pico W et à MicroPython</h1>
 
-<h3>La problématique</h3>
-<p>Les instructions bloquantes, d'un serveur TCP, (c'est à dire celle qui provoque l'arrêt temporaire de l'exécution du serveur jusqu'à ce qu'un événement spécifié se produise) sont :</p>
-<ul>
-	<li><strong>accept()</strong> : utilisée pour accepter la connexion d'un nouveau client.</li>
-	<li><strong>read()</strong> : utilisée pour lire depuis le canal qui a été ouvert vers un client. On reste bloqué jusqu'à ce qu'il y ai quelquechose à lire dans le canal ou jusqu'à ce que le client ferme le canal.</li>
-	<li><strong>write()</strong> : utilisée pour écrire dans le canal qui a été ouvert vers un client. On reste bloqué jusqu'à ce que les données puissent être envoyées. Il est également possible de définir le socket en mode non bloquant mais cela ne règle généralement pas le problème car l'intruction retourne une erreur si les données ne peuvent pas immédiatement partir.</li>
-</ul>
-<p>La lecture ou bien l'écriture sur le canal d'un client peut donc mettre en attente d'autres opérations de lecture ou d'écriture pour un autre client mais également l'acceptation de nouveaux clients. Pour résoudre ce problème plusieurs solutions s'offrent à nous.</p>
-<h3>Les solutions multi-tâches</h3>
-<p>Les solutions multi-tâches consistent à déployer une tâche par client voir même deux tâches si le client peut indifféremment lire et écrire sur le canal à un instant donné (C'est, par exemple, le cas d'un programme de chat qui recevrait les caractères tappés par un client en même temps qu'il transmet à ce client les caractères reçus des autres clients du même groupe conversationnel). Pour déployer le multi-tâche, il existe deux solutions (que l'on peut éventuellement combiner) :</p>
-<ul>
-	<li>la création de plusieurs processus via la primitive <strong>fork()</strong>,</li>
-	<li>la création de plusieurs processus légers (appelés thread) à l'intérieur d'un même processus via la primitive <strong>pthread_create()</strong>.</li>
-</ul>
-<h3>La solution mono-tâche</h3>
-<p>L'autre solution consiste à ne pas exécuter <strong>accept()</strong>, <strong>read()</strong> ou <strong>write()</strong> sans avoir préalablement vérifié que l'événement qu'elles attendent (et qui peut donc les rendre bloquantes) n'est pas déjà arrivé. L'instruction bloquante <strong>select()</strong> va permettre de surveiller simultannément les 3 types d'événement pour un ensemble de sockets.</p>
+<h2>Aperçu du Raspberry Pi Pico W :</h2>
+<p>Le Raspberry Pi Pico W est une carte microcontrôleur développée par la Fondation Raspberry Pi, sortie comme une version améliorée du Raspberry Pi Pico original. Il présente un design compact, alimenté par la puce microcontrôleur RP2040 interne de la Fondation Raspberry Pi. Le Pico W est doté de capacités sans fil intégrées, notamment Wi-Fi et Bluetooth, d'où le "W" dans son nom. Ces fonctionnalités améliorent sa connectivité et le rendent adapté à une large gamme d'applications IoT (Internet des objets).</p>
+
+<h2>Introduction à MicroPython et ses avantages :</h2>
+<p>MicroPython est une implémentation légère du langage de programmation Python 3 optimisée pour les microcontrôleurs et les systèmes embarqués. Il offre une plateforme pratique et facile à utiliser pour le développement de logiciels pour des microcontrôleurs tels que le Raspberry Pi Pico W. Certains avantages de MicroPython incluent :</p>
+<ol>
+  <li><strong>1. Facilité d'utilisation :</strong> MicroPython fournit une syntaxe familière et un environnement de programmation pour les développeurs Python, le rendant accessible aux débutants comme aux programmeurs expérimentés.</li>
+  <li><strong>2. Prototypage rapide :</strong> Avec sa syntaxe concise et son shell interactif, MicroPython permet un prototypage rapide et des itérations, permettant aux développeurs de tester et de déboguer rapidement le code sur le périphérique cible.</li>
+  <li><strong>3. Prise en charge de bibliothèques étendue :</strong> MicroPython comprend un ensemble riche de bibliothèques et de modules pour l'interface avec les périphériques matériels, tels que les broches GPIO, les capteurs et les écrans, simplifiant le développement d'applications embarquées.</li>
+  <li><strong>4. Compatibilité multiplateforme :</strong> MicroPython est conçu pour s'exécuter sur différentes plateformes de microcontrôleurs, y compris le Raspberry Pi Pico W, les cartes ESP32 et Arduino, offrant ainsi flexibilité et portabilité pour les projets.</li>
+</ol>
+
+<h2>Pourquoi choisir le Pico W pour le développement avec MicroPython ?</h2>
+<p>Il existe plusieurs raisons de choisir le Raspberry Pi Pico W pour le développement avec MicroPython :</p>
+<ol>
+  <li><strong>1. Connectivité sans fil :</strong> Les capacités Wi-Fi et Bluetooth intégrées du Pico W permettent une communication sans faille avec d'autres appareils et réseaux, élargissant les possibilités pour les projets IoT et les applications de surveillance à distance.</li>
+  <li><strong>2. Matériel puissant :</strong> La puce microcontrôleur RP2040 alimentant le Pico W offre des processeurs Arm Cortex-M0+ double cœur, une mémoire ample et une large gamme de broches GPIO, offrant une puissance de calcul et une flexibilité suffisantes pour diverses applications.</li>
+  <li><strong>3. Support de la communauté :</strong> La communauté Raspberry Pi fournit une documentation étendue, des tutoriels et des forums communautaires dédiés au Pico W et à MicroPython, offrant des ressources et un support pour les développeurs de tous niveaux.</li>
+  <li><strong>4. Rentabilité :</strong> Le Raspberry Pi Pico W est une carte microcontrôleur abordable, le rendant accessible aux amateurs, aux étudiants et aux professionnels recherchant une plateforme économique pour leurs projets.</li>
+</ol>
+
+<p>En résumé, la combinaison des capacités sans fil du Raspberry Pi Pico W, du matériel puissant et du support de MicroPython en fait un choix attrayant pour le développement d'applications embarquées et de projets IoT.</p>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entrée et Sortie Analogiques</title>
+</head>
+<body>
+<h1>Entrée et Sortie Analogiques</h1>
+
+<h2>Utilisation de l'ADC pour l'Entrée Analogique :</h2>
+<ol>
+  <li><strong>Convertisseur Analogique-Numérique (ADC)</strong>:
+    <ul>
+      <li>L'ADC est un composant crucial qui convertit les signaux analogiques continus en valeurs numériques discrètes pouvant être traitées par un microcontrôleur.</li>
+      <li>MicroPython prend en charge l'ADC via le module <code>machine.ADC</code>.</li>
+      <li>Vous pouvez créer un objet ADC et configurer ses paramètres tels que la résolution et l'atténuation.</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>from machine import Pin, ADC
+
+adc = ADC(Pin(32))
+adc.width(ADC.WIDTH_10BIT)  # Définir la résolution de l'ADC sur 10 bits
+adc.atten(ADC.ATTN_11DB)    # Définir l'atténuation sur 11dB
+valeur = adc.read()
+</code></pre>
+      </li>
+    </ul>
+  </li>
+  
+  <li><strong>Interface Capteur</strong>:
+    <ul>
+      <li>Les capteurs analogiques tels que les capteurs de température, de lumière et d'humidité produisent des signaux analogiques proportionnels à la quantité physique mesurée.</li>
+      <li>Vous pouvez connecter ces capteurs aux broches ADC du microcontrôleur et utiliser l'ADC pour lire les valeurs du capteur.</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>from machine import Pin, ADC
+import utime
+
+adc = ADC(Pin(32))
+
+while True:
+    valeur_capteur = adc.read()
+    print("Valeur du Capteur :", valeur_capteur)
+    utime.sleep(1)
+</code></pre>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Génération de Sortie Analogique à l'aide du DAC :</h2>
+<ol>
+  <li><strong>Convertisseur Numérique-Analogique (DAC)</strong>:
+    <ul>
+      <li>Le DAC convertit des valeurs numériques en niveaux de tension analogiques correspondants.</li>
+      <li>Alors que tous les microcontrôleurs n'ont pas de DAC intégré, certaines plateformes comme l'ESP32 prennent en charge la fonctionnalité DAC.</li>
+      <li>MicroPython prend en charge le DAC via le module <code>machine.DAC</code>.</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>from machine import Pin, DAC
+import utime
+
+dac = DAC(Pin(25))
+
+while True:
+    for i in range(0, 65535, 1000):
+        dac.write(i)
+        utime.sleep_ms(100)
+</code></pre>
+      </li>
+    </ul>
+  </li>
+  
+  <li><strong>Contrôle des Actionneurs</strong>:
+    <ul>
+      <li>Les actionneurs tels que les moteurs, les haut-parleurs et les chauffages nécessitent des signaux de contrôle analogiques pour fonctionner.</li>
+      <li>Vous pouvez utiliser le DAC pour générer des signaux de contrôle analogiques et interagir avec ces actionneurs.</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>from machine import Pin, DAC
+import utime
+
+dac = DAC(Pin(25))
+
+while True:
+    # Générer une onde sinusoïdale
+    for i in range(0, 65535, 1000):
+        dac.write(i)
+        utime.sleep_ms(100)
+    for i in range(65535, 0, -1000):
+        dac.write(i)
+        utime.sleep_ms(100)
+</code></pre>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p>En utilisant l'ADC pour l'entrée analogique et le DAC pour la sortie analogique, vous pouvez interagir avec divers capteurs et actionneurs analogiques, vous permettant de construire des projets interagissant de manière plus efficace avec le monde physique. Ces capacités permettent une large gamme d'applications dans des domaines tels que la robotique, l'automatisation et l'IoT.</p>
+</body>
+</html>

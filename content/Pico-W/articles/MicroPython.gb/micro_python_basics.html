@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MicroPython Basics</title>
+</head>
+<body>
+<h1>MicroPython Basics</h1>
+
+<h2>Syntax and Structure of MicroPython:</h2>
+<p>MicroPython syntax and structure are quite similar to Python, making it easy for Python developers to transition to MicroPython. Here are some key points:</p>
+<ol>
+  <li><strong>Indentation:</strong> Like Python, MicroPython uses indentation to denote blocks of code. Consistent indentation is crucial for the proper functioning of the code.</li>
+  <li><strong>Comments:</strong> Comments in MicroPython are denoted by the '#' symbol, similar to Python.</li>
+  <li><strong>Case Sensitivity:</strong> MicroPython is case-sensitive. Variables and function names must be referenced with the correct capitalization.</li>
+</ol>
+
+<h2>Working with the REPL (Read-Eval-Print Loop):</h2>
+<p>The REPL (Read-Eval-Print Loop) is an interactive shell environment provided by MicroPython that allows you to execute commands and evaluate expressions directly. Here's how it works:</p>
+<ol>
+  <li><strong>Accessing the REPL:</strong> After connecting your MicroPython-enabled device (such as Raspberry Pi Pico) to your computer, you can access the REPL through a serial connection using terminal software like PuTTY (Windows) or screen (macOS/Linux).</li>
+  <li><strong>Interactivity:</strong> Once in the REPL, you can enter Python/MicroPython commands and see their output immediately. This makes it great for testing small snippets of code, experimenting with hardware peripherals, and debugging.</li>
+  <li><strong>Exiting the REPL:</strong> To exit the REPL, you can typically use a specific key combination (e.g., Ctrl + D) or command (e.g., `Ctrl + ]` in PuTTY) depending on the terminal software you're using.</li>
+</ol>
+
+<h2>Variables, Data Types, and Basic Operations:</h2>
+<p>MicroPython supports various data types and operations similar to Python:</p>
+<ol>
+  <li><strong>Variables:</strong> Variables are used to store data. They can hold different types of data, including integers, floats, strings, lists, tuples, dictionaries, etc.</li>
+  <li><strong>Data Types:</strong>
+    <ul>
+      <li><strong>Integers:</strong> Whole numbers without decimal points.</li>
+      <li><strong>Floats:</strong> Numbers with decimal points.</li>
+      <li><strong>Strings:</strong> Sequences of characters enclosed within single or double quotes.</li>
+      <li><strong>Lists:</strong> Ordered collections of items, which can be of different data types.</li>
+      <li><strong>Tuples:</strong> Immutable ordered collections of items.</li>
+      <li><strong>Dictionaries:</strong> Unordered collections of key-value pairs.</li>
+    </ul>
+  </li>
+  <li><strong>Basic Operations:</strong>
+    <ul>
+      <li><strong>Arithmetic Operations:</strong> Addition (+), Subtraction (-), Multiplication (*), Division (/), Exponentiation (**), Modulus (%), Floor Division (//).</li>
+      <li><strong>Comparison Operators:</strong> Equal to (==), Not equal to (!=), Greater than (>), Less than (<), Greater than or equal to (>=), Less than or equal to (<=).</li>
+      <li><strong>Logical Operators:</strong> AND (and), OR (or), NOT (not).</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Here's an example of using MicroPython to perform basic operations:</p>
+<pre>
+<code># Variables and basic operations
+x = 5
+y = 3
+
+# Arithmetic operations
+addition_result = x + y
+subtraction_result = x - y
+multiplication_result = x * y
+division_result = x / y
+modulus_result = x % y
+
+# Comparison operations
+greater_than_result = x > y
+less_than_result = x < y
+
+# Logical operations
+logical_and_result = (x > 0) and (y < 0)
+logical_or_result = (x > 0) or (y < 0)
+
+print(addition_result, subtraction_result, multiplication_result, division_result, modulus_result)
+print(greater_than_result, less_than_result)
+print(logical_and_result, logical_or_result)
+</code>
+</pre>
+
+<p>Understanding these basics will provide you with a solid foundation for working with MicroPython and developing applications for embedded systems and microcontrollers.</p>
+</body>
+</html>

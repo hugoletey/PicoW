@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projets du monde réel</title>
+</head>
+<body>
+<h1>Projets du monde réel</h1>
+
+<h2>1. Construction d'un Moniteur de Température et d'Humidité :</h2>
+<p><strong>Aperçu :</strong> Ce projet consiste à connecter un capteur de température et d'humidité (tel que le DHT11 ou le DHT22) au Raspberry Pi Pico W pour surveiller les conditions environnementales. Les données peuvent être affichées localement sur un écran OLED ou envoyées à un service cloud pour une surveillance à distance.</p>
+<p><strong>Composants :</strong></p>
+<ul>
+  <li>Raspberry Pi Pico W</li>
+  <li>Capteur de température et d'humidité (par exemple, DHT11 ou DHT22)</li>
+  <li>Écran OLED (facultatif)</li>
+  <li>Plaque d'essai et fils de connexion</li>
+</ul>
+<p><strong>Étapes :</strong></p>
+<ol>
+  <li>Connectez le capteur de température et d'humidité au Raspberry Pi Pico W en utilisant les broches GPIO.</li>
+  <li>Rédigez un script MicroPython pour lire périodiquement les données du capteur.</li>
+  <li>Affichez les relevés du capteur sur un écran OLED connecté au Pico W (facultatif).</li>
+  <li>En alternative, envoyez les données du capteur à un service cloud en utilisant le Wi-Fi pour une surveillance à distance.</li>
+</ol>
+
+<h2>2. Contrôle des LEDs et des Moteurs à Distance via Wi-Fi :</h2>
+<p><strong>Aperçu :</strong> Dans ce projet, vous créerez un système contrôlé par Wi-Fi en utilisant le Raspberry Pi Pico W pour contrôler à distance des LEDs et des moteurs. Vous pouvez construire une interface web ou une application mobile pour envoyer des commandes au Pico W via Wi-Fi, permettant aux utilisateurs d'allumer/éteindre les LEDs ou de contrôler la vitesse et la direction des moteurs.</p>
+<p><strong>Composants :</strong></p>
+<ul>
+  <li>Raspberry Pi Pico W</li>
+  <li>LEDs</li>
+  <li>Moteurs à courant continu ou moteurs servo</li>
+  <li>Pilote de moteur (si vous utilisez des moteurs à courant continu)</li>
+  <li>Module Wi-Fi (intégré au Pico W)</li>
+  <li>Plaque d'essai et fils de connexion</li>
+</ul>
+<p><strong>Étapes :</strong></p>
+<ol>
+  <li>Connectez les LEDs et les moteurs aux broches GPIO du Raspberry Pi Pico W.</li>
+  <li>Configurez une connexion Wi-Fi sur le Pico W pour communiquer avec un réseau local.</li>
+  <li>Implémentez un serveur web en utilisant MicroPython pour gérer les requêtes entrantes via Wi-Fi.</li>
+  <li>Créez des points de terminaison sur le serveur web pour contrôler les LEDs et les moteurs en fonction des entrées utilisateur.</li>
+  <li>Construisez une interface web ou une application mobile qui envoie des requêtes au serveur Pico W pour contrôler les LEDs et les moteurs à distance.</li>
+</ol>
+
+<h2>3. Création d'un Dispositif IoT avec Pico W et MicroPython :</h2>
+<p><strong>Aperçu :</strong> Ce projet implique la construction d'un dispositif IoT autonome en utilisant le Raspberry Pi Pico W pour collecter des données de capteurs, les traiter et les envoyer à une plateforme en ligne pour analyse et visualisation. Le dispositif peut être utilisé pour diverses applications telles que la surveillance environnementale, l'automatisation résidentielle ou la détection industrielle.</p>
+<p><strong>Composants :</strong></p>
+<ul>
+  <li>Raspberry Pi Pico W</li>
+  <li>Capteurs (par exemple, température, humidité, mouvement, lumière)</li>
+  <li>Module Wi-Fi (intégré au Pico W)</li>
+  <li>Plateforme cloud ou service IoT pour le stockage et la visualisation des données</li>
+</ul>
+<p><strong>Étapes :</strong></p>
+<ol>
+  <li>Connectez les capteurs au Raspberry Pi Pico W pour collecter des données environnementales.</li>
+  <li>Configurez la connectivité Wi-Fi sur le Pico W pour se connecter à Internet.</li>
+  <li>Rédigez un script MicroPython pour lire les données des capteurs et les transmettre à la plateforme cloud via Wi-Fi.</li>
+  <li>Configurez une plateforme cloud ou un service IoT pour recevoir et stocker les données envoyées par le Pico W.</li>
+  <li>Visualisez les données des capteurs à l'aide de tableaux de bord ou d'outils d'analyse fournis par la plateforme cloud pour la surveillance et l'analyse.</li>
+</ol>
+
+<p>Ces projets du monde réel démontrent la polyvalence du Raspberry Pi Pico W et de MicroPython pour la construction d'applications IoT pratiques et l'exploration de divers

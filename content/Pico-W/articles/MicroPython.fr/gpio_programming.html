@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programmation des GPIO</title>
+</head>
+<body>
+<h1>Programmation des GPIO</h1>
+
+<h2>Introduction aux GPIO :</h2>
+<ol>
+  <li><strong>Broches GPIO :</strong> Les broches GPIO sont les broches d'entrée/sortie numériques sur un microcontrôleur qui peuvent être contrôlées de manière indépendante pour lire des signaux numériques (entrée) ou produire des signaux numériques (sortie).</li>
+  <li><strong>Numérotation des Broches :</strong> Les broches GPIO sont généralement numérotées pour une référence facile. Sur le Raspberry Pi Pico, les broches GPIO sont numérotées de GP0 à GP28.</li>
+</ol>
+
+<h2>Contrôle des Sorties Numériques et Lecture des Entrées Numériques :</h2>
+<ol>
+  <li><strong>Sorties Numériques</strong>:
+    <ul>
+      <li>Pour définir une broche GPIO en tant que sortie, vous utilisez une fonction telle que <code>pin.value(1)</code> ou <code>pin.high()</code> pour définir la broche à HIGH (3,3V) ou <code>pin.value(0)</code> ou <code>pin.low()</code> pour la définir à LOW (0V).</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>from machine import Pin
+import utime
+
+broche_led = Pin(25, Pin.OUT)
+
+while True:
+    broche_led.toggle()
+    utime.sleep(1)
+</code></pre>
+        <p>Dans cet exemple, la LED connectée à la broche GPIO 25 s'allumera et s'éteindra toutes les secondes.</p>
+      </li>
+    </ul>
+  </li>
+  
+  <li><strong>Entrées Numériques</strong>:
+    <ul>
+      <li>Pour lire l'état d'une broche GPIO configurée en tant qu'entrée, vous utilisez la méthode <code>pin.value()</code>.</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>from machine import Pin
+import utime
+
+broche_bouton = Pin(12, Pin.IN, Pin.PULL_DOWN)
+
+while True:
+    if broche_bouton.value() == 1:
+        print("Bouton pressé !")
+    utime.sleep(0.1)
+</code></pre>
+        <p>Dans cet exemple, le programme vérifie si le bouton connecté à la broche GPIO 12 est pressé. S'il l'est, il affiche un message.</p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h2>Modulation de Largeur d'Impulsion (PWM) pour Contrôler les Dispositifs Analogiques :</h2>
+<ol>
+  <li><strong>PWM en MicroPython</strong>:
+    <ul>
+      <li>MicroPython prend en charge le PWM via la classe <code>machine.PWM</code>.</li>
+      <li>Exemple (MicroPython) :
+        <pre><code>from machine import Pin, PWM
+
+broche_pwm = Pin(15)
+pwm = PWM(broche_pwm)
+
+pwm.freq(1000)  # Définir la fréquence PWM à 1 kHz
+pwm.duty_u16(32768)  # Définir le cycle de service à 50%
+</code></pre>
+        <p>Dans cet exemple, nous créons un objet PWM sur la broche GPIO 15, définissons la fréquence à 1 kHz et le cycle de service à 50%.</p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<p>En maîtrisant la programmation des GPIO et le PWM, vous pouvez contrôler une large gamme de dispositifs numériques et analogiques avec votre microcontrôleur, vous permettant de construire divers projets et applications.</p>
+</body>
+</html>
