@@ -1,20 +1,12 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Programmation des GPIO</title>
-</head>
-<body>
-<h1>Programmation des GPIO</h1>
+<h2>Programmation des GPIO</h2>
 
-<h2>Introduction aux GPIO :</h2>
+<h3>Introduction aux GPIO :</h3>
 <ol>
   <li><strong>Broches GPIO :</strong> Les broches GPIO sont les broches d'entrée/sortie numériques sur un microcontrôleur qui peuvent être contrôlées de manière indépendante pour lire des signaux numériques (entrée) ou produire des signaux numériques (sortie).</li>
   <li><strong>Numérotation des Broches :</strong> Les broches GPIO sont généralement numérotées pour une référence facile. Sur le Raspberry Pi Pico, les broches GPIO sont numérotées de GP0 à GP28.</li>
 </ol>
 
-<h2>Contrôle des Sorties Numériques et Lecture des Entrées Numériques :</h2>
+<h3>Contrôle des Sorties Numériques et Lecture des Entrées Numériques :</h3>
 <ol>
   <li><strong>Sorties Numériques</strong>:
     <ul>
@@ -54,7 +46,7 @@ while True:
   </li>
 </ol>
 
-<h2>Modulation de Largeur d'Impulsion (PWM) pour Contrôler les Dispositifs Analogiques :</h2>
+<h3>Modulation de Largeur d'Impulsion (PWM) pour Contrôler les Dispositifs Analogiques :</h3>
 <ol>
   <li><strong>PWM en MicroPython</strong>:
     <ul>
@@ -75,5 +67,3 @@ pwm.duty_u16(32768)  # Définir le cycle de service à 50%
 </ol>
 
 <p>En maîtrisant la programmation des GPIO et le PWM, vous pouvez contrôler une large gamme de dispositifs numériques et analogiques avec votre microcontrôleur, vous permettant de construire divers projets et applications.</p>
-</body>
-</html>

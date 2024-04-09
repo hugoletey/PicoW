@@ -1,20 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GPIO Programming</title>
-</head>
-<body>
-<h1>GPIO Programming</h1>
+<h2>GPIO Programming</h2>
 
-<h2>Introduction to GPIO:</h2>
+<h3>Introduction to GPIO:</h3>
 <ol>
   <li><strong>GPIO Pins:</strong> GPIO pins are the digital input/output pins on a microcontroller that can be independently controlled to either read digital signals (input) or output digital signals (output).</li>
   <li><strong>Pin Numbering:</strong> GPIO pins are typically numbered for easy reference. On the Raspberry Pi Pico, GPIO pins are numbered from GP0 to GP28.</li>
 </ol>
 
-<h2>Controlling Digital Outputs and Reading Digital Inputs:</h2>
+<h3>Controlling Digital Outputs and Reading Digital Inputs:</h3>
 <ol>
   <li><strong>Digital Outputs</strong>:
     <ul>
@@ -54,7 +46,7 @@ while True:
   </li>
 </ol>
 
-<h2>PWM (Pulse Width Modulation) for Controlling Analog Devices:</h2>
+<h3>PWM (Pulse Width Modulation) for Controlling Analog Devices:</h3>
 <ol>
   <li><strong>PWM in MicroPython</strong>:
     <ul>
@@ -75,5 +67,3 @@ pwm.duty_u16(32768)  # Set duty cycle to 50%
 </ol>
 
 <p>By mastering GPIO programming and PWM, you can control a wide range of digital and analog devices with your microcontroller, enabling you to build diverse projects and applications.</p>
-</body>
-</html>

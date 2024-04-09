@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Advanced Topics</title>
-</head>
-<body>
-<h1>Advanced Topics</h1>
+<h2>Advanced Topics</h2>
 
-<h2>1. Interrupts and Event-Driven Programming:</h2>
+<h3>1. Interrupts and Event-Driven Programming:</h3>
 <p><strong>Interrupts</strong>:</p>
 <ul>
   <li>Interrupts are signals sent to the CPU to temporarily suspend its current execution and handle a specific event or condition.</li>
@@ -32,7 +24,7 @@ button_pin.irq(trigger=Pin.IRQ_RISING, handler=button_pressed_handler)
   <li>You can structure your MicroPython code to respond to events asynchronously using callbacks or coroutines.</li>
 </ul>
 
-<h2>2. Low-Power Optimization Techniques:</h2>
+<h3>2. Low-Power Optimization Techniques:</h3>
 <p><strong>Sleep Modes</strong>:</p>
 <ul>
   <li>Microcontrollers often feature different sleep modes to conserve power when not actively processing tasks.</li>
@@ -58,7 +50,7 @@ machine.deepsleep(5000)
   <li>Avoid busy loops and utilize sleep intervals wherever possible.</li>
 </ul>
 
-<h2>3. Debugging and Troubleshooting Tips:</h2>
+<h3>3. Debugging and Troubleshooting Tips:</h3>
 <p><strong>Serial Output</strong>:</p>
 <ul>
   <li>Use serial output for debugging by printing debug messages and variable values to a serial console.</li>
@@ -90,5 +82,4 @@ machine.deepsleep(5000)
 </ul>
 
 <p>By mastering these advanced topics, you can optimize the performance, power efficiency, and reliability of your MicroPython applications running on Raspberry Pi Pico W, and effectively troubleshoot and debug any issues that may arise during development or deployment.</p>
-</body>
-</html>
+
