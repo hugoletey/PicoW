@@ -88,7 +88,7 @@
 			<P lang="fr">Fonctionnement</P>
 			<P lang="gb">Operations</P>
 		</ITEM>
-		<ITEM file="décodage.html">
+		<ITEM file="decodage.html">
 			<P lang="fr">Décodage</P>
 			<P lang="gb">Decoding</P>
 		</ITEM>
@@ -125,28 +125,9 @@
 	<MENU dir="SE">
 		<TITLE>
 			<P lang="fr">Système d'exploitations</P>
-			<P lang="gb">Système d'exploitations</P>
+			<P lang="gb">Operating system</P>
 		</TITLE>
-		<ITEM file="netstat.html">
-			<P lang="fr">netstat</P>
-			<P lang="gb">netstat</P>
-		</ITEM>
-		<ITEM file="nmap.html">
-			<P lang="fr">nmap</P>
-			<P lang="gb">nmap</P>
-		</ITEM>
-		<ITEM file="telnet.html">
-			<P lang="fr">telnet</P>
-			<P lang="gb">telnet</P>
-		</ITEM>
-		<ITEM file="netcat.html">
-			<P lang="fr">netcat</P>
-			<P lang="gb">netcat</P>
-		</ITEM>
-		<ITEM file="wireshark.html">
-			<P lang="fr">Wireshark</P>
-			<P lang="gb">Wireshark</P>
-		</ITEM>
+		
 	</MENU>
 
 	<MENU dir="apropos">
