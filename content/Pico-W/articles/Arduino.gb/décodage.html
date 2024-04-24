@@ -1,0 +1,74 @@
+
+        <h2>Decoding the Code</h2>
+    
+    <main>
+        <h3>Decryption</h3>
+        <p>
+            The Arduino code presented above illustrates the basic principle of the project.
+            Here is a detailed explanation of each section of the code:
+        </p>
+        <pre>
+            #include <DHT.h>
+
+            DHT dht(18, 22); // Creating a DHT object with the pin number where the Pico is connected as the first parameter and the type of DHT used as the second.
+        </pre>
+        <p>
+            These lines include the DHT library necessary for interacting with the sensor and define constants for the GPIO pin used and the sensor type (DHT22 in this case).
+            An `dht` object is created using the library and the defined constants.
+        </pre>
+        <pre>
+            void setup() {
+                Serial.begin(115200); // Initializing serial communication
+                dht.begin(); // Initializing the DHT22 sensor
+            }
+        </pre>
+        <p>
+            The `setup()` function is executed only once at program startup.
+            In this section, serial communication is initialized with a baud rate of 9600, allowing the display of data on the serial console connected to the computer.
+            Additionally, the `dht.begin()` function initializes the DHT22 sensor and prepares it for communication.
+        </pre>
+        <pre>
+        void loop() {
+            delay(2000);
+            float h = dht.readHumidity();
+            float t = dht.readTemperature();
+            float f = dht.readTemperature(true);
+          
+            if (isnan(h) || isnan(t) || isnan(f)) {
+              Serial.println(F("Reception failed"));
+              return;
+            }
+          
+            Serial.print("Humidity: ");
+            Serial.print(h);
+            Serial.print("% Temperature: ");
+            Serial.print(t);
+            Serial.print("°C, ");
+            Serial.print(f);
+            Serial.println("°F");
+          }
+        </pre>
+        <p>
+            The `loop()` function is executed in a continuous loop.
+            Inside this loop:
+          <ul>
+              <li>
+                  The `dht.readTemperature()` and `dht.readHumidity()` functions are used to read the temperature and humidity values from the DHT22 sensor.
+                  These functions return `float` values (floating-point numbers).
+              </li>
+              <li>
+                  A check is performed to ensure that the read values are not NaN (not a number).
+                  If they are, an error message is displayed on the serial console indicating a sensor reading problem.
+              </li>
+              <li>
+                  If the values are valid, they are displayed on the serial console using `Serial.print()` and `Serial.println()` statements.
+                  The code adds labels for temperature and humidity, and their corresponding units of measurement.
+              </li>
+              <li>
+                  A `delay(2000)` function is used to introduce a 2-second delay between each sensor reading.
+                  This delay can be adjusted according to the application's needs.
+              </li>
+          </ul>
+        </p>
+  </main>
+  

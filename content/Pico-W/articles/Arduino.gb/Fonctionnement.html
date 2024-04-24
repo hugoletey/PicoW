@@ -1,0 +1,66 @@
+
+        <h2>Operation</h2>
+    
+    <main>
+        <p>
+            The temperature and humidity detection system operates according to the following steps:
+        </p>
+        <ol>
+            <li><h3>Connection of the DHT22 Sensor</h3>
+                <p>
+                    The DHT22 sensor is connected to the Pico W board using jumper wires.
+                    The GPIO pin of the board is connected to the data pin of the sensor, while the
+                    <li><h3>Connection of the DHT22 Sensor (continued):</h3>
+                      <p>
+                          It is important to respect the correct pinout to ensure effective communication between the board and the sensor.
+                          Technical documentation of the Pico W board and the DHT22 sensor will indicate the specific pins to use.
+                          Generally, the data pin of the DHT22 sensor is connected to a GPIO pin of the Pico W board, and power (e.g., 3.3V) and ground pins are also connected.
+                      </p>
+                  </li>
+                  <li><h3>Initialization of the Sensor</h3>
+                      <p>
+                          The Pico W board uses the MicroPython programming language.
+                          To interact with the DHT22 sensor, it is necessary to include a specific software library.
+                          The project code imports the DHT library and uses it to create an object that represents the connected DHT22 sensor.
+                          This initialization allows the Pico W board to recognize and communicate with the sensor.
+                      </p>
+                  </li>
+                  <li><h3>Data Reading</h3>
+                      <p>
+                          Once the sensor is initialized, the Pico W board can send requests to retrieve the temperature and humidity values.
+                          The DHT22 sensor uses a serial communication protocol to transmit digital data.
+                          The project code uses functions from the DHT library to send a read command to the sensor and receive the data in response.
+                      </p>
+                  </li>
+                  <li><h3>Data Processing</h3>
+                      <p>
+                          The data received from the DHT22 sensor is initially in digital form.
+                          The project code uses functions from the DHT library to convert these numerical values into standard measurement units, typically degrees Celsius (°C) for temperature and percentages (%) for relative humidity.
+                      </p>
+                  </li>
+                  <li><h3>Data Display</h3>
+                      <p>
+                          The final temperature and humidity values, converted into understandable units, need to be displayed to the user.
+                          Depending on the project setup, the display can be done in different ways:
+                          <ul>
+                              <li>
+                                **Serial Console:** The project code can print the values to the serial console connected to the computer, allowing simple data visualization during development and testing.
+                                <div class="container">
+                                    <video width="500" height="360" controls>
+                                        <source src="img/video_test.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                            </li>
+                            <p>
+
+                            </p>
+                              <li>**LCD Screen:** An LCD screen can be connected to the Pico W board to directly display the temperature and humidity values on a screen.</li>
+                              <li>**Web Interface:** The code can be extended to send the data to a web server, allowing the values to be viewed remotely via a web browser.</li>
+                          </ul>
+                      </p>
+                  </li>
+                </p>
+            </li>
+        </ol>
+    </main>
+    

@@ -1,0 +1,206 @@
+<h1>Temperature and Humidity Detection with Pico W and DHT22</h1>
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>
+                This project details the design and implementation of an ambient temperature and humidity detection system using a Raspberry Pi Pico W board and a DHT22 sensor, programmed in C-ARDUINO using the Arduino IDE. The system measures and displays real-time temperature and humidity values, providing a simple and effective solution for environmental monitoring.
+            </p>
+        </section>
+
+        <h2>Components</h2>
+            <ul>
+                <li>**Raspberry Pi Pico W Board:**
+                    <p>
+                        The Pico W board is a powerful and versatile microcontroller based on the RP2040 chip. 
+                        It offers excellent value for money and has many features, including:
+                        <ul>
+                            <li>Dual-core ARM Cortex M0+ processor clocked at 133 MHz</li>
+                            <li>264 KB of RAM</li>
+                            <li>Communication interfaces: USB 2.0, SPI, I2C, UART</li>
+                            <li>Programmable GPIO pins</li>
+                            <li>Low power consumption</li>
+                        </ul>
+                    </p>
+                </li>
+                <li>**DHT22 Sensor (AM2302):**
+                    <p>
+                        The DHT22 sensor is an economical and accurate digital sensor that measures both temperature and relative humidity. 
+                        It communicates with the Pico W board via a serial communication interface and offers the following features:
+                        <ul>
+                            <li>Temperature measurement range: -40°C to 80°C</li>
+                            <li>Humidity measurement range: 0% to 100%</li>
+                            <li>Temperature accuracy: ±0.5°C</li>
+                            <li>Humidity accuracy: ±2% RH</li>
+                            <li>Low power consumption</li>
+                            <li>Simple serial communication interface</li>
+                        </ul>
+                    </p>
+                </li>
+                <li>**Jumper Wires:**
+                    <p>
+                        Jumper wires are flexible connection cables used to establish electrical connections between the Pico W board and the DHT22 sensor. 
+                        They are available in different lengths and colors, making them useful for prototyping and circuit wiring.
+                    </p>
+                </li>
+                <li>**Computer with USB Port:**
+                    <p>
+                        A computer is required to program the Pico W board and to display temperature and humidity data. 
+                        The computer must have a USB port to connect to the Pico W board and development software compatible with MicroPython.
+                        <p><strong><span style="color: red;"><u>N.B:</u>It is essential to always flash the memory of the PIOC W during manipulation in order to upload another code.</span></strong></p>
+                    </p>
+                </li>
+            </ul>
+            <figure>
+                <img src="img/montage.jpg" alt="Pico W Board and DHT22 Sensor Connected" width="300" height="200">
+                <figcaption>Pico W Board and DHT22 Sensor Connected</figcaption>
+            </figure>
+        </section>
+
+        <section id="operation">
+            <h2>Operation</h2>
+            <p>
+                The temperature and humidity detection system operates according to the following steps:
+            </p>
+            <ol>
+                <li>**Connection of the DHT22 Sensor:**
+                    <p>
+                        The DHT22 sensor is connected to the Pico W board using jumper wires. 
+                        The board's GPIO pin is connected to the sensor's data pin, while the
+                        <li>**Connection of the DHT22 Sensor (continued):**
+                          <p>
+                              It is important to respect the correct pinout to ensure effective communication between the board and the sensor. 
+                              Technical documentation of the Pico W board and the DHT22 sensor will indicate the specific pins to use. 
+                              In general, the data pin of the DHT22 sensor is connected to a GPIO pin of the Pico W board, and power (e.g., 3.3V) and ground pins are also connected.
+                          </p>
+                      </li>
+                      <li>**Sensor Initialization:**
+                          <p>
+                              The Pico W board uses the MicroPython programming language. 
+                              To interact with the DHT22 sensor, it is necessary to include a specific software library. 
+                              The project code imports the DHT library and uses it to create an object representing the connected DHT22 sensor. 
+                              This initialization allows the Pico W board to recognize and communicate with the sensor.
+                          </p>
+                      </li>
+                      <li>**Data Reading:**
+                          <p>
+                              Once the sensor is initialized, the Pico W board can send requests to retrieve temperature and humidity values. 
+                              The DHT22 sensor uses a serial communication protocol to transmit numerical data. 
+                              The project code uses functions from the DHT library to send a read command to the sensor and receive the data in response.
+                          </p>
+                      </li>
+                      <li>**Data Processing:**
+                          <p>
+                              The data received from the DHT22 sensor is initially in numerical form. 
+                              The project code uses functions from the DHT library to convert these numerical values into standard units of measurement, typically degrees Celsius (°C) for temperature and percentages (%) for relative humidity.
+                          </p>
+                      </li>
+                      <li>**Data Display:**
+                          <p>
+                              The final temperature and humidity values, converted into understandable units, need to be displayed to the user. 
+                              Depending on the project configuration, the display can be done in various ways:
+                              <ul>
+                                  <li>**Serial Console:** The project code can print the values to the serial console connected to the computer, allowing simple data visualization during development and testing.</li>
+                                  <li>**LCD Screen:** An LCD screen can be connected to the Pico W board to directly display temperature and humidity values on a screen.</li>
+                                  <li>**Web Interface:** The code can be extended to send data to a web server, allowing the values to be viewed remotely via a web browser.</li>
+                              </ul>
+                          </p>
+                      </li>
+                  </ol>
+              </section>
+      
+              <section id="code_breakdown">
+                  <h2>Arduino Code Breakdown</h2>
+                  <p>
+                      The Arduino code presented above illustrates the basic principle of the project. 
+                      Here is a detailed explanation of each section of the code:
+                  </p>
+                  <pre>
+                      #include &lt;DHT.h&gt;
+      
+                      #define DHTPIN 13 // GPIO pin to which the DHT22 sensor is connected
+                      #define DHTTYPE DHT22 // Type of DHT22 sensor
+      
+                      DHT dht(DHTPIN, DHTTYPE); // Creating a DHT object
+                  </pre>
+                  <p>
+                      These lines include the necessary DHT library to interact with the sensor and define constants for the GPIO pin used and the sensor type (DHT22 in this case). 
+                      A `dht` object is created using the library and the defined constants.
+                  </pre>
+                  <pre>
+                      void setup() {
+                          Serial.begin(9600); // Initializing serial communication
+                          dht.begin(); // Initializing the DHT22 sensor
+                      }
+                  </pre>
+                  <p>
+                      The `setup()` function is executed only once at program startup. 
+                      In this section, serial communication is initialized with a baud rate of 9600, allowing the display of data on the serial console connected to the computer. 
+                      Additionally, the `dht.begin()` function initializes the DHT22 sensor and prepares it for communication.
+                  </pre>
+                  <pre
+                  void loop() {
+                    // Reading temperature and humidity values
+                    float temperature = dht.readTemperature();
+                    float humidity = dht.readHumidity();
+
+                    // Checking if values are valid
+                    if (isnan(temperature) || isnan(humidity)) {
+                        Serial.println("Error reading DHT22 sensor!");
+                        return;
+                    }
+
+                    // Displaying values on the serial console
+                    Serial.print("Temperature: ");
+                    Serial.print(temperature);
+                    Serial.print(" °C");
+                    Serial.print(" Humidity: ");
+                    Serial.print(humidity);
+                    Serial.println(" %");
+
+                    delay(2000); // 2-second delay between readings
+                }
+            </pre>
+            <p>
+                The `loop()` function is continuously executed in a loop. 
+                Within this loop:
+                    <ul>
+                        <li>
+                            The `dht.readTemperature()` and `dht.readHumidity()` functions are used to read temperature and humidity values from the DHT22 sensor. 
+                            These functions return `float` values (floating-point numbers).
+                        </li>
+                        <li>
+                            A check is performed to ensure that the read values are not NaN (not-a-number) values. 
+                            If they are, an error message is displayed on the serial console indicating a sensor reading problem.
+                        </li>
+                        <li>
+                            If the values are valid, they are displayed on the serial console using `Serial.print()` and `Serial.println()` statements. 
+                            The code adds labels for temperature and humidity and their corresponding units of measurement.
+                        </li>
+                        <li>
+                            A `delay(2000)` function is used to introduce a 2-second delay between each sensor reading. 
+                            This delay can be adjusted according to the application's needs.
+                        </li>
+                    </ul>
+            </p>
+        </section>
+
+        <section id="extension">
+            <h2>Project Extension</h2>
+            <p>
+                The basic project presented can be extended in several ways to increase its functionality:
+            </p>
+            <ul>
+                <li>**LCD Display:**
+                    <p>Connect an LCD screen to the Pico W board to directly display temperature and humidity values.</p>
+                </li>
+                <li>**Data Logging:**
+                    <p>Implement a function to log temperature and humidity data to an SD card or a file on the computer.</p>
+                <li>**Home Automation Control:**
+                    <p>Use temperature and humidity values to automatically control home automation devices, such as a thermostat or a humidifier.</p>
+                </li>
+                <li>**Web Interface:**
+                    <p>Develop a web interface to visualize temperature and humidity data remotely via a web browser.</p>
+            </ul>
+        </section>
+
+    </main>
+

@@ -80,54 +80,27 @@
 			<P lang="fr">Arduino</P>
 			<P lang="gb">Arduino</P>
 		</TITLE>
+		<ITEM file="composants.html">
+			<P lang="fr">Composants</P>
+			<P lang="gb">Components</P>
+		</ITEM>
+		<ITEM file="Fonctionnement.html">
+			<P lang="fr">Fonctionnement</P>
+			<P lang="gb">Operations</P>
+		</ITEM>
+		<ITEM file="décodage.html">
+			<P lang="fr">Décodage</P>
+			<P lang="gb">Decoding</P>
+		</ITEM>
 		<RUBRIQUE>
-			<P lang="fr">Connectées</P>
-			<P lang="gb">Connected</P>
+			<P lang="fr">TP</P>
+			<P lang="gb">LAB</P>
 		</RUBRIQUE>
-		<ITEM file="fork.html">
-			<P lang="fr">Multi processus</P>
-			<P lang="gb">Multi-process</P>
-		</ITEM>
-		<ITEM file="thread.html">
-			<P lang="fr">Multi thread</P>
-			<P lang="gb">Multi-threaded</P>
-		</ITEM>
-		<ITEM file="select.html">
-			<P lang="fr">Mono tâche</P>
-			<P lang="gb">Single task</P>
-		</ITEM>
-		<ITEM file="note.html">
-			<P lang="fr">Remarque</P>
-			<P lang="gb">Note</P>
+		<ITEM file="projet_isen_fini.html">
+			<P lang="fr">Projet</P>
+			<P lang="gb">Project</P>
 		</ITEM>		
-		<RUBRIQUE>
-			<P lang="fr">TP n°2</P>
-			<P lang="gb">LAB n°2</P>
-		</RUBRIQUE>
-		<ITEM file="lab.html">
-			<P lang="fr">Sujet</P>
-			<P lang="gb">Subject</P>
-		</ITEM>
-		<ITEM file="corq1.html">
-			<P lang="fr">Corrigé Q1</P>
-			<P lang="gb">Correction Q1</P>
-		</ITEM>
-		<ITEM file="corq2.html">
-			<P lang="fr">Corrigé Q2</P>
-			<P lang="gb">Correction Q2</P>
-		</ITEM>
-		<ITEM file="corq3.html">
-			<P lang="fr">Corrigé Q3</P>
-			<P lang="gb">Correction Q3</P>
-		</ITEM>
-		<ITEM file="corq4.html">
-			<P lang="fr">Corrigé Q4</P>
-			<P lang="gb">Correction Q4</P>
-		</ITEM>
-		<RUBRIQUE>
-			<P lang="fr">Datagrammes</P>
-			<P lang="gb">Datagrams</P>
-		</RUBRIQUE>
+		
 	</MENU>
 
 	<MENU dir="LangageC">
@@ -135,25 +108,17 @@
 			<P lang="fr">Langage C</P>
 			<P lang="gb">Language C</P>
 		</TITLE>
-		<ITEM file="projet1.html">
-			<P lang="fr">Load balancer HTTP</P>
-			<P lang="gb">HTTP load balancer</P>
+		<ITEM file="Windows.html">
+			<P lang="fr">Installation Windows</P>
+			<P lang="gb">Setup Windows</P>
 		</ITEM>
-		<ITEM file="projet2.html">
-			<P lang="fr">Proxy HTTP vers FTP</P>
-			<P lang="gb">HTTP to FTP Proxy</P>
+		<ITEM file="blinkW.html">
+			<P lang="fr">Exemple Windows</P>
+			<P lang="gb">Example Windows</P>
 		</ITEM>
-		<ITEM file="projet3.html">
-			<P lang="fr">Proxy TFTP</P>
-			<P lang="gb">TFTP-proxy</P>
-		</ITEM>
-		<ITEM file="projet4.html">
-			<P lang="fr">Proxy HTTP d'authentification</P>
-			<P lang="gb">Authentication HTTP Proxy</P>
-		</ITEM>
-		<ITEM file="projet5.html">
-			<P lang="fr">Relay SMTP simpliste</P>
-			<P lang="gb">Simplistic SMTP Relay</P>
+		<ITEM file="blinkL.html">
+			<P lang="fr">Exemple Linux</P>
+			<P lang="gb">Example Linux</P>
 		</ITEM>
 	</MENU>
 

@@ -1,0 +1,65 @@
+
+        <h2>Fonctionnement</h2>
+    <main>
+        <p>
+            Le système de détection de la température et de l'humidité fonctionne selon les étapes suivantes :
+        </p>
+        <ol>
+            <li><h3>**Connexion du capteur DHT22**</h3>
+                <p>
+                    Le capteur DHT22 est connecté à la carte Pico W à l'aide de jumper wires. 
+                    La broche GPIO de la carte est reliée à la broche de données du capteur, tandis que les
+                    <li>**Connexion du capteur DHT22 (suite):**
+                      <p>
+                          Il est important de respecter le brochage correct pour assurer une communication efficace entre la carte et le capteur. 
+                          Une documentation technique de la carte Pico W et du capteur DHT22 vous indiquera les broches spécifiques à utiliser. 
+                          En général, la broche de données du capteur DHT22 est connectée à une broche GPIO de la carte Pico W, et des broches d'alimentation (par exemple, 3.3V) et de terre sont également connectées.
+                      </p>
+                  </li>
+                  <li><h3>**Initialisation du capteur**</h3>
+                      <p>
+                          La carte Pico W utilise le langage de programmation MicroPython. 
+                          Pour interagir avec le capteur DHT22, il est nécessaire d'inclure une bibliothèque logicielle spécifique. 
+                          Le code du projet importe la bibliothèque DHT et l'utilise pour créer un objet qui représente le capteur DHT22 connecté. 
+                          Cette initialisation permet à la carte Pico W de reconnaître et de communiquer avec le capteur.
+                      </p>
+                  </li>
+                  <li><h3>**Lecture des données**</h3>
+                      <p>
+                          Une fois le capteur initialisé, la carte Pico W peut envoyer des requêtes pour récupérer les valeurs de température et d'humidité. 
+                          Le capteur DHT22 utilise un protocole de communication série pour transmettre les données numériques. 
+                          Le code du projet utilise des fonctions de la bibliothèque DHT pour envoyer une commande de lecture au capteur et recevoir les données en réponse.
+                      </p>
+                  </li>
+                  <li><h3>**Traitement des données**</h3>
+                      <p>
+                          Les données reçues du capteur DHT22 sont initialement sous forme numérique. 
+                          Le code du projet utilise des fonctions de la bibliothèque DHT pour convertir ces valeurs numériques en unités de mesure standard, généralement des degrés Celsius (°C) pour la température et des pourcentages (%) pour l'humidité relative.
+                      </p>
+                  </li>
+                  <li><h3>**Affichage des données**</h3>
+                      <p>
+                          Les valeurs finales de température et d'humidité, converties en unités compréhensibles, doivent être affichées à l'utilisateur. 
+                          Selon la configuration du projet, l'affichage peut se faire de différentes manières :
+                          <ul>
+                              <li>
+                                **Console série:** Le code du projet peut imprimer les valeurs sur la console série connectée à l'ordinateur, permettant une visualisation simple des données pendant le développement et le test.
+                                <div class="container">
+                                    <video width="500" height="360" controls>
+                                        <source src="img/video_test.mp4" type="video/mp4">
+                                    </video>
+                                </div>
+                            </li>
+                            <p>
+
+                            </p>
+                              <li>**Écran LCD:** Un écran LCD peut être connecté à la carte Pico W pour afficher directement les valeurs de température et d'humidité sur un écran.</li>
+                              <li>**Interface web:** Le code peut être étendu pour envoyer les données à un serveur web, permettant de visualiser les valeurs à distance via un navigateur web.</li>
+                          </ul>
+                      </p>
+                  </li>
+                </p>
+            </li>
+        </ol>
+    </main>
+    

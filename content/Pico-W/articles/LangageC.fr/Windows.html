@@ -1,0 +1,36 @@
+<h2>Configuration sur Windows</h2>
+<h3>Installation des Extensions</h3>
+<h4>Compilateur ARM GCC</h4>
+<p>Téléchargez la dernière version depuis : <a href="https://developer.arm.com/downloads/-/gnu-rm" target="_blank">https://developer.arm.com/downloads/-/gnu-rm</a><br>
+Assurez-vous de l'ajouter aux variables d'environnement comme illustré dans l'image ci-dessous :</p>
+<center><img src="img/gcc_capture.png"></center>
+
+<h4>CMake</h4>
+<p>Téléchargez la dernière version depuis : <a href="https://cmake.org/download/" target="_blank">https://cmake.org/download/</a><br>
+Aucune modification nécessaire.</p>
+
+<h4>Outils de build de Visual Studio (Build Tools)</h4>
+<p>Téléchargez la version Build Tools de votre Visual Studio depuis : <a href="https://visualstudio.microsoft.com/fr/downloads/" target="_blank">https://visualstudio.microsoft.com/fr/downloads/</a><br>
+Vous la trouverez sous "Outils pour Visual Studio".<br>
+Assurez-vous de cocher les cinq cases comme illustré dans l'image avant de démarrer le téléchargement.</p>
+<center><img src="img/VS.png" width="50%" height="50%"></center>
+
+<h4>Python</h4>
+<p>Téléchargez la dernière version depuis : <a href="https://www.python.org/downloads/windows/" target="_blank">https://www.python.org/downloads/windows/</a><br>
+Assurez-vous de cocher toutes les options sur la page "Fonctionnalités optionnelles" et de sélectionner "Ajouter Python aux variables d'environnement".</p>
+<center><img src="img/python.png"> <img src="img/python2.png"></center>
+
+<h4>Git</h4>
+<p>Téléchargez la dernière version depuis : <a href="https://git-scm.com/downloads" target="_blank">https://git-scm.com/downloads</a><br>
+Assurez-vous de sélectionner les mêmes options que celles illustrées dans les images.</p>
+<center><img src="img/git_notepad.png"> <img src="img/git2.png"> <img src="img/git3.png"></center>
+
+<h3>Configuration de l'Environnement</h3>
+<p>Créez un répertoire nommé "Pico" à la racine de votre disque C.</p>
+<p>Ouvrez votre invite de commande et naviguez jusqu'à votre répertoire : <em>cd Pico</em></p>
+<p>Téléchargez le fichier Pico-sdk avec la commande : <em>git clone -b master https://github.com/raspberrypi/pico-sdk.git</em></p>
+<p>Accédez au répertoire pico-sdk : <em>cd pico-sdk</em> et exécutez la commande : <em>git submodule update --init</em></p>
+<p>Une fois les fichiers téléchargés, revenez en arrière : <em>cd ..</em> et téléchargez les exemples de code avec la commande : <em>git clone -b master https://github.com/raspberrypi/pico-examples.git</em></p>
+<p>Ouvrez votre Installateur Visual Studio et lancez un terminal en cliquant sur le bouton "Lancer" dans la section Outils de build. Une fois sur le terminal, tapez <em>code</em> pour ouvrir Visual Studio.</p>
+<p>Téléchargez l'extension Outils CMake sur Visual Studio, puis allez dans les paramètres, cliquez sur extensions, puis sur Outils CMake. Faites défiler jusqu'à Environnement de configuration CMake et saisissez : Pico_SDK_PATH dans ITEM et ..\..\pico-sdk dans value. Dans Générateur CMake, saisissez NMake Makefiles.</p>
+<p>Vous pouvez désormais coder en C à l'aide de Visual Studio.</p>

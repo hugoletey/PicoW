@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détection de la température et de l'humidité avec Pico W et DHT22</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Détection de la température et de l'humidité avec Pico W et DHT22</h1>
+    </header>
+
+    <main>
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>
+                Ce projet détaillé présente la conception et la réalisation d'un système de détection de la température et de l'humidité ambiante utilisant une carte Raspberry Pi Pico W et un capteur DHT22 programmé en C-ARDUINO à l'aide de l'Arduino IDE. 
+                Le système permet de mesurer et d'afficher en temps réel les valeurs de température et d'humidité, offrant une solution simple et efficace pour la surveillance de l'environnement.
+            </p>
+        </section>
+
+        <section id="composants">
+            <h2>Composants</h2>
+            <ul>
+                <li>**Carte Raspberry Pi Pico W:**
+                    <p>
+                        La carte Pico W est un microcontrôleur puissant et polyvalent basé sur la puce RP2040. 
+                        Elle offre un excellent rapport qualité-prix et est dotée de nombreuses fonctionnalités, notamment :
+                        <ul>
+                            <li>Processeur dual-core ARM Cortex M0+ cadencé à 133 MHz</li>
+                            <li>264 Ko de mémoire RAM</li>
+                            <li>Interfaces de communication: USB 2.0, SPI, I2C, UART</li>
+                            <li>Broches GPIO programmables</li>
+                            <li>Consommation d'énergie faible</li>
+                        </ul>
+                    </p>
+                </li>
+                <li>**Capteur DHT22 (AM2302):**
+                    <p>
+                        Le capteur DHT22 est un capteur numérique économique et précis qui mesure à la fois la température et l'humidité relative. 
+                        Il communique avec la carte Pico W via une interface de communication série et offre les caractéristiques suivantes :
+                        <ul>
+                            <li>Plage de mesure de la température: -40°C à 80°C</li>
+                            <li>Plage de mesure de l'humidité: 0% à 100%</li>
+                            <li>Précision de la température: ±0,5°C</li>
+                            <li>Précision de l'humidité: ±2% HR</li>
+                            <li>Faible consommation d'énergie</li>
+                            <li>Interface de communication série simple</li>
+                        </ul>
+                    </p>
+                </li>
+                <li>**Jumper wires:**
+                    <p>
+                        Les jumper wires sont des câbles de connexion flexibles qui permettent d'établir des connexions électriques entre la carte Pico W et le capteur DHT22. 
+                        Ils sont disponibles en différentes longueurs et couleurs, et leur utilisation facilite le prototypage et le câblage des circuits.
+                    </p>
+                </li>
+                <li>**Ordinateur avec port USB:**
+                    <p>
+                        Un ordinateur est nécessaire pour programmer la carte Pico W et pour afficher les données de température et d'humidité. 
+                        L'ordinateur doit disposer d'un port USB pour connecter la carte Pico W et d'un logiciel de développement compatible avec MicroPython.
+                        <p><strong><span style="color: red;"><u>N.B:</u>Il est indispensable de toujours flasher la mémoire de la PIOC W lors de la manipulation pour pouvoir y téléverser un autre code.</span></strong></p>
+                    </p>
+                </li>
+            </ul>
+            <figure>
+                <img src="montage.jpg" alt="Carte Pico W et capteur DHT22 connectés" width="300" height="200"></img>
+                <figcaption>Carte Pico W et capteur DHT22 connectés</figcaption>
+            </figure>
+        </section>
+
+        <section id="fonctionnement">
+            <h2>Fonctionnement</h2>
+            <p>
+                Le système de détection de la température et de l'humidité fonctionne selon les étapes suivantes :
+            </p>
+            <ol>
+                <li>**Connexion du capteur DHT22:**
+                    <p>
+                        Le capteur DHT22 est connecté à la carte Pico W à l'aide de jumper wires. 
+                        La broche GPIO de la carte est reliée à la broche de données du capteur, tandis que les
+                        <li>**Connexion du capteur DHT22 (suite):**
+                          <p>
+                              Il est important de respecter le brochage correct pour assurer une communication efficace entre la carte et le capteur. 
+                              Une documentation technique de la carte Pico W et du capteur DHT22 vous indiquera les broches spécifiques à utiliser. 
+                              En général, la broche de données du capteur DHT22 est connectée à une broche GPIO de la carte Pico W, et des broches d'alimentation (par exemple, 3.3V) et de terre sont également connectées.
+                          </p>
+                      </li>
+                      <li>**Initialisation du capteur:**
+                          <p>
+                              La carte Pico W utilise le langage de programmation MicroPython. 
+                              Pour interagir avec le capteur DHT22, il est nécessaire d'inclure une bibliothèque logicielle spécifique. 
+                              Le code du projet importe la bibliothèque DHT et l'utilise pour créer un objet qui représente le capteur DHT22 connecté. 
+                              Cette initialisation permet à la carte Pico W de reconnaître et de communiquer avec le capteur.
+                          </p>
+                      </li>
+                      <li>**Lecture des données:**
+                          <p>
+                              Une fois le capteur initialisé, la carte Pico W peut envoyer des requêtes pour récupérer les valeurs de température et d'humidité. 
+                              Le capteur DHT22 utilise un protocole de communication série pour transmettre les données numériques. 
+                              Le code du projet utilise des fonctions de la bibliothèque DHT pour envoyer une commande de lecture au capteur et recevoir les données en réponse.
+                          </p>
+                      </li>
+                      <li>**Traitement des données:**
+                          <p>
+                              Les données reçues du capteur DHT22 sont initialement sous forme numérique. 
+                              Le code du projet utilise des fonctions de la bibliothèque DHT pour convertir ces valeurs numériques en unités de mesure standard, généralement des degrés Celsius (°C) pour la température et des pourcentages (%) pour l'humidité relative.
+                          </p>
+                      </li>
+                      <li>**Affichage des données:**
+                          <p>
+                              Les valeurs finales de température et d'humidité, converties en unités compréhensibles, doivent être affichées à l'utilisateur. 
+                              Selon la configuration du projet, l'affichage peut se faire de différentes manières :
+                              <ul>
+                                  <li>**Console série:** Le code du projet peut imprimer les valeurs sur la console série connectée à l'ordinateur, permettant une visualisation simple des données pendant le développement et le test.</li>
+                                  <li>**Écran LCD:** Un écran LCD peut être connecté à la carte Pico W pour afficher directement les valeurs de température et d'humidité sur un écran.</li>
+                                  <li>**Interface web:** Le code peut être étendu pour envoyer les données à un serveur web, permettant de visualiser les valeurs à distance via un navigateur web.</li>
+                              </ul>
+                          </p>
+                      </li>
+                  </ol>
+              </section>
+      
+              <section id="code_breakdown">
+                  <h2>Décryptage du code Arduino</h2>
+                  <p>
+                      Le code Arduino présenté plus haut illustre le principe de base du projet. 
+                      Voici une explication détaillée de chacune des sections du code :
+                  </p>
+                  <pre>
+                      #include &lt;DHT.h&gt;
+      
+                      #define DHTPIN 13 // Broche GPIO à laquelle le capteur DHT22 est connecté
+                      #define DHTTYPE DHT22 // Type de capteur DHT22
+      
+                      DHT dht(DHTPIN, DHTTYPE); // Création d'un objet DHT
+                  </pre>
+                  <p>
+                      Ces lignes incluent la bibliothèque DHT nécessaire pour interagir avec le capteur et définissent des constantes pour la broche GPIO utilisée et le type de capteur (DHT22 dans ce cas). 
+                      Un objet `dht` est créé en utilisant la bibliothèque et les constantes définies.
+                  </pre>
+                  <pre>
+                      void setup() {
+                          Serial.begin(9600); // Initialisation de la communication série
+                          dht.begin(); // Initialisation du capteur DHT22
+                      }
+                  </pre>
+                  <p>
+                      La fonction `setup()` est exécutée une seule fois au démarrage du programme. 
+                      Dans cette section, la communication série est initialisée avec un débit de 9600 bauds, permettant l'affichage des données sur la console série connectée à l'ordinateur. 
+                      De plus, la fonction `dht.begin()` initialise le capteur DHT22 et le prépare à la communication.
+                  </pre>
+                  <pre
+                  void loop() {
+                    // Lecture des valeurs de température et d'humidité
+                    float temperature = dht.readTemperature();
+                    float humidity = dht.readHumidity();
+
+                    // Vérification si les valeurs sont valides
+                    if (isnan(temperature) || isnan(humidity)) {
+                        Serial.println("Erreur de lecture du capteur DHT22!");
+                        return;
+                    }
+
+                    // Affichage des valeurs sur la console série
+                    Serial.print("Température: ");
+                    Serial.print(temperature);
+                    Serial.print(" °C");
+                    Serial.print(" Humidité: ");
+                    Serial.print(humidity);
+                    Serial.println(" %");
+
+                    delay(2000); // Délai de 2 secondes entre les lectures
+                }
+            </pre>
+            <p>
+                La fonction `loop()` est exécutée en boucle continue. 
+                À l'intérieur de cette boucle :
+                    <ul>
+                        <li>
+                            Les fonctions `dht.readTemperature()` et `dht.readHumidity()` sont utilisées pour lire les valeurs de température et d'humidité du capteur DHT22. 
+                            Ces fonctions renvoient des valeurs de type `float` (nombres à virgule flottante).
+                        </li>
+                        <li>
+                            Une vérification est effectuée pour s'assurer que les valeurs lues ne sont pas des valeurs non numériques (`NaN`). 
+                            Si c'est le cas, un message d'erreur est affiché sur la console série indiquant un problème de lecture du capteur.
+                        </li>
+                        <li>
+                            Si les valeurs sont valides, elles sont affichées sur la console série en utilisant des instructions `Serial.print()` et `Serial.println()`. 
+                            Le code ajoute des libellés pour la température et l'humidité et les unités de mesure correspondantes.
+                        </li>
+                        <li>
+                            Une fonction `delay(2000)` est utilisée pour introduire un délai de 2 secondes entre chaque lecture du capteur. 
+                            Ce délai peut être ajusté en fonction des besoins de l'application.
+                        </li>
+                    </ul>
+            </p>
+        </section>
+
+        <section id="extension">
+            <h2>Extension du projet</h2>
+            <p>
+                Le projet de base présenté peut être étendu de plusieurs façons pour en accroître les fonctionnalités :
+            </p>
+            <ul>
+                <li>**Affichage sur écran LCD:**
+                    <p>Connectez un écran LCD à la carte Pico W pour afficher directement les valeurs de température et d'humidité.</p>
+                </li>
+                <li>**Enregistrement des données:**
+                    <p>Implémentez une fonction pour enregistrer les données de température et d'humidité sur une carte SD ou dans un fichier sur l'ordinateur.</p>
+                <li>**Contrôle d'appareils domotiques:**
+                    <p>Utilisez les valeurs de température et d'humidité pour contrôler automatiquement des appareils domotiques, comme un thermostat ou un humidificateur.</p>
+                </li>
+                <li>**Interface web:**
+                    <p>Développez une interface web permettant de visualiser les données de température et d'humidité à distance via un navigateur web.</p>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy;  </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+      

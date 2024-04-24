@@ -1,8 +1,0 @@
-<h2>HTTP to FTP proxy topic<br></h2>
-<h3>Presentation of the subject:</h3>
-<p>A web browser can be configured to relay all these requests to an HTTP proxy, the latter can then, after retrieving the URL, connect to the target FTP server to download the file and retransmit it block by block to the browser .</p>
-<h3>Note:</h3>
-<ul>
-	<li>The goal is not to rewrite, for the "proxy", a complete WEB server, we will simply implement the parts of RFCs 1945 and 959 which will be useful for receiving requests and then downloading the file and its transfer.</li>
-	<li>When the URLs do not point to an FTP server, the proxy will just return an error message instead of relaying the request in HTTP.</li>
-</ul>

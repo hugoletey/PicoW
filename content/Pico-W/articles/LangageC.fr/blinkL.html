@@ -1,0 +1,56 @@
+<h2>Comment créer un projet sur Linux</h2>
+<h3>Ouvrez votre terminal de commande et taper les commandes suivantes:</h3>
+<p><em>mkdir Pico</em> => pour créer un fichier Pico</p>
+<p><em>cd Pico</em> => pour vous déplacer dans celui-ci</p>
+<p><em>git clone https://github.com/raspberrypi/pico-sdk.git --branch master</em> => cette commande va vous permettre de récupérer les librairies pico-sdk en C</p>
+<p><em>cd pico-sdk</em> => pour vous déplacer dans le fichier</p>
+<p><em>git submodule update --init</em> => pour finaliser les librairies</p>
+<p><em>cd  ..</em> => pour revenir en arrière</p>
+<p><em>git clone https://github.com/raspberrypi/pico-examples.git --branch master</em></p>
+<p>Vous avez maintenant les librairies pour le bon foctionnement du code</p>
+ <br>
+<p><em>mkdir test</em> => crée un fichier et utiliser la commande <em>cd test</em> pour aller dans celui-ci</p>
+<p><em>cp ../pico-sdk/external/pico_sdk_import.cmake .</em> => pour copier des fichiers de compilation dans le fichie test</p>
+<p><em>cp ../pico-examples/pico_w/wifi/lwipopts_examples_common.h lwipopts.h</em> => cette commande permet de copier un fichier essentiel à la compilation</p>
+<p><em>nano test.c</em> => pour créer un code C</p>
+<p>Et copier le code suivant dans le fichier</p>
+<code>
+    #include "pico/stdlib.h"
+    #include "pico/cyw43_arch.h"
+    
+    int main() {
+        stdio_init_all();
+        if (cyw43_arch_init()) {
+            printf("Wi-Fi init failed");
+            return -1;
+        }
+        while (true) {
+            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+            sleep_ms(250);
+            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+            sleep_ms(250);
+        }
+    }
+</code>
+<p><em>nano CMakeLists.txt</em> => pour créer le fichier CMake qui va servir à compiler le code</p>
+<code>
+    cmake_minimum_required(VERSION 3.13)
+    include(pico_sdk_import.cmake)
+    project(test_project C CXX ASM)
+    set(CMAKE_C_STANDARD 11)
+    set(CMAKE_CXX_STANDARD 17)
+    pico_sdk_init()
+    add_executable(test
+    test.c
+    )
+    pico_add_extra_outputs(test)
+    target_include_directories(test PRIVATE ${CMAKE_CURRENT_LIST_DIR})
+    target_link_libraries(test pico_cyw43_arch_lwip_threadsafe_background pico_stdlib)
+</code>
+<br>
+<p>Vous avez maintenant les commandes pour télecharger les librairies et créer le code. Il manque juste le compilateur</p>
+<p><em>sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential</em> => Vous avez maintenant votre compilateur Cmake GCC</p>
+<p><em>mkdir build</em> => créer le fichier construction déplacer vous dedans avec la commande <em>cd build</em></p>
+<p>Il faut maintenant mettre en place votre compilateur, pour cela taper la commande <em>export PICO_SDK_PATH=../../pico-sdk</em> </p>
+<p>Il faut maintenant compiler avec la commande <em>make</em></p>
+<p>Comme sur Windows, la compilation va créer un fichier .uf2 qu'il faut déposer dans la pico w</p>

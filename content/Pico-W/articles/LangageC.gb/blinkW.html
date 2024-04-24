@@ -1,0 +1,43 @@
+<h2>How to Create a Project on Windows</h2>
+<p>There's a small issue with the code below; it's not functioning because it can't find the cyw43 library.</p>
+<p>Open your command prompt and navigate to your Pico folder.</p>
+<p>Create a test file: <em>mkdir test</em> and navigate into it.</p>
+<p>Type the command: <em>copy ..\pico-sdk\external\pico_sdk_import.cmake .</em></p>
+<p>Type the command: <em>copy ..\pico-examples\pico_w\wifi\lwipopts_examples_common.h lwipopts.h</em></p>
+<p>Open Visual Studio and create a file named test.c and copy this code:</p>
+<code>
+#include "pico/stdlib.h"
+#include "pico/cyw43_arch.h"
+
+int main() {
+stdio_init_all();
+if (cyw43_arch_init()) {
+printf("Wi-Fi init failed");
+return -1;
+}
+while (true) {
+cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+sleep_ms(250);
+cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+sleep_ms(250);
+}
+}
+</code>
+<p>Create a file named CMakeLists.txt and copy this code:</p>
+<code>
+cmake_minimum_required(VERSION 3.13)
+include(pico_sdk_import.cmake)
+project(test_project C CXX ASM)
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
+pico_sdk_init()
+add_executable(test
+test.c
+)
+pico_add_extra_outputs(test)
+target_include_directories(test PRIVATE ${CMAKE_CURRENT_LIST_DIR})
+target_link_libraries(test pico_cyw43_arch_lwip_threadsafe_background pico_stdlib)
+</code>
+<p>Close Visual Studio, reopen it from the command prompt as previously seen. Choose the GCC compiler and build the code.</p>
+<p>Verify that the code has been built successfully by navigating to the directory. Click into the build file; you will find a .uf2 file.</p>
+<p>Simply move the code into the Pico for it to </p>
